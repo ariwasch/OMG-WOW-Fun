@@ -17,7 +17,8 @@ class GameViewController: UIViewController {
     var homeLogo : SKSpriteNode?
     var homePlayContainer : SKSpriteNode?
     var homePlayButton : SKSpriteNode?
-    
+    let defaults = UserDefaults.standard
+
     var arr : [SKSpriteNode] = []
     var gameBlockContainer : SKSpriteNode?
     var gameBackground : SKSpriteNode?
@@ -63,6 +64,10 @@ class GameViewController: UIViewController {
         initializationOfGameVariable()
         hideGameComponents()
         initializeGameSwipeAction()
+        if(!(defaults.integer(forKey: "game1level") ?? 1 == 1)){
+            skip(to: defaults.integer(forKey: "game1level") ?? 1)
+        }
+//        actionOnWord(word: "",num: 2)
     }
     override var prefersStatusBarHidden: Bool {
         return true
@@ -158,17 +163,34 @@ class GameViewController: UIViewController {
             isDuplicate = false
         }else if(string == "THING" && currentLevel == 17){
             isDuplicate = false
+        }else if(string == "THING" && currentLevel == 24){
+            isDuplicate = false
         }
         if(string == "THOUGHT" && currentLevel == 14){
             isDuplicate = false
         }
+        if(string == "NOT" && currentLevel == 4){
+            isDuplicate = false
+        }
+        if(string == "MAKE" && currentLevel == 25){
+            isDuplicate = false
+        }
+        if(string == "TRY" && currentLevel == 27){
+            isDuplicate = false
+        }
+        if(string == "WITH" && currentLevel == 29){
+            isDuplicate = false
+        }
+
+
+
         return isDuplicate
     }
 
     func duplicate(string: String) -> Bool{
         var isDuplicate = false
         print(currentLevel)
-        if(string == "YOUR" || string == "CHANGE" || string == "GOOD" || string == "THING" || string == "STOP" || string == "LIFE"){
+        if(string == "YOUR" || string == "CHANGE" || string == "GOOD" || string == "THING" || string == "STOP" || string == "LIFE" || string == "BEST" || string == "NOT" || string == "ATTITUDE" || string == "IMPORTANT" || string == "PEOPLE" || string == "LIFE" || string == "OPTIMISM" || string == "DONE"){
             isDuplicate = true
         }
         return isDuplicate
@@ -184,6 +206,8 @@ class GameViewController: UIViewController {
             num = 13
         }else if(string == "YOUR" && currentLevel == 19){
             num = 18
+        }else if(string == "YOUR" && currentLevel == 22){
+            num = 21
         }
 
         if(string == "CHANGE" && currentLevel == 5){
@@ -197,6 +221,8 @@ class GameViewController: UIViewController {
             num = 0
         }else if(string == "GOOD" && currentLevel == 13){
             num = 12
+        }else if(string == "GOOD" && currentLevel == 26){
+            num = 25
         }
         if(string == "THING" && currentLevel == 4){
             num = 3
@@ -204,6 +230,8 @@ class GameViewController: UIViewController {
             num = 10
         }else if(string == "THING" && currentLevel == 12){
             num = 11
+        }else if(string == "THING" && currentLevel == 25){
+            num = 24
         }
         if(string == "STOP" && currentLevel == 15){
             num = 14
@@ -215,6 +243,52 @@ class GameViewController: UIViewController {
         }else if(string == "LIFE" && currentLevel == 16){
             num = 15
         }
+        if(string == "BEST" && currentLevel == 1){
+            num = 0
+        }else if(string == "BEST" && currentLevel == 22){
+            num = 21
+        }
+        if(string == "NOT" && currentLevel == 23){
+            num = 22
+        }else if(string == "NOT" && currentLevel == 24){
+            num = 23
+        }
+        if(string == "ATTITUDE" && currentLevel == 12){
+            num = 11
+        }else if(string == "ATTITUDE" && currentLevel == 25){
+            num = 24
+        }
+        if(string == "IMPORTANT" && currentLevel == 27){
+            num = 26
+        }else if(string == "ATTITUDE" && currentLevel == 11){
+            num = 10
+        }
+        if(string == "PEOPLE" && currentLevel == 26){
+            num = 25
+        }else if(string == "PEOPLE" && currentLevel == 27){
+            num = 26
+        }
+        if(string == "LIFE" && currentLevel == 7){
+            num = 6
+        }else if(string == "LIFE" && currentLevel == 28){
+            num = 27
+        }
+        if(string == "DONE" && currentLevel == 29){
+            num = 28
+        }else if(string == "DONE" && currentLevel == 22){
+            num = 21
+        }
+        if(string == "OPTIMISM" && currentLevel == 26){
+            num = 25
+        }else if(string == "OPTIMISM" && currentLevel == 29){
+            num = 28
+        }
+
+
+
+
+
+
 
 
 
@@ -235,6 +309,7 @@ class GameViewController: UIViewController {
             guard let `self` = self else {return}
             self.arr = arrNodes
             self.correctWordSwipe(forSwippedWord: strWord, selectedNodes: arrNodes)
+            print(strWord)
         }
     }
     
@@ -242,6 +317,9 @@ class GameViewController: UIViewController {
     func initializeNextLevel(level: Int, title: String, popTitle: String, popBody: String)
     {
         self.currentLevel = level
+        defaults.set(level, forKey: "level")
+        defaults.set(level, forKey: "game1level")
+
         if(popTitle != "" && popBody != ""){
             if let body = SKSpriteNodelol?.childNode(withName: "infoBody") as? SKLabelNode
             {
@@ -308,7 +386,7 @@ class GameViewController: UIViewController {
     func hideGameComponents()
     {
         gameBlockContainer?.isHidden = true
-        gameBackground?.run(SKAction.fadeAlpha(to: 0, duration: 0))
+//        gameBackground?.run(SKAction.fadeAlpha(to: 0, duration: 0))
         gameBack?.isHidden = true
         gameTitleHeader?.isHidden = true
         gameLevelHeader?.isHidden = true
@@ -319,7 +397,10 @@ class GameViewController: UIViewController {
         gameOptionShuffle?.isHidden = true
         gameOptionAds?.isHidden = true
         gameTextContainer?.isHidden = true
-        
+        homePlayButton?.isHidden = true
+        homeBackground?.isHidden = true
+        homePlayContainer?.isHidden = true
+        homeLogo?.isHidden = true
         gameCongratulations?.isHidden = true
         
         gameBlockContainer2?.isHidden = true
@@ -338,25 +419,25 @@ class GameViewController: UIViewController {
                 }
             }
         }
-        
+        hideHomeComponentsAndLoadGame()
     }
     
     func hideHomeComponentsAndLoadGame()
     {
-        homeLogo?.run(SKAction.moveTo(y: self.view.frame.height, duration: 0.5), completion: {
+//        homeLogo?.run(SKAction.moveTo(y: self.view.frame.height, duration: 0.5), completion: {
             self.homeLogo?.removeFromParent()
-        })
-        homePlayContainer?.run((SKAction.moveTo(y: 0, duration: 0.5)), completion: {
+//        })
+//        homePlayContainer?.run((SKAction.moveTo(y: 0, duration: 0.5)), completion: {
             self.homePlayContainer?.removeFromParent()
-        })
-        gameBackground?.run(SKAction.fadeAlpha(to: 1.0, duration: 0.75), completion: {
-            
+//        })
+//        gameBackground?.run(SKAction.fadeAlpha(to: 1.0, duration: 0.75), completion: {
+//
             self.gameBlockContainer?.children.forEach({ (node) in
-                if node is BlockNode
-                {
-                    node.run(SKAction.fadeOut(withDuration: 0))
-                }
-            })
+//                if node is BlockNode
+//                {
+//                    node.run(SKAction.fadeOut(withDuration: 0))
+//                }
+//            })
             self.homeBackground?.removeFromParent()
             self.gameBlockContainer?.isHidden = false
             self.gameBack?.isHidden = false
@@ -400,7 +481,7 @@ class GameViewController: UIViewController {
     func actionOnWord(word: String, num: Int){
     
         if(word == "BETTER" || num == 2){
-            self.initializeNextLevel(level: 16, title: "SPORTS", popTitle: "", popBody: "")
+            self.initializeNextLevel(level: 2, title: "SPORTS", popTitle: "", popBody: "")
         }else if(word == "TENNIS" || num == 3){
             self.initializeNextLevel(level: 3, title: "INSPIRATION", popTitle: "Helen Keller", popBody: "Helen Adams Keller was an American author, political activist, and lecturer. She was the first deaf-blind person to earn a Bachelor of Arts degree.")
         }else if(word == "ALWAYS" || num == 4){
@@ -419,7 +500,7 @@ class GameViewController: UIViewController {
             self.initializeNextLevel(level: 10, title: "INSPIRATIONAL", popTitle: "Albert Einstein", popBody: "Albert Einstein (/ˈaɪnstaɪn/ EYEN-styne;[4] German: [ˈalbɛʁt ˈʔaɪnʃtaɪn] (About this soundlisten); 14 March 1879 – 18 April 1955) was a German-born theoretical physicist[5] who developed the theory of relativity, one of the two pillars of modern physics (alongside quantum mechanics).[3][6]:274 His work is also known for its influence on the philosophy of science.[7][8] He is best known to the general public for his mass–energy equivalence formula E = mc^2, which has been dubbed \"the world's most famous equation\".[9] He received the 1921 Nobel Prize in Physics \"for his services to theoretical physics, and especially for his discovery of the law of the photoelectric effect\",[10] a pivotal step in the development of quantum theory.")
         }else if(word == "THANKFUL" || num == 11){
             self.initializeNextLevel(level: 11, title: "INSPIRATIONAL", popTitle: "Abraham Lincoln", popBody: "Abraham Lincoln (/ˈlɪŋkən/;[2] February 12, 1809 – April 15, 1865) was an American statesman and lawyer who served as the 16th president of the United States (1861–1865). Lincoln led the nation through its greatest moral, constitutional, and political crisis in the American Civil War. He preserved the Union, abolished slavery, strengthened the federal government, and modernized the U.S. economy.")
-        }else if(word == "IMPORTANT" || num == 12){
+        }else if((word == "IMPORTANT" && currentLevel == 11) || num == 12){
 //            self.initializeNextLevel(level: 12, title: "INSPIRATIONAL", popTitle: "Maya Angelou", popBody: "Maya Angelou (April 4, 1928 – May 28, 2014) was an American poet, memoirist, and civil rights activist. Angelou is best known for her series of seven autobiographies, which focus on her childhood and early adult experiences. The first, I Know Why the Caged Bird Sings (1969), tells of her life up to the age of 17 and brought her international recognition and acclaim.")
             self.initializeNextLevel(level: 12, title: "INSPIRATIONAL", popTitle: "Maya Angelou", popBody: "Maya Angelou (April 4, 1928 – May 28, 2014) was an American poet, memoirist, and civil rights activist. Angelou is best known for her series of seven autobiographies, which focus on her childhood and early adult experiences. The first, I Know Why the Caged Bird Sings (1969), tells of her life up to the age of 17 and brought her international recognition and acclaim.")
 
@@ -440,8 +521,60 @@ class GameViewController: UIViewController {
         }else if(word == "ANSWERED" || num == 20){
             self.initializeNextLevel(level: 20, title: "INSPIRATIONAL", popTitle: "Maya Angelou", popBody: "Maya Angelou (April 4, 1928 – May 28, 2014) was an American poet, memoirist, and civil rights activist. Angelou is best known for her series of seven autobiographies, which focus on her childhood and early adult experiences. The first, I Know Why the Caged Bird Sings (1969), tells of her life up to the age of 17 and brought her international recognition and acclaim.")
         }else if(word == "RAINBOW" || num == 21){
-//            self.initializeNextLevel(level: 18, title: "PURPOSE", popTitle: "Mike Dolan", popBody: "Michael Dolan (born June 21, 1965, Oklahoma City, Oklahoma) is an American theatre and film actor, director and educator.")
+            self.initializeNextLevel(level: 21, title: "INSPIRATIONAL", popTitle: "Eleanor Roosevelt", popBody: "Anna Eleanor Roosevelt was an American political figure, diplomat and activist. She served as the First Lady of the United States from March 4, 1933, to April 12, 1945, during her husband President Franklin D. Roosevelt's four terms in office, making her the longest-serving First Lady of the United States.")
+        }else if(word == "STRENGTH" || num == 22){
+            self.initializeNextLevel(level: 22, title: "PURPOSE", popTitle: "Billy Bowerman", popBody: "William Jay \"Bill\" Bowerman (February 19, 1911 – December 24, 1999) was an American track and field coach and co-founder of Nike, Inc. Over his career, he trained 31 Olympic athletes, 51 All-Americans, 12 American record-holders, 22 NCAA champions and 16 sub-4 minute milers. He disliked being called a coach and during his 24 years at the University of Oregon, the Ducks track and field team had a winning season every season but one, attained 4 NCAA titles, and finished in the top 10 in the nation 16 times.")
+        }else if(word == "VICTORY" || num == 23){
+            self.initializeNextLevel(level: 23, title: "INSPIRATIONAL", popTitle: "Fernando Sabino", popBody: "Sabino was the author of 50 books, as well as many short stories and essays. His first book was published in 1941, when he was just 18 years old. Sabino vaulted to national and international fame in 1956 with the novel A Time to Meet, the tale of three friends in the inland city of Belo Horizonte.")
+        }else if(word == "YET" || num == 24){
+            self.initializeNextLevel(level: 24, title: "INSPIRATIONAL", popTitle: "Richard Wagner", popBody: "Wilhelm Richard Wagner (/ˈvɑːɡnər/ VAHG-nər, German: [ˈʁɪçaʁt ˈvaːɡnɐ] (About this soundlisten);[1] 22 May 1813 – 13 February 1883) was a German composer, theatre director, polemicist, and conductor who is chiefly known for his operas (or, as some of his mature works were later known, \"music dramas\").")
+        }else if(word == "THINGS" || num == 25){
+            self.initializeNextLevel(level: 25, title: "PURPOSE", popTitle: "Winston Churchill", popBody: "Sir Winston Leonard Spencer Churchill[1] (30 November 1874 – 24 January 1965) was a British politician, army officer, and writer. He was Prime Minister of the United Kingdom from 1940 to 1945, when he led the country to victory in the Second World War, and again from 1951 to 1955. Apart from two years between 1922 and 1924, Churchill was a Member of Parliament (MP) from 1900 to 1964 and represented a total of five constituencies. Ideologically an economic liberal and imperialist, he was for most of his career a member of the Conservative Party, as leader from 1940 to 1955. He was a member of the Liberal Party from 1904 to 1924.")
+        }else if(word == "ATTITUDE" || num == 26){
+            self.initializeNextLevel(level: 26, title: "PURPOSE", popTitle: "Mary Lou Retton", popBody: "Mary Lou Retton (born January 24, 1968) is a retired American gymnast. At the boycotted 1984 Summer Olympics in Los Angeles, she won a gold medal in the individual all-around competition, as well as two silver medals and two bronze medals.[2] Her performance made her one of the most popular athletes in the United States.[3]")
+        }else if((word == "OPTIMISM" && currentLevel == 26) || num == 27){
+            print(word)
+            print(currentLevel)
+            print(num)
+            self.initializeNextLevel(level: 27, title: "INSPIRATIONAL", popTitle: "Dale Carnegie", popBody: "Dale Carnegie (/ˈkɑːrnɪɡi/;[1] spelled Carnagey until c. 1922; November 24, 1888 – November 1, 1955) was an American writer and lecturer, and the developer of courses in self-improvement, salesmanship, corporate training, public speaking, and interpersonal skills.")
+        }else if(word == "IMPORTANT" || num == 28){
+            print(word)
+            print(currentLevel)
+            print(num)
+            self.initializeNextLevel(level: 28, title: "PURPOSE", popTitle: "William James", popBody: "William James (January 11, 1842 – August 26, 1910) was an American philosopher and psychologist, and the first educator to offer a psychology course in the United States.[5] James is considered to be a leading thinker of the late nineteenth century, one of the most influential philosophers of the United States, and the \"Father of American psychology\"")
+        }else if(word == "LIVING" || num == 29){
+            print(word)
+            print(currentLevel)
+            print(num)
+
+            self.initializeNextLevel(level: 29, title: "INSPIRATIONAL", popTitle: "Helen Keller", popBody: "Helen Adams Keller (June 27, 1880 – June 1, 1968) was an American author, political activist, and lecturer. She was the first deaf-blind person to earn a Bachelor of Arts degree. The story of Keller and her teacher, Anne Sullivan, was made famous by Keller's autobiography, The Story of My Life, and its adaptations for film and stage, The Miracle Worker.")
+        }else if(word == "CONFIDENCE" || num == 30){
+            self.initializeNextLevel(level: 30, title: "INSPIRATIONAL", popTitle: "Joel Osteen", popBody: "Joel Scott Osteen (born March 5, 1963)[2] is an American pastor, televangelist, and author, based in Houston, Texas. As of 2018, Osteen's televised sermons were seen by approximately 10 million viewers in the US and several million more in over 100 countries weekly.[3] Osteen has also written several best-selling books.[4]")
+        }else if(word == "STEP" || num == 31){
+            defaults.set(true, forKey: "level1")
+            defaults.set(true, forKey: "level2")
+            defaults.set(1, forKey: "game1level")
+            defaults.set(false, forKey: "startview")
+            performSegue(withIdentifier: "levelselect1", sender: nil)
+            //NEXT
+//            self.initializeNextLevel(level: 18, title: "INSPIRATIONAL", popTitle: "Eleanor Roosevelt", popBody: "Anna Eleanor Roosevelt was an American political figure, diplomat and activist. She served as the First Lady of the United States from March 4, 1933, to April 12, 1945, during her husband President Franklin D. Roosevelt's four terms in office, making her the longest-serving First Lady of the United States.")
         }
+
+
+//            if let view = self.view as! SKView? {
+//                if let scene = SKScene(fileNamed: "MyScene2") as? MyScene {
+//                    
+//                    if gameScene != nil {
+//                        gameScene?.removeFromParent()
+//                        view.presentScene(nil)
+//                    }
+//                    
+//                    gameScene = scene
+//                    gameScene!.scaleMode = .aspectFit
+//                    view.presentScene(gameScene!)
+//                }
+//            }
+        
 
 
 
@@ -540,7 +673,9 @@ class GameViewController: UIViewController {
             if touchedNode == gameBack
             {
                 if touchBeganNode == gameBack {
-                    self.viewDidLoad()
+//                    self.viewDidLoad()
+                    defaults.set(true, forKey: "startview")
+                    performSegue(withIdentifier: "levelselect1", sender: nil)
                 }
             }
             if touchedNode == gameOptionShuffle
@@ -564,8 +699,32 @@ class GameViewController: UIViewController {
             touchBeganNode = nil
             homePlayButton?.run(SKAction.fadeAlpha(to: 1.0, duration: 0))
             gameBack?.run(SKAction.fadeAlpha(to: 1.0, duration: 0))
+            
+            if touchedNode == gameOptionSearch
+            {
+                defaults.set(false, forKey: "startview")
+                gameOptionSearch?.run(SKAction.fadeAlpha(to: 1, duration: 0))
+                performSegue(withIdentifier: "levelselect1", sender: nil)
+
+            }
         }
     }
+    func skip(to: Int){
+
+        for node in self.gameScene?.gameCanvases[currentLevel-1]?.children ?? []
+        {
+            if node is BlockNode
+            {
+                DispatchQueue.main.asyncAfter(deadline: .now()) {
+                    node.run(SKAction.fadeOut(withDuration: 0.2))
+                    node.run(SKAction.removeFromParent())
+                }
+            }
+        }
+        actionOnWord(word: "",num: to)
+    //        initializeNextLevel(level: currentLevel+1, title: "String", popTitle: "String", popBody: "String")
+    }
+
     func skip(){
 
         for node in self.gameScene?.gameCanvases[currentLevel-1]?.children ?? []
@@ -604,8 +763,13 @@ class GameViewController: UIViewController {
             {
                 touchedNode.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
             }
+            if touchedNode == gameOptionSearch
+            {
+                gameOptionSearch?.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
 
+            }
         }
+
     }
     
 

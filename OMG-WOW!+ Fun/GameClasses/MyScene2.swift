@@ -9,14 +9,15 @@
 import Foundation
 import SpriteKit
 
-class MyScene: SKScene {
+class MyScene2: SKScene {
     var gameCanvas : SKSpriteNode?
     var gameCanvas2 : SKSpriteNode?
-    let defaults = UserDefaults.standard
 //    var gameCanvas3 : SKSpriteNode?
     var gameCanvases : [SKSpriteNode?] = []
     var textCanvases : [SKSpriteNode?] = []
     var block : BlockNode = BlockNode()
+    let defaults = UserDefaults.standard
+
     func addPhysicsBody(onNode:SKNode)
     {
         if let spriteNode = onNode as? SKSpriteNode {
@@ -83,17 +84,17 @@ class MyScene: SKScene {
 //        gameCanvas = self.childNode(withName: "gameBlockContainer") as? SKSpriteNode
 //        gameCanvas2 = self.childNode(withName: "gameBlockContainer2") as? SKSpriteNode
 //        gameCanvas3 = self.childNode(withName: "gameBlockContainer3") as? SKSpriteNode
-        for i in 0...block.allStrings.count-1{
+        for i in 0...block.allStrings2.count-1{
             if(i == 0){
                 gameCanvases.append(self.childNode(withName: "gameBlockContainer") as? SKSpriteNode)
                 textCanvases.append(self.childNode(withName: "gameTextContainer") as? SKSpriteNode)
             }else{
                 gameCanvases.append(self.childNode(withName: "gameBlockContainer\(i+1)") as? SKSpriteNode)
                 textCanvases.append(self.childNode(withName: "gameTextContainer\(i+1)") as? SKSpriteNode)
-
             }
         }
-        defaults.set(0,forKey: "level")
+        print("ooo\(gameCanvases.count)")
+        defaults.set(31,forKey: "level")
         addNextPhysicsBody(index: 0)
 //        addFirstLevelPhysicsBody()
     }

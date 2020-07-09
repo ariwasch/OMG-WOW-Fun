@@ -9,11 +9,10 @@
 import Foundation
 import SpriteKit
 
-class BlockNode : SKSpriteNode
+class BlockNode2 : SKSpriteNode
 {
     var gameCanvas : SKSpriteNode?
     var stringMade = ""
-    let defaults = UserDefaults.standard
     var arrNodesSelected : [SKSpriteNode] = []
     let arrayStrings = ["GOOD","BETTER","BEST"]
     let arrayStrings2 = ["GOLF","TENNIS","BALL","ROW","PITCH"]
@@ -21,11 +20,8 @@ class BlockNode : SKSpriteNode
     let arrayStrings4 = ["NOTHING","THAN","POSITIVE"]
     let arrayStrings5 = ["THOUGHT","CHANGE","SMALL","DAY"]
     let arrayStrings6 = ["SITUATION","SITUATION","TURN","INTO"]
-    let allStrings = [["GOOD","BETTER","BEST"], ["GOLF","TENNIS","BALL","ROW","PITCH"], ["NEVER","ALWAYS","EYE"], ["NOTHING","THAN","POSITIVE"], ["THOUGHT","CHANGE","SMALL","DAY"], ["SITUATION","TURN","INTO"], ["RESPOND", "MORE", "LIFE", "BECOME", "YOUR"], ["EMBRACE", "PAIN", "FUEL", "JOURNEY"], ["STOP","SIGNS","GUIDELINES","THEY"],["THANKFUL","SAID","DOING","MYSELF","BECAUSE","THAT"],["BEAR","MIND","SUCCEED","THING","IMPORTANT","YOUR"], ["CHANGE","ATTITUDE","LIKE","COMPLAIN","SOMETHING"],["HAPPY","GOOD","HEALTH","DECIDED"],["THOUGHTS","WORLD","CHANGE","YOUR"],["MATTER","SLOW","LONG","STOP"],["EXCEPT","ONES","MAKE","LIFE"],["ANYTHING","LEAVE","FAR","BEHIND","AHEAD"],["LIGHT","DARK","CALM","STORM","PEACE","WAR"],["LIVE","YOUR","PRAYERS","ANSWERED"],["TRY","RAINBOW","CLOUD"],["COMES","NEW","WITH","STRENGTH"],["VICTORY","HAVING","DONE","BEST","YOUR"],["END","OKAY","NOT","WILL","YET"],["JOY","NOT","THINGS"],["ATTITUDE","THING","LITTLE","MAKES"],["OPTIMISM","MAGNET","PEOPLE","DRAWN","GOOD","HAPPINESS"],["IMPORTANT","TRYING","SEEMED","BEEN","HOPE","PEOPLE"],["BELIEVE","LIFE","WORTH","CREATE","FACT","LIVING"],["OPTIMISM","WITHOUT","FAITH","LEADS","DONE","CONFIDENCE"],["KEEP","SMILE","FACE","SPRING","STEP"]]
-    let allStrings1D = ["GOOD","BETTER","BEST","GOLF","TENNIS","BALL","ROW","PITCH", "NEVER","ALWAYS","EYE", "NOTHING","THAN","POSITIVE", "THOUGHT","CHANGE","SMALL","DAY","SITUATION","TURN","INTO","RESPOND", "MORE", "LIFE", "BECOME", "YOUR","EMBRACE", "PAIN", "FUEL", "JOURNEY","STOP","SIGNS","GUIDELINES","THEY","THANKFUL","SAID","DOING","MYSELF","BECAUSE","THAT","BEAR","MIND","SUCCEED","THING","IMPORTANT","ATTITUDE","LIKE","COMPLAIN","SOMETHING","HAPPY","HEALTH","DECIDED","THOUGHTS","WORLD","MATTER","SLOW","LONG","EXCEPT","ONES","MAKE","ANYTHING","LEAVE","FAR","BEHIND","AHEAD","LIGHT","DARK","CALM","STORM","PEACE","WAR","LIVE","TRY","PRAYERS","ANSWERED","RAINBOW","CLOUD","COMES","NEW","WITH","STRENGTH","VICTORY","HAVING","DONE","END","OKAY","NOT","JOY","THINGS","WILL","YET","LITTLE","MAKES","OPTIMISM","MAGNET","PEOPLE","DRAWN","HAPPINESS","BELIEVE","WORTH","CREATE","FACT","WITHOUT","FAITH","LEADS","CONFIDENCE","IMPORTANT","TRYING","SEEMED","BEEN","HOPE","PEOPLE","LIVING","KEEP","SMILE","FACE","SPRING","STEP"]
-
-    let allStrings2 =  [["TEACH","PROVERBS","WISDOM","RIGHT","DEEP","MEANINGS"],["SMART","WELL","WISER","SAYINGS","WORDS","RIDDLES"],["LOVED","PEOPLE","EVERYONE","ETERNAL","DIE","LIFE"],["WORRY","ANYTHING","HEARTS","REQUESTS","ABOUT","WITH"],["TREATS","BETTER","DESERVE","GIFT","DONE","ANYTHING"],["SURE","WHAT","PROOF","CANNOT","GIVES"],["KNOW","GOOD","EVERYONE","CHOSEN","PURPOSE","LOVES"],["ENOUGH","SEED","MOUNTAIN","POSSIBLE"],["MARK","WOMAN","WELL","PEACE","HEALED","PAIN"],["SINNED","SHOULD","ANOTHER","INNOCENT","HELP"],["GIVES","EVIL","DEFEND","BATTLE","FIRM"],["PRAY","NEEDS","CARE","WONDERFUL","FROM","BLESSINGS"],["THIEF","KILL","ROB","DESTROY","LIFE","FULLY"]]
-    let allStrings1D2 = ["TEACH","PROVERBS","WISDOM","RIGHT","DEEP","MEANINGS","SMART","WELL","WISER","SAYINGS","WORDS","RIDDLES","LOVED","PEOPLE","EVERYONE","ETERNAL","DIE","LIFE","WORRY","ANYTHING","HEARTS","REQUESTS","ABOUT","WITH","TREATS","BETTER","DESERVE","GIFT","DONE","ANYTHING","SURE","WHAT","PROOF","CANNOT","GIVES","KNOW","GOOD","CHOSEN","PURPOSE","LOVES","ENOUGH","SEED","MOUNTAIN","POSSIBLE","MARK","WOMAN","PEACE","HEALED","PAIN","SINNED","SHOULD","ANOTHER","INNOCENT","HELP","EVIL","DEFEND","BATTLE","FIRM","PRAY","NEEDS","CARE","WONDERFUL","FROM","BLESSINGS","THIEF","KILL","ROB","DESTROY","FULLY"]
+    let allStrings = [["TEACH","WISDOM","PROVERBS","RIGHT","DEEP","MEANINGS"]]
+    let allStrings1D = ["TEACH","WISDOM","PROVERBS","RIGHT","DEEP","MEANINGS"]
 
     var lastSelectedBlock : SKSpriteNode?
     var swipeDirection : SwipeDirection?
@@ -72,7 +68,7 @@ class BlockNode : SKSpriteNode
         if let parent = self.parent
         {
             gameCanvas = parent as? SKSpriteNode
-            
+
             let arrBlocks = parent.children.filter { (spriteNode) -> Bool in
                 if spriteNode is BlockNode && spriteNode.calculateAccumulatedFrame().contains(touches.first?.location(in: parent) ?? CGPoint.init(x: 0, y: 0))
                 {
@@ -118,11 +114,9 @@ class BlockNode : SKSpriteNode
         }
     }
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
+        print("FASDADASDASD")
         lastSelectedBlock = nil
         swipeDirection = nil
-        print("ASIDJJDSIO1")
-
 //        if arrayStrings.contains(stringMade.uppercased()) {
 //            blockSwippedWord(stringMade.uppercased(),arrNodesSelected)
 //        }
@@ -141,17 +135,10 @@ class BlockNode : SKSpriteNode
 //        if arrayStrings6.contains(stringMade.uppercased()) {
 //            blockSwippedWord(stringMade.uppercased(),arrNodesSelected)
 //        }
-        
-        let level = defaults.integer(forKey: "level")
-        print(level)
-        if(level <= 30){
-            if allStrings1D.contains(stringMade.uppercased()) {
-                blockSwippedWord(stringMade.uppercased(),arrNodesSelected)
-            }
-        }else{
-            if allStrings1D2.contains(stringMade.uppercased()) {
-                blockSwippedWord(stringMade.uppercased(),arrNodesSelected)
-            }
+        print("ASIDJJDSIO2")
+        print(stringMade.uppercased())
+        if allStrings1D.contains(stringMade.uppercased()) {
+            blockSwippedWord(stringMade.uppercased(),arrNodesSelected)
         }
 
 //        for i in 0...arrayStrings.count-1{

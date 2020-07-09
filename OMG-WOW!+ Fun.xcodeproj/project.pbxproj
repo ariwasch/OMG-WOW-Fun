@@ -7,7 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		950D180424B3C26C00276A3B /* LevelSelect.sks in Resources */ = {isa = PBXBuildFile; fileRef = 950D180324B3C26C00276A3B /* LevelSelect.sks */; };
+		950D180624B3C29100276A3B /* Coins.sks in Resources */ = {isa = PBXBuildFile; fileRef = 950D180524B3C29100276A3B /* Coins.sks */; };
+		952DAE8D24ABC9F900B8E152 /* MyScene2.sks in Resources */ = {isa = PBXBuildFile; fileRef = 952DAE8C24ABC9F900B8E152 /* MyScene2.sks */; };
+		95652CCB24ABCC5900475A84 /* BlockNode2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95652CCA24ABCC5900475A84 /* BlockNode2.swift */; };
+		95652CCD24ABCC7C00475A84 /* MyScene2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95652CCC24ABCC7C00475A84 /* MyScene2.swift */; };
+		95652CCF24ABCD5500475A84 /* GameViewController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95652CCE24ABCD5500475A84 /* GameViewController2.swift */; };
+		958B9CFC24B75E7D00F65FE8 /* Coins.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958B9CFB24B75E7D00F65FE8 /* Coins.swift */; };
+		958B9CFE24B75EAC00F65FE8 /* CoinsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958B9CFD24B75EAC00F65FE8 /* CoinsController.swift */; };
 		95B220F4249EBC2300B3CB0D /* Variables.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95B220F3249EBC2300B3CB0D /* Variables.swift */; };
+		95BE783B24B60529005912EF /* LevelSelectController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BE783A24B60529005912EF /* LevelSelectController.swift */; };
+		95BE783D24B60660005912EF /* LevelSelect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BE783C24B60660005912EF /* LevelSelect.swift */; };
 		D0C0E6832449935500201332 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D0C0E6772449935500201332 /* LaunchScreen.storyboard */; };
 		D0C0E6842449935500201332 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D0C0E6782449935500201332 /* Main.storyboard */; };
 		D0C0E6852449935500201332 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C0E67A2449935500201332 /* GameViewController.swift */; };
@@ -20,7 +30,17 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		950D180324B3C26C00276A3B /* LevelSelect.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = LevelSelect.sks; sourceTree = "<group>"; };
+		950D180524B3C29100276A3B /* Coins.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Coins.sks; sourceTree = "<group>"; };
+		952DAE8C24ABC9F900B8E152 /* MyScene2.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MyScene2.sks; sourceTree = "<group>"; };
+		95652CCA24ABCC5900475A84 /* BlockNode2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockNode2.swift; sourceTree = "<group>"; };
+		95652CCC24ABCC7C00475A84 /* MyScene2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyScene2.swift; sourceTree = "<group>"; };
+		95652CCE24ABCD5500475A84 /* GameViewController2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController2.swift; sourceTree = "<group>"; };
+		958B9CFB24B75E7D00F65FE8 /* Coins.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coins.swift; sourceTree = "<group>"; };
+		958B9CFD24B75EAC00F65FE8 /* CoinsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinsController.swift; sourceTree = "<group>"; };
 		95B220F3249EBC2300B3CB0D /* Variables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Variables.swift; sourceTree = "<group>"; };
+		95BE783A24B60529005912EF /* LevelSelectController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelSelectController.swift; sourceTree = "<group>"; };
+		95BE783C24B60660005912EF /* LevelSelect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelSelect.swift; sourceTree = "<group>"; };
 		D0C0E65F2449926C00201332 /* OMG-WOW.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "OMG-WOW.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0C0E6702449927000201332 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D0C0E6772449935500201332 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -87,6 +107,9 @@
 			isa = PBXGroup;
 			children = (
 				D0C0E67A2449935500201332 /* GameViewController.swift */,
+				95652CCE24ABCD5500475A84 /* GameViewController2.swift */,
+				95BE783A24B60529005912EF /* LevelSelectController.swift */,
+				958B9CFD24B75EAC00F65FE8 /* CoinsController.swift */,
 				95B220F3249EBC2300B3CB0D /* Variables.swift */,
 			);
 			path = ViewController;
@@ -96,8 +119,15 @@
 			isa = PBXGroup;
 			children = (
 				D0C0E67D2449935500201332 /* BlockNode.swift */,
+				95652CCA24ABCC5900475A84 /* BlockNode2.swift */,
 				D0C0E67E2449935500201332 /* MyScene.sks */,
+				952DAE8C24ABC9F900B8E152 /* MyScene2.sks */,
+				950D180324B3C26C00276A3B /* LevelSelect.sks */,
+				950D180524B3C29100276A3B /* Coins.sks */,
 				D0C0E67F2449935500201332 /* MyScene.swift */,
+				95652CCC24ABCC7C00475A84 /* MyScene2.swift */,
+				95BE783C24B60660005912EF /* LevelSelect.swift */,
+				958B9CFB24B75E7D00F65FE8 /* Coins.swift */,
 			);
 			path = GameClasses;
 			sourceTree = "<group>";
@@ -170,8 +200,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				D0C0E6832449935500201332 /* LaunchScreen.storyboard in Resources */,
+				950D180624B3C29100276A3B /* Coins.sks in Resources */,
 				D0C0E6862449935500201332 /* Assets.xcassets in Resources */,
 				D0C0E6882449935500201332 /* MyScene.sks in Resources */,
+				952DAE8D24ABC9F900B8E152 /* MyScene2.sks in Resources */,
+				950D180424B3C26C00276A3B /* LevelSelect.sks in Resources */,
 				D0C0E6842449935500201332 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -183,12 +216,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				95652CCB24ABCC5900475A84 /* BlockNode2.swift in Sources */,
+				958B9CFE24B75EAC00F65FE8 /* CoinsController.swift in Sources */,
+				958B9CFC24B75E7D00F65FE8 /* Coins.swift in Sources */,
+				95652CCF24ABCD5500475A84 /* GameViewController2.swift in Sources */,
+				95BE783B24B60529005912EF /* LevelSelectController.swift in Sources */,
 				D0C0E6852449935500201332 /* GameViewController.swift in Sources */,
 				D0C0E6872449935500201332 /* BlockNode.swift in Sources */,
 				D0C0E6892449935500201332 /* MyScene.swift in Sources */,
 				95B220F4249EBC2300B3CB0D /* Variables.swift in Sources */,
 				D0C0E68B2449935500201332 /* AppDelegate.swift in Sources */,
 				D0C0E68A2449935500201332 /* Constants.swift in Sources */,
+				95BE783D24B60660005912EF /* LevelSelect.swift in Sources */,
+				95652CCD24ABCC7C00475A84 /* MyScene2.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
