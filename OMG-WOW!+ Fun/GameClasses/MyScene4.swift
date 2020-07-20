@@ -1,15 +1,15 @@
 //
-//  MyScene.swift
-//  SampleGame
+//  MyScene4.swift
+//  OMG-WOW!+ Fun
 //
-//  Created by Hitesh Trantor on 15/04/20.
+//  Created by Ari Wasch on 7/19/20.
 //  Copyright © 2020 TrantorSoftware. All rights reserved.
 //
 
 import Foundation
 import SpriteKit
 
-class MyScene2: SKScene {
+class MyScene4: SKScene {
     var gameCanvas : SKSpriteNode?
     var gameCanvas2 : SKSpriteNode?
 //    var gameCanvas3 : SKSpriteNode?
@@ -85,8 +85,8 @@ class MyScene2: SKScene {
 //        gameCanvas = self.childNode(withName: "gameBlockContainer") as? SKSpriteNode
 //        gameCanvas2 = self.childNode(withName: "gameBlockContainer2") as? SKSpriteNode
 //        gameCanvas3 = self.childNode(withName: "gameBlockContainer3") as? SKSpriteNode
-        print("HELLO \(block.allStrings2.count)")
-        for i in 0...block.allStrings2.count-1{
+        print("HELLO \(block.allStrings4.count)")
+        for i in 0...block.allStrings4.count-1{
             if(i == 0){
                 gameCanvases.append(self.childNode(withName: "gameBlockContainer") as? SKSpriteNode)
                 textCanvases.append(self.childNode(withName: "gameTextContainer") as? SKSpriteNode)
@@ -96,8 +96,10 @@ class MyScene2: SKScene {
             }
         }
         print("ooo\(gameCanvases.count)")
-        defaults.set(31,forKey: "level")
+        defaults.set(79,forKey: "level")
         addNextPhysicsBody(index: 0)
 //        addFirstLevelPhysicsBody()
     }
 }
+
+

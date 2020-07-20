@@ -1,8 +1,8 @@
 //
-//  LevelSelect.swift
+//  CoinsController.swift
 //  OMG-WOW!+ Fun
 //
-//  Created by Ari Wasch on 7/8/20.
+//  Created by Ari Wasch on 7/9/20.
 //  Copyright © 2020 TrantorSoftware. All rights reserved.
 //
 
@@ -10,9 +10,9 @@ import UIKit
 import SpriteKit
 import GameplayKit
 
-class LevelSelectController: UIViewController {
+class CoinsController: UIViewController {
     
-    var gameScene : LevelSelect?
+    var gameScene : Coins?
     var homeBackground : SKSpriteNode?
     var homeLogo : SKSpriteNode?
     var homePlayContainer : SKSpriteNode?
@@ -48,32 +48,26 @@ class LevelSelectController: UIViewController {
     var gameBlockTest : SKSpriteNode?
     var gameTextTest : SKSpriteNode?
 
-    var game1: SKSpriteNode?
-    var game2: SKSpriteNode?
-    var game3: SKSpriteNode?
-    var game4: SKSpriteNode?
-    var game5: SKSpriteNode?
-    var game6: SKSpriteNode?
-
-    var game1Enabled: Bool = false
-    var game2Enabled: Bool = false
-    var game3Enabled: Bool = false
-    var game4Enabled: Bool = false
-    var game5Enabled: Bool = false
-    var game6Enabled: Bool = false
-
     var touchBeganNode : SKSpriteNode?
     var currentLevel : Int = 31
 //    var SKSpriteNodelol : SKSpriteNode?
 //    var infoTitle : SKSpriteNode?
 //    var infoBody : SKSpriteNode?
     
+    var buy1: SKSpriteNode?
+    var buy2: SKSpriteNode?
+    var buy3: SKSpriteNode?
+    var buy4: SKSpriteNode?
+    var buy5: SKSpriteNode?
+    var buy6: SKSpriteNode?
+
+
     //MARK:- View LifeCycle
     override func viewDidLoad() {
-        number = number + 1
-        print("number \(number)")
+//        number = number + 1
+//        print("number \(number)")
         super.viewDidLoad()
-        defaults.set(true, forKey: "level1")
+//        defaults.set(true, forKey: "level1")
 //        defaults.set("")
 //        defaults.set(true, forKey: "startview")
 //        currentLevel = 31
@@ -81,8 +75,7 @@ class LevelSelectController: UIViewController {
         view.layoutIfNeeded()
         presentGameScene()
         initializationOfGameVariable()
-        hideGameComponents()
-        trueFalse()
+//        hideGameComponents()
 //        initializeGameSwipeAction()
     }
     
@@ -94,7 +87,7 @@ class LevelSelectController: UIViewController {
     func presentGameScene()
     {
         if let view = self.view as! SKView? {
-            if let scene = SKScene(fileNamed: "LevelSelect") as? LevelSelect {
+            if let scene = SKScene(fileNamed: "Coins") as? Coins {
                 
                 if gameScene != nil {
                     gameScene?.removeFromParent()
@@ -119,36 +112,6 @@ class LevelSelectController: UIViewController {
     
     //MARK:- Initilizing Game Variables and Components
     
-    func trueFalse(){
-        print(defaults.bool(forKey: "level1"))
-        game1Enabled = defaults.bool(forKey: "level1")
-        game2Enabled = defaults.bool(forKey: "level2")
-        game3Enabled = defaults.bool(forKey: "level3")
-        game4Enabled = defaults.bool(forKey: "level4")
-        game5Enabled = defaults.bool(forKey: "level5")
-        game6Enabled = defaults.bool(forKey: "level6")
-        
-        if(!game1Enabled){
-            game1?.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
-        }
-        if(!game2Enabled){
-            game2?.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
-        }
-        if(!game3Enabled){
-            game3?.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
-        }
-        if(!game4Enabled){
-            game4?.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
-        }
-        if(!game5Enabled){
-            game5?.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
-        }
-        if(!game6Enabled){
-            game6?.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
-        }
-
-
-    }
     func initializationOfGameVariable()
     {
         homeBackground = fetchSpriteNode(withName: "homeBackground")
@@ -170,12 +133,13 @@ class LevelSelectController: UIViewController {
         gameOptionAds = fetchSpriteNode(withName: "gameOptionAds")
         gameTextContainer = fetchSpriteNode(withName: "gameTextContainer")
         gameTextContainer4 = fetchSpriteNode(withName: "gameTextContainer4")
-        game1 = fetchSpriteNode(withName: "game1")
-        game2 = fetchSpriteNode(withName: "game2")
-        game3 = fetchSpriteNode(withName: "game3")
-        game4 = fetchSpriteNode(withName: "game4")
-        game5 = fetchSpriteNode(withName: "game5")
-        game6 = fetchSpriteNode(withName: "game6")
+        
+        buy1 = fetchSpriteNode(withName: "buy1")
+        buy2 = fetchSpriteNode(withName: "buy2")
+        buy3 = fetchSpriteNode(withName: "buy3")
+        buy4 = fetchSpriteNode(withName: "buy4")
+        buy5 = fetchSpriteNode(withName: "buy5")
+        buy6 = fetchSpriteNode(withName: "buy6")
 
         homePlayButton?.isUserInteractionEnabled = true
         gameBack?.isUserInteractionEnabled = true
@@ -274,64 +238,95 @@ class LevelSelectController: UIViewController {
                     hideHomeComponentsAndLoadGame()
                 }
             }
-            if touchBeganNode == gameCoin || touchBeganNode?.name == "gameCoin2" {
-                performSegue(withIdentifier: "selectToCoins", sender: nil)
-                gameCoin?.run(SKAction.fadeAlpha(to: 1.0, duration: 0))
-            }
-
+            
             if touchedNode == gameBack
             {
                 if touchBeganNode == gameBack {
-                    defaults.set(true, forKey: "startview")
-                    self.viewDidLoad()
+                    defaults.set(false, forKey: "startview")
+                    performSegue(withIdentifier: "coinToLevels", sender: nil)
                 }
             }
-            if touchedNode == gameOptionShuffle
+            
+            if touchedNode == buy1
             {
-
                 touchedNode.run(SKAction.fadeAlpha(to: 1.0, duration: 0))
             }
+            if touchedNode == buy2
+            {
+                touchedNode.run(SKAction.fadeAlpha(to: 1.0, duration: 0))
+            }
+            if touchedNode == buy3
+            {
+                touchedNode.run(SKAction.fadeAlpha(to: 1.0, duration: 0))
+            }
+            if touchedNode == buy4
+            {
+                touchedNode.run(SKAction.fadeAlpha(to: 1.0, duration: 0))
+            }
+            if touchedNode == buy5
+            {
+                touchedNode.run(SKAction.fadeAlpha(to: 1.0, duration: 0))
+            }
+            if touchedNode == buy6
+            {
+                touchedNode.run(SKAction.fadeAlpha(to: 1.0, duration: 0))
+            }
+
+
             
 //            touchBeganNode = nil
 //            homePlayButton?.run(SKAction.fadeAlpha(to: 1.0, duration: 0))
 //            gameBack?.run(SKAction.fadeAlpha(to: 1.0, duration: 0))
-            if(game1Enabled){
-                if touchedNode == game1{
-                    performSegue(withIdentifier: "togame1", sender: nil)
-                    touchedNode.run(SKAction.fadeAlpha(to: 1.0, duration: 0))
-                }
-            }
-            if(game2Enabled){
-                if touchedNode == game2{
-                    performSegue(withIdentifier: "togame2", sender: nil)
-                    touchedNode.run(SKAction.fadeAlpha(to: 1.0, duration: 0))
-                }
-            }
-
-            if(game3Enabled){
-                if touchedNode == game3{
-                    performSegue(withIdentifier: "togame3", sender: nil)
-                    touchedNode.run(SKAction.fadeAlpha(to: 1.0, duration: 0))
-                }
-            }
-            if(game4Enabled){
-                if touchedNode == game4{
-                    performSegue(withIdentifier: "togame4", sender: nil)
-                    touchedNode.run(SKAction.fadeAlpha(to: 1.0, duration: 0))
-                }
-            }
-            if(game5Enabled){
-                if touchedNode == game5{
-                    performSegue(withIdentifier: "togame5", sender: nil)
-                    touchedNode.run(SKAction.fadeAlpha(to: 1.0, duration: 0))
-                }
-            }
-
-
-
         }
     }
     
+    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
+        print("hi")
+    }
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+                if let touch = touches.randomElement(), gameScene != nil
+                {
+                    let positionInScene = touch.location(in: gameScene!)
+                    let touchedNode = gameScene!.atPoint(positionInScene)
+                    if touchedNode == touchBeganNode {
+                        if touchBeganNode == homePlayButton {
+                            hideHomeComponentsAndLoadGame()
+                        }
+                    }
+                    
+                    
+                    if touchedNode == buy1
+                    {
+                        touchedNode.run(SKAction.fadeAlpha(to: 1.0, duration: 0))
+                    }
+                    if touchedNode == buy2
+                    {
+                        touchedNode.run(SKAction.fadeAlpha(to: 1.0, duration: 0))
+                    }
+                    if touchedNode == buy3
+                    {
+                        touchedNode.run(SKAction.fadeAlpha(to: 1.0, duration: 0))
+                    }
+                    if touchedNode == buy4
+                    {
+                        touchedNode.run(SKAction.fadeAlpha(to: 1.0, duration: 0))
+                    }
+                    if touchedNode == buy5
+                    {
+                        touchedNode.run(SKAction.fadeAlpha(to: 1.0, duration: 0))
+                    }
+                    if touchedNode == buy6
+                    {
+                        touchedNode.run(SKAction.fadeAlpha(to: 1.0, duration: 0))
+                    }
+
+
+                    
+        //            touchBeganNode = nil
+        //            homePlayButton?.run(SKAction.fadeAlpha(to: 1.0, duration: 0))
+        //            gameBack?.run(SKAction.fadeAlpha(to: 1.0, duration: 0))
+                }
+    }
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         if let touch = touches.first, gameScene != nil
         {
@@ -345,48 +340,37 @@ class LevelSelectController: UIViewController {
                 
                 gameBack?.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
             }
-            if touchBeganNode == gameCoin {
-                gameCoin?.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
-            }
-            trueFalse()
-            print(game1Enabled)
-            if(game1Enabled){
-                if touchedNode == game1{
-                    game1?.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
-                }
-            }
-            if(game2Enabled){
-                if touchedNode == game2{
-                    game2?.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
-                }
-            }
-            if(game3Enabled){
-                if touchedNode == game3{
-                    game3?.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
-                }
-            }
-            if(game4Enabled){
-                if touchedNode == game4{
-                    game4?.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
-                }
-            }
-            if(game5Enabled){
-                if touchedNode == game5{
-                    game5?.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
-                }
-            }
-            if(game6Enabled){
-                if touchedNode == game6{
-                    game6?.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
-                }
-            }
             
-        }
+            if touchedNode == buy1
+            {
+                buy1?.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
+            }
+            if touchedNode == buy2
+            {
+                touchedNode.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
+            }
+            if touchedNode == buy3
+            {
+                touchedNode.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
+            }
+            if touchedNode == buy4
+            {
+                touchedNode.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
+            }
+            if touchedNode == buy5
+            {
+                touchedNode.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
+            }
+            if touchedNode == buy6
+            {
+                touchedNode.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
+            }
+
     }
     
 
 
-}
+    }
 
 
 
@@ -428,3 +412,5 @@ class LevelSelectController: UIViewController {
  magneticField.position = CGPoint(x: (gameCanvas!.size.width/2)/gameCanvas!.xScale, y:0) //(gameCanvas!.size.height/2)/gameCanvas!.yScale)
  gameCanvas?.addChild(magneticField)*/
 
+
+}

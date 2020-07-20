@@ -3,19 +3,36 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3222F8BCFBEEEB4351A77F85 /* Pods_OMG_WOW___Fun.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BFD8848FF805355C12606AB /* Pods_OMG_WOW___Fun.framework */; };
 		950D180424B3C26C00276A3B /* LevelSelect.sks in Resources */ = {isa = PBXBuildFile; fileRef = 950D180324B3C26C00276A3B /* LevelSelect.sks */; };
 		950D180624B3C29100276A3B /* Coins.sks in Resources */ = {isa = PBXBuildFile; fileRef = 950D180524B3C29100276A3B /* Coins.sks */; };
 		952DAE8D24ABC9F900B8E152 /* MyScene2.sks in Resources */ = {isa = PBXBuildFile; fileRef = 952DAE8C24ABC9F900B8E152 /* MyScene2.sks */; };
+		9534123F24C4E0240075E152 /* MyScene4.sks in Resources */ = {isa = PBXBuildFile; fileRef = 9534123E24C4E0240075E152 /* MyScene4.sks */; };
+		9534124124C4E0370075E152 /* MyScene5.sks in Resources */ = {isa = PBXBuildFile; fileRef = 9534124024C4E0370075E152 /* MyScene5.sks */; };
+		9534124324C4E0450075E152 /* MyScene6.sks in Resources */ = {isa = PBXBuildFile; fileRef = 9534124224C4E0450075E152 /* MyScene6.sks */; };
+		9534124524C4E3CC0075E152 /* MyScene4.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9534124424C4E3CC0075E152 /* MyScene4.swift */; };
+		9534124724C4E3D80075E152 /* MyScene5.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9534124624C4E3D80075E152 /* MyScene5.swift */; };
+		9534124924C4E3E20075E152 /* MyScene6.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9534124824C4E3E20075E152 /* MyScene6.swift */; };
+		9534124B24C4E4590075E152 /* GameViewController4.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9534124A24C4E4590075E152 /* GameViewController4.swift */; };
+		9534124D24C4E4680075E152 /* GameViewController5.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9534124C24C4E4680075E152 /* GameViewController5.swift */; };
+		9534124F24C4E47E0075E152 /* GameViewController6.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9534124E24C4E47E0075E152 /* GameViewController6.swift */; };
 		95652CCB24ABCC5900475A84 /* BlockNode2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95652CCA24ABCC5900475A84 /* BlockNode2.swift */; };
 		95652CCD24ABCC7C00475A84 /* MyScene2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95652CCC24ABCC7C00475A84 /* MyScene2.swift */; };
 		95652CCF24ABCD5500475A84 /* GameViewController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95652CCE24ABCD5500475A84 /* GameViewController2.swift */; };
+		957EC84024B7A3770078C959 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 957EC83F24B7A3770078C959 /* GoogleService-Info.plist */; };
+		957EC84224B8B0CB0078C959 /* StartPageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 957EC84124B8B0CB0078C959 /* StartPageController.swift */; };
+		957EC84424B8B0F30078C959 /* StartPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 957EC84324B8B0F30078C959 /* StartPage.swift */; };
+		957EC84624B8B1330078C959 /* StartPage.sks in Resources */ = {isa = PBXBuildFile; fileRef = 957EC84524B8B1330078C959 /* StartPage.sks */; };
 		958B9CFC24B75E7D00F65FE8 /* Coins.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958B9CFB24B75E7D00F65FE8 /* Coins.swift */; };
 		958B9CFE24B75EAC00F65FE8 /* CoinsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958B9CFD24B75EAC00F65FE8 /* CoinsController.swift */; };
 		95B220F4249EBC2300B3CB0D /* Variables.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95B220F3249EBC2300B3CB0D /* Variables.swift */; };
+		95B9FD9324BD086E00366675 /* MyScene3.sks in Resources */ = {isa = PBXBuildFile; fileRef = 95B9FD9224BD086E00366675 /* MyScene3.sks */; };
+		95B9FD9524BD0A1E00366675 /* MyScene3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95B9FD9424BD0A1E00366675 /* MyScene3.swift */; };
+		95B9FD9724BD0AF200366675 /* GameViewController3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95B9FD9624BD0AF200366675 /* GameViewController3.swift */; };
 		95BE783B24B60529005912EF /* LevelSelectController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BE783A24B60529005912EF /* LevelSelectController.swift */; };
 		95BE783D24B60660005912EF /* LevelSelect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BE783C24B60660005912EF /* LevelSelect.swift */; };
 		D0C0E6832449935500201332 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D0C0E6772449935500201332 /* LaunchScreen.storyboard */; };
@@ -30,15 +47,33 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1AC8544E41AEED4FB5E76ACB /* Pods-OMG-WOW!+ Fun.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OMG-WOW!+ Fun.release.xcconfig"; path = "Target Support Files/Pods-OMG-WOW!+ Fun/Pods-OMG-WOW!+ Fun.release.xcconfig"; sourceTree = "<group>"; };
+		6BFD8848FF805355C12606AB /* Pods_OMG_WOW___Fun.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = "Pods_OMG_WOW___Fun.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
 		950D180324B3C26C00276A3B /* LevelSelect.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = LevelSelect.sks; sourceTree = "<group>"; };
 		950D180524B3C29100276A3B /* Coins.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Coins.sks; sourceTree = "<group>"; };
 		952DAE8C24ABC9F900B8E152 /* MyScene2.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MyScene2.sks; sourceTree = "<group>"; };
+		9534123E24C4E0240075E152 /* MyScene4.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MyScene4.sks; sourceTree = "<group>"; };
+		9534124024C4E0370075E152 /* MyScene5.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MyScene5.sks; sourceTree = "<group>"; };
+		9534124224C4E0450075E152 /* MyScene6.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MyScene6.sks; sourceTree = "<group>"; };
+		9534124424C4E3CC0075E152 /* MyScene4.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyScene4.swift; sourceTree = "<group>"; };
+		9534124624C4E3D80075E152 /* MyScene5.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyScene5.swift; sourceTree = "<group>"; };
+		9534124824C4E3E20075E152 /* MyScene6.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyScene6.swift; sourceTree = "<group>"; };
+		9534124A24C4E4590075E152 /* GameViewController4.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController4.swift; sourceTree = "<group>"; };
+		9534124C24C4E4680075E152 /* GameViewController5.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController5.swift; sourceTree = "<group>"; };
+		9534124E24C4E47E0075E152 /* GameViewController6.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController6.swift; sourceTree = "<group>"; };
 		95652CCA24ABCC5900475A84 /* BlockNode2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockNode2.swift; sourceTree = "<group>"; };
 		95652CCC24ABCC7C00475A84 /* MyScene2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyScene2.swift; sourceTree = "<group>"; };
 		95652CCE24ABCD5500475A84 /* GameViewController2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController2.swift; sourceTree = "<group>"; };
+		957EC83F24B7A3770078C959 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../GoogleService-Info.plist"; sourceTree = "<group>"; };
+		957EC84124B8B0CB0078C959 /* StartPageController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartPageController.swift; sourceTree = "<group>"; };
+		957EC84324B8B0F30078C959 /* StartPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartPage.swift; sourceTree = "<group>"; };
+		957EC84524B8B1330078C959 /* StartPage.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = StartPage.sks; sourceTree = "<group>"; };
 		958B9CFB24B75E7D00F65FE8 /* Coins.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coins.swift; sourceTree = "<group>"; };
 		958B9CFD24B75EAC00F65FE8 /* CoinsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinsController.swift; sourceTree = "<group>"; };
 		95B220F3249EBC2300B3CB0D /* Variables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Variables.swift; sourceTree = "<group>"; };
+		95B9FD9224BD086E00366675 /* MyScene3.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MyScene3.sks; sourceTree = "<group>"; };
+		95B9FD9424BD0A1E00366675 /* MyScene3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyScene3.swift; sourceTree = "<group>"; };
+		95B9FD9624BD0AF200366675 /* GameViewController3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController3.swift; sourceTree = "<group>"; };
 		95BE783A24B60529005912EF /* LevelSelectController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelSelectController.swift; sourceTree = "<group>"; };
 		95BE783C24B60660005912EF /* LevelSelect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelSelect.swift; sourceTree = "<group>"; };
 		D0C0E65F2449926C00201332 /* OMG-WOW.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "OMG-WOW.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -52,6 +87,7 @@
 		D0C0E67F2449935500201332 /* MyScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyScene.swift; sourceTree = "<group>"; };
 		D0C0E6812449935500201332 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		D0C0E6822449935500201332 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		DD9C2A7A6C7E3EBE668FFE92 /* Pods-OMG-WOW!+ Fun.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OMG-WOW!+ Fun.debug.xcconfig"; path = "Target Support Files/Pods-OMG-WOW!+ Fun/Pods-OMG-WOW!+ Fun.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,17 +95,28 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3222F8BCFBEEEB4351A77F85 /* Pods_OMG_WOW___Fun.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		CABEE6CA4B5E25554A466444 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				6BFD8848FF805355C12606AB /* Pods_OMG_WOW___Fun.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		D0C0E6562449926C00201332 = {
 			isa = PBXGroup;
 			children = (
 				D0C0E6612449926C00201332 /* OMG-WOW!+ Fun */,
 				D0C0E6602449926C00201332 /* Products */,
+				F5DBA1B7E0BAF44FEF637ED2 /* Pods */,
+				CABEE6CA4B5E25554A466444 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -106,8 +153,13 @@
 		D0C0E6792449935500201332 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				957EC84124B8B0CB0078C959 /* StartPageController.swift */,
 				D0C0E67A2449935500201332 /* GameViewController.swift */,
 				95652CCE24ABCD5500475A84 /* GameViewController2.swift */,
+				95B9FD9624BD0AF200366675 /* GameViewController3.swift */,
+				9534124A24C4E4590075E152 /* GameViewController4.swift */,
+				9534124C24C4E4680075E152 /* GameViewController5.swift */,
+				9534124E24C4E47E0075E152 /* GameViewController6.swift */,
 				95BE783A24B60529005912EF /* LevelSelectController.swift */,
 				958B9CFD24B75EAC00F65FE8 /* CoinsController.swift */,
 				95B220F3249EBC2300B3CB0D /* Variables.swift */,
@@ -122,11 +174,22 @@
 				95652CCA24ABCC5900475A84 /* BlockNode2.swift */,
 				D0C0E67E2449935500201332 /* MyScene.sks */,
 				952DAE8C24ABC9F900B8E152 /* MyScene2.sks */,
+				95B9FD9224BD086E00366675 /* MyScene3.sks */,
+				9534123E24C4E0240075E152 /* MyScene4.sks */,
+				9534124024C4E0370075E152 /* MyScene5.sks */,
+				9534124224C4E0450075E152 /* MyScene6.sks */,
 				950D180324B3C26C00276A3B /* LevelSelect.sks */,
 				950D180524B3C29100276A3B /* Coins.sks */,
+				957EC84524B8B1330078C959 /* StartPage.sks */,
+				957EC83F24B7A3770078C959 /* GoogleService-Info.plist */,
 				D0C0E67F2449935500201332 /* MyScene.swift */,
 				95652CCC24ABCC7C00475A84 /* MyScene2.swift */,
+				95B9FD9424BD0A1E00366675 /* MyScene3.swift */,
+				9534124424C4E3CC0075E152 /* MyScene4.swift */,
+				9534124624C4E3D80075E152 /* MyScene5.swift */,
+				9534124824C4E3E20075E152 /* MyScene6.swift */,
 				95BE783C24B60660005912EF /* LevelSelect.swift */,
+				957EC84324B8B0F30078C959 /* StartPage.swift */,
 				958B9CFB24B75E7D00F65FE8 /* Coins.swift */,
 			);
 			path = GameClasses;
@@ -141,6 +204,15 @@
 			path = Application;
 			sourceTree = "<group>";
 		};
+		F5DBA1B7E0BAF44FEF637ED2 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				DD9C2A7A6C7E3EBE668FFE92 /* Pods-OMG-WOW!+ Fun.debug.xcconfig */,
+				1AC8544E41AEED4FB5E76ACB /* Pods-OMG-WOW!+ Fun.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -148,9 +220,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D0C0E6732449927000201332 /* Build configuration list for PBXNativeTarget "OMG-WOW!+ Fun" */;
 			buildPhases = (
+				4B83C175F7E9D1DC2B5D1456 /* [CP] Check Pods Manifest.lock */,
 				D0C0E65B2449926C00201332 /* Sources */,
 				D0C0E65C2449926C00201332 /* Frameworks */,
 				D0C0E65D2449926C00201332 /* Resources */,
+				ABA91AB39B91EE8AF06C751A /* [CP] Embed Pods Frameworks */,
+				4986C07AA662726CDA11C0CF /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -200,27 +275,100 @@
 			buildActionMask = 2147483647;
 			files = (
 				D0C0E6832449935500201332 /* LaunchScreen.storyboard in Resources */,
+				9534123F24C4E0240075E152 /* MyScene4.sks in Resources */,
 				950D180624B3C29100276A3B /* Coins.sks in Resources */,
+				957EC84624B8B1330078C959 /* StartPage.sks in Resources */,
+				9534124124C4E0370075E152 /* MyScene5.sks in Resources */,
 				D0C0E6862449935500201332 /* Assets.xcassets in Resources */,
+				957EC84024B7A3770078C959 /* GoogleService-Info.plist in Resources */,
 				D0C0E6882449935500201332 /* MyScene.sks in Resources */,
 				952DAE8D24ABC9F900B8E152 /* MyScene2.sks in Resources */,
 				950D180424B3C26C00276A3B /* LevelSelect.sks in Resources */,
+				95B9FD9324BD086E00366675 /* MyScene3.sks in Resources */,
 				D0C0E6842449935500201332 /* Main.storyboard in Resources */,
+				9534124324C4E0450075E152 /* MyScene6.sks in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		4986C07AA662726CDA11C0CF /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-OMG-WOW!+ Fun/Pods-OMG-WOW!+ Fun-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-OMG-WOW!+ Fun/Pods-OMG-WOW!+ Fun-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-OMG-WOW!+ Fun/Pods-OMG-WOW!+ Fun-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		4B83C175F7E9D1DC2B5D1456 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-OMG-WOW!+ Fun-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		ABA91AB39B91EE8AF06C751A /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-OMG-WOW!+ Fun/Pods-OMG-WOW!+ Fun-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-OMG-WOW!+ Fun/Pods-OMG-WOW!+ Fun-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-OMG-WOW!+ Fun/Pods-OMG-WOW!+ Fun-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		D0C0E65B2449926C00201332 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				95B9FD9524BD0A1E00366675 /* MyScene3.swift in Sources */,
+				9534124524C4E3CC0075E152 /* MyScene4.swift in Sources */,
 				95652CCB24ABCC5900475A84 /* BlockNode2.swift in Sources */,
+				9534124924C4E3E20075E152 /* MyScene6.swift in Sources */,
+				9534124D24C4E4680075E152 /* GameViewController5.swift in Sources */,
+				957EC84424B8B0F30078C959 /* StartPage.swift in Sources */,
 				958B9CFE24B75EAC00F65FE8 /* CoinsController.swift in Sources */,
 				958B9CFC24B75E7D00F65FE8 /* Coins.swift in Sources */,
+				957EC84224B8B0CB0078C959 /* StartPageController.swift in Sources */,
 				95652CCF24ABCD5500475A84 /* GameViewController2.swift in Sources */,
+				9534124B24C4E4590075E152 /* GameViewController4.swift in Sources */,
 				95BE783B24B60529005912EF /* LevelSelectController.swift in Sources */,
+				9534124724C4E3D80075E152 /* MyScene5.swift in Sources */,
 				D0C0E6852449935500201332 /* GameViewController.swift in Sources */,
 				D0C0E6872449935500201332 /* BlockNode.swift in Sources */,
 				D0C0E6892449935500201332 /* MyScene.swift in Sources */,
@@ -228,6 +376,8 @@
 				D0C0E68B2449935500201332 /* AppDelegate.swift in Sources */,
 				D0C0E68A2449935500201332 /* Constants.swift in Sources */,
 				95BE783D24B60660005912EF /* LevelSelect.swift in Sources */,
+				9534124F24C4E47E0075E152 /* GameViewController6.swift in Sources */,
+				95B9FD9724BD0AF200366675 /* GameViewController3.swift in Sources */,
 				95652CCD24ABCC7C00475A84 /* MyScene2.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -351,6 +501,7 @@
 		};
 		D0C0E6742449927000201332 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DD9C2A7A6C7E3EBE668FFE92 /* Pods-OMG-WOW!+ Fun.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -362,7 +513,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.trantor.OMG-WOW-FunNew";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.wasch.OMG-WOW-FunNew";
 				PRODUCT_NAME = "OMG-WOW";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -371,6 +522,7 @@
 		};
 		D0C0E6752449927000201332 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1AC8544E41AEED4FB5E76ACB /* Pods-OMG-WOW!+ Fun.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -382,7 +534,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.trantor.OMG-WOW-FunNew";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.wasch.OMG-WOW-FunNew";
 				PRODUCT_NAME = "OMG-WOW";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

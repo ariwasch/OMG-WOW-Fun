@@ -10,14 +10,14 @@ import UIKit
 import SpriteKit
 import GameplayKit
 
-class GameViewController2: UIViewController {
+class GameViewController3: UIViewController {
     
-    var gameScene : MyScene2?
+    var gameScene : MyScene3?
     var homeBackground : SKSpriteNode?
     var homeLogo : SKSpriteNode?
     var homePlayContainer : SKSpriteNode?
     var homePlayButton : SKSpriteNode?
-    let previous = 30
+    let previous = 54
     let defaults = UserDefaults.standard
 
     var arr : [SKSpriteNode] = []
@@ -50,7 +50,7 @@ class GameViewController2: UIViewController {
     var gameTextTest : SKSpriteNode?
 
     var touchBeganNode : SKSpriteNode?
-    var currentLevel : Int = 31
+    var currentLevel : Int = 55
     var SKSpriteNodelol : SKSpriteNode?
     var infoTitle : SKSpriteNode?
     var infoBody : SKSpriteNode?
@@ -58,17 +58,16 @@ class GameViewController2: UIViewController {
     //MARK:- View LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        currentLevel = 31
-        allStrings = block.allStrings2
+        currentLevel = 55
+        allStrings = block.allStrings3
         view.layoutIfNeeded()
         presentGameScene()
         initializationOfGameVariable()
         hideGameComponents()
         initializeGameSwipeAction()
-        if(defaults.integer(forKey: "game2level") != 1 && (defaults.integer(forKey: "game2level") != 0)){
-            skip(to: defaults.integer(forKey: "game2level"))
+        if(defaults.integer(forKey: "game3level") != 1 && (defaults.integer(forKey: "game3level") != 0)){
+//            skip(to: defaults.integer(forKey: "game3level"))
         }
-
     }
     override var prefersStatusBarHidden: Bool {
         return true
@@ -78,7 +77,7 @@ class GameViewController2: UIViewController {
     func presentGameScene()
     {
         if let view = self.view as! SKView? {
-            if let scene = SKScene(fileNamed: "MyScene2") as? MyScene2 {
+            if let scene = SKScene(fileNamed: "MyScene3") as? MyScene3 {
                 
                 if gameScene != nil {
                     gameScene?.removeFromParent()
@@ -159,7 +158,7 @@ class GameViewController2: UIViewController {
     }
     func wordInWord(string: String) -> Bool{
         var isDuplicate = true
-        if((string == "LOVE" && currentLevel == 43) || (string == "LOVE" && currentLevel == 47) || (string == "TREAT" && currentLevel == 45)){
+        if((string == "OUT" && currentLevel == 68) || (string == "TAKE" && currentLevel == 70) || (string == "TAKE" && currentLevel == 76)){
             isDuplicate = false
         }
         return isDuplicate
@@ -168,7 +167,7 @@ class GameViewController2: UIViewController {
     func duplicate(string: String) -> Bool{
         var isDuplicate = false
         print(currentLevel)
-        if(string == "EVERYONE" || string == "WELL" || string == "LIFE" || string == "GIVES" || string == "KNOW" || string == "MURDER" || string == "RESPECT" || string == "EVEN" || string == "ANOTHER"){
+        if(string == "EVERYONE" || string == "PEOPLE" || string == "LIVE" || string == "LAUGH" || string == "LIFE" || string == "WHAT"){
             isDuplicate = true
         }
         return isDuplicate
@@ -180,28 +179,26 @@ class GameViewController2: UIViewController {
         }else if(string == "EVERYONE" && currentLevel == 37){
             num = 36 - previous
         }
-        if(string == "WELL" && currentLevel == 32){
-            num = 31 - previous
-        }else if(string == "WELL" && currentLevel == 39){
-            num = 38 - previous
+        if(string == "PEOPLE" && currentLevel == 61){
+            num = 60 - previous
+        }else if(string == "PEOPLE" && currentLevel == 59){
+            num = 58 - previous
+        }else if(string == "PEOPLE" && currentLevel == 72){
+            num = 71 - previous
         }
-        if(string == "GIVES" && currentLevel == 41){
-            num = 40 - previous
-        }else if(string == "GIVES" && currentLevel == 36){
-            num = 35 - previous
+        if(string == "LIVE" && currentLevel == 64){
+            num = 63 - previous
+        }else if(string == "LIVE" && currentLevel == 62){
+            num = 61 - previous
         }
-        if(string == "LIFE" && currentLevel == 33){
-            num = 32 - previous
-        }else if(string == "LIFE" && currentLevel == 43){
-            num = 42 - previous
-        }else if(string == "LIFE" && currentLevel == 46){
-            num = 45 - previous
+        if(string == "LAUGH" && currentLevel == 57){
+            num = 56 - previous
+        }else if(string == "LAUGH" && currentLevel == 63){
+            num = 62 - previous
+        }else if(string == "LAUGH" && currentLevel == 74){
+            num = 73 - previous
         }
-        if(string == "KNOW" && currentLevel == 37){
-            num = 36 - previous
-        }else if(string == "KNOW" && currentLevel == 49){
-            num = 48 - previous
-        }
+
         if(string == "MURDER" && currentLevel == 49){
             num = 48 - previous
         }else if(string == "MURDER" && currentLevel == 48){
@@ -222,6 +219,17 @@ class GameViewController2: UIViewController {
         }else if(string == "ANOTHER" && currentLevel == 40){
             num = 39 - previous
         }
+        if(string == "LIFE" && currentLevel == 55){
+            num = 54 - previous
+        }else if(string == "LIFE" && currentLevel == 72){
+            num = 71 - previous
+        }
+        if(string == "WHAT" && currentLevel == 77){
+            num = 76 - previous
+        }else if(string == "WHAT" && currentLevel == 62){
+            num = 61 - previous
+        }
+
 
 
 //        print(num)
@@ -245,7 +253,7 @@ class GameViewController2: UIViewController {
     func initializeNextLevel(level: Int, title: String, popTitle: String, popBody: String)
     {
         defaults.set(level, forKey: "level")
-        defaults.set(level, forKey: "game2level")
+        defaults.set(level, forKey: "game3level")
 
         self.currentLevel = level
         if(popTitle != "" && popBody != ""){
@@ -408,65 +416,88 @@ class GameViewController2: UIViewController {
     
     func actionOnWord(word: String, num: Int){
     
-        if(word == "MEANINGS" || num == 32){
-            self.initializeNextLevel(level: 32, title: "‭‭FAITH", popTitle: "Proverbs‬ ‭1:5-6‬ ‭CEV‬‬", popBody: "Proverbs is not merely an anthology but a \",collection of collections\" relating to a pattern of life which lasted for more than a millennium.[2] It is an example of the biblical wisdom literature")
-        }else if(word == "RIDDLES" || num == 33){
-            self.initializeNextLevel(level: 33, title: "FAITH", popTitle: "John‬ ‭3:16‬ ‭CEV‬‬", popBody: "John the Apostle (c. AD 6 – c. 100) was one of the Twelve Apostles of Jesus according to the New Testament. Generally listed as the youngest apostle. His brother was James, who was another of the Twelve Apostles.")
-        }else if((word == "EVERYONE" && currentLevel == 33) || num == 34){
-            self.initializeNextLevel(level: 34, title: "‭‭FAITH", popTitle: "Philippians‬ ‭4:6‬ ‭CEV‬‬", popBody: "Philippians 1 is the first chapter of the Epistle to the Philippians in the New Testament of the Christian Bible. It is authored by Paul the Apostle about mid-50s to early 60s AD and addressed to the Christians in Philippi, written either in Rome or Ephesus.")
-        }else if(word == "WORRY" || num == 35){
-            self.initializeNextLevel(level: 35, title: "FAITH", popTitle: "‭‭Ephesians‬ ‭2:8‬ ‭CEV‬‬", popBody: "A major theme in Ephesians is the keeping of Christ's body (that is, the Church) pure and holy. Therefore be imitators of God, as beloved children. And walk in love, as Christ loved us and gave himself up for us, a fragrant offering and sacrifice to God.")
-        }else if(word == "ANYTHING" || num == 36){
-            self.initializeNextLevel(level: 36, title: "FAITH", popTitle: "‭‭Hebrews‬ ‭11:1‬ ‭CEV‬‬", popBody: "The Epistle to the Hebrews, or Letter to the Hebrews, or in the Greek manuscripts, simply To the Hebrews is one of the books of the New Testament. The text does not mention the name of its author, but was traditionally attributed to Paul the Apostle.")
-        }else if((word == "GIVES" && currentLevel == 36) || num == 37){
-            self.initializeNextLevel(level: 37, title: "FAITH", popTitle: "‭‭Romans‬ ‭8:28‬ ‭CEV‬‬", popBody: "The Epistle to the Romans or Letter to the Romans, often shortened to Romans, is the sixth book in the New Testament.  ")
-        }else if((word == "EVERYONE" && currentLevel == 37) || num == 38){
-            self.initializeNextLevel(level: 38, title: "FAITH", popTitle: "‭‭Matthew‬ ‭17:20-21‬ ‭CEV‬‬", popBody: "Matthew the Apostle, also known as Saint Matthew and as Levi, was, according to the New Testament, one of the twelve apostles of Jesus. According to Christian tradition, he was also one of the four Evangelists and thus is also known as Matthew the Evangelist.")
-        }else if(word == "POSSIBLE" || num == 39){
-            self.initializeNextLevel(level: 39, title: "FAITH", popTitle: "‭‭Mark‬ ‭5:34‬ ‭CEV‬‬", popBody: "Mark the Evangelist (Acts 12:12; 15:37), an associate of St. Paul and a disciple of St. Peter, whose teachings the Gospel may reflect. It is the shortest and the earliest of the four Gospels, presumably written during the decade preceding the destruction of Jerusalem in 70 ce.")
-        }else if(word == "HEALED" || num == 40){
-            self.initializeNextLevel(level: 40, title: "FAITH", popTitle: "‭‭James‬ ‭5:16‬ ‭CEV‬‬", popBody: "The Letter of James, the Epistle of James, or simply James, is one of the 21 epistles in the New Testament. The author identifies himself as \"James, a servant [or slave] of God and of the Lord Jesus Christ\".")
-        }else if(word == "INNOCENT" || num == 41){
-            self.initializeNextLevel(level: 41, title: "FAITH", popTitle: "‭‭Ephesians‬ ‭6:13‬ ‭CEV‬‬", popBody: "A major theme in Ephesians is the keeping of Christ's body (that is, the Church) pure and holy. Therefore be imitators of God, as beloved children. And walk in love, as Christ loved us and gave himself up for us, a fragrant offering and sacrifice to God.")
-        }else if((word == "GIVES" && currentLevel == 41) || num == 42){
-            self.initializeNextLevel(level: 42, title: "FAITH", popTitle: "‭‭‭‭‭‭Philippians‬ ‭4:19‬ ‭CEV‬‬", popBody: "Philippians 1 is the first chapter of the Epistle to the Philippians in the New Testament of the Christian Bible. It is authored by Paul the Apostle.  ")
-
-        }else if(word == "CARE" || num == 43){
-            self.initializeNextLevel(level: 43, title: "FAITH", popTitle: "‭‭‭‭John‬ ‭10:10‬ ‭CEV‬‬", popBody: "John the Apostle (c. AD 6 – c. 100) was one of the Twelve Apostles of Jesus according to the New Testament. Generally listed as the youngest apostle. His brother was James, who was another of the Twelve Apostles.")
-
-        }else if(word == "THIEF" || num == 44){
-            self.initializeNextLevel(level: 44, title: "FAITH", popTitle: "‭‭Hebrews‬ ‭11:6‬ ‭CEV‬‬", popBody: "The Epistle to the Hebrews, or Letter to the Hebrews, or in the Greek manuscripts, simply To the Hebrews is one of the books of the New Testament. The text does not mention the name of its author, but was traditionally attributed to Paul the Apostle.")
-
-        }else if(word == "BELIEVE" || num == 45){
-            self.initializeNextLevel(level: 45, title: "FAITH", popTitle: "‭‭1 Peter‬ ‭5:10‬ ‭CEV‬‬", popBody: "The First Epistle of Peter, usually referred to simply as First Peter and often written 1 Peter, is a book of the New Testament.")
-
-        }else if(word == "UNDESERVED" || num == 46){
-            self.initializeNextLevel(level: 46, title: "FAITH", popTitle: "‭‭Ephesians‬ ‭5:25‬ ‭CEV‬‬", popBody: "A major theme in Ephesians is the keeping of Christ's body (that is, the Church) pure and holy. Therefore be imitators of God, as beloved children. And walk in love, as Christ loved us and gave himself up for us, a fragrant offering and sacrifice to God.")
-
-
-        }else if(word == "MUCH" || num == 47){
-            self.initializeNextLevel(level: 47, title: "FAITH", popTitle: "‭‭‭‭‭‭Hebrews‬ ‭13:4‬ ‭CEV‬‬", popBody: "The Epistle to the Hebrews, or Letter to the Hebrews, or in the Greek manuscripts, simply To the Hebrews is one of the books of the New Testament.")
-        }else if(word == "IMMORAL" || num == 48){
-            self.initializeNextLevel(level: 48, title: "FAITH", popTitle: "‭‭‭‭James‬ ‭2:11‬ ‭CEV‬‬", popBody: "The Letter of James, the Epistle of James, or simply James, is one of the 21 epistles in the New Testament.")
-        }else if((word == "MURDER" && currentLevel == 48) || num == 49){
-            self.initializeNextLevel(level: 49, title: "FAITH", popTitle: "‭‭‭‭Mark‬ ‭10:19‬ ‭CEV‬‬", popBody: "Mark the Evangelist (Acts 12:12; 15:37), an associate of St. Paul and a disciple of St. Peter, whose teachings the Gospel may reflect. It is the shortest and the earliest of the four Gospels.")
-        }else if((word == "RESPECT" && currentLevel == 49) || num == 50){
-            self.initializeNextLevel(level: 50, title: "FAITH", popTitle: "‭‭Isaiah‬ ‭40:31‬ ‭CEV‬‬", popBody: "Isaiah was the 8th-century BC Israelite prophet after whom the Book of Isaiah is named. Within the text of the Book of Isaiah, Isaiah himself is referred to as \"the prophet\"")
-        }else if(word == "TRUST" || num == 51){
-            self.initializeNextLevel(level: 51, title: "FAITH", popTitle: "‭‭Isaiah‬ ‭40:31‬ ‭CEV‬‬", popBody: "Isaiah was the 8th-century BC Israelite prophet after whom the Book of Isaiah is named. Within the text of the Book of Isaiah, Isaiah himself is referred to as \"the prophet\"")
-        }else if(word == "TREMBLE" || num == 52){
-            self.initializeNextLevel(level: 52, title: "FAITH", popTitle: "‭‭Job‬ ‭24:22‬ ‭CEV‬‬", popBody: "Rabbinic tradition ascribes it to Moses, but scholars generally agree that it was written between the 7th and 4th centuries BCE.")
-        }else if(word == "DOOMED" || num == 53){
-            self.initializeNextLevel(level: 53, title: "FAITH", popTitle: "‭‭‭‭2 John‬ ‭1:6‬ ‭NLT‬‬", popBody: "The Second Epistle of John, often referred to as Second John and often written 2 John or II John, is a book of the New Testament attributed to John the Evangelist.")
-        }else if((word == "DOING"  && currentLevel == 53) || num == 54){
-            self.initializeNextLevel(level: 54, title: "FAITH", popTitle: "‭‭‭‭1 Peter‬ ‭3:7‬ ‭NLT‬‬", popBody: "The First Epistle of Peter, usually referred to simply as First Peter and often written 1 Peter, is a book of the New Testament.")
-        }else if(word == "HONOR" || num == 55){
-            defaults.set(true, forKey: "level3")
-            defaults.set(31, forKey: "game2level")
+        if((word == "LIFE" && currentLevel == 55) || num == 56){
+            self.initializeNextLevel(level: 56, title: "‭‭21ST CENTURY", popTitle: "Venus Williams", popBody: "Venus Ebony Starr Williams is an American professional tennis player. A former world No. 1, Williams is generally regarded as one of the all-time greats")
+        }else if(word == "PRETEND" || num == 57){
+            self.initializeNextLevel(level: 57, title: "21ST CENTURY", popTitle: "John Mayer", popBody: "John Clayton Mayer is an American singer-songwriter, guitarist and record producer. Born in Bridgeport, Connecticut, Mayer attended Berklee College of Music in Boston")
+        }else if((word == "LAUGH" && currentLevel == 57) || num == 58){
+            self.initializeNextLevel(level: 58, title: "‭‭21ST CENTURY", popTitle: "Conan O'Brien", popBody: "Conan Christopher O'Brien is an American television host, comedian, writer, podcaster, and producer. He is best known for hosting the late-night talk shows Late Night with Conan O'Brien, The Tonight Show with Conan O'Brien")
+        }else if(word == "TUXEDO" || num == 59){
+            self.initializeNextLevel(level: 59, title: "21ST CENTURY", popTitle: "‭‭Isaac Asimov", popBody: "Isaac Asimov was an American writer and professor of biochemistry at Boston University. He was known for his works of science fiction and popular science.")
+        }else if(word == "THOSE" || num == 60){
+            self.initializeNextLevel(level: 60, title: "21ST CENTURY", popTitle: "‭‭Ronald Reagan", popBody: "Ronald Wilson Reagan was an American politician who served as the 40th president of the United States from 1981 to 1989 and became a highly influential voice of modern conservatism.")
+        }else if(word == "LIMIT" || num == 61){
+            self.initializeNextLevel(level: 61, title: "21ST CENTURY", popTitle: "‭‭Jeff Bezos", popBody: "Jeffrey Preston Bezos is an American internet entrepreneur, industrialist, media proprietor, and investor. He is best known as the founder, CEO, and president of the multi-national technology company Amazon.")
+        }else if(word == "SHORT" || num == 62){
+            self.initializeNextLevel(level: 62, title: "21ST CENTURY", popTitle: "‭‭Lady Gaga", popBody: "Stefani Joanne Angelina Germanotta, known professionally as Lady Gaga, is an American singer, songwriter, record producer, actress, and businesswoman.")
+        }else if(word == "CREATE" || num == 63){
+            self.initializeNextLevel(level: 63, title: "21ST CENTURY", popTitle: "‭‭Drake", popBody: "Aubrey Drake Graham is a Canadian rapper, singer, songwriter, record producer, actor, and entrepreneur. A prominent figure in popular music, Drake is widely credited for popularizing the Toronto sound to the music industry.")
+        }else if(word == "PERFECT" || num == 64){
+            self.initializeNextLevel(level: 64, title: "21ST CENTURY", popTitle: "‭‭Alan Cohen", popBody: "Alan Cohen is the inspirational author of 24 book and several audio CDs, in addition to many foreign language titles.")
+        }else if(word == "WHERE" || num == 65){
+            self.initializeNextLevel(level: 65, title: "21ST CENTURY", popTitle: "‭‭John C. Maxwell", popBody: "John Calvin Maxwell is an American author, speaker, and pastor who has written many books, primarily focusing on leadership.")
+        }else if(word == "OVERCOME" || num == 66){
+            self.initializeNextLevel(level: 66, title: "21ST CENTURY", popTitle: "‭‭‭‭‭‭Dale Carnegie", popBody: "Dale Carnegie was an American writer and lecturer, and the developer of courses in self-improvement, salesmanship, corporate training, public speaking, and interpersonal skills.")
+        }else if(word == "IMPROVING" || num == 67){
+            self.initializeNextLevel(level: 67, title: "21ST CENTURY", popTitle: "‭‭‭‭Tony Robbins", popBody: "Anthony Jay Robbins is an American author, public speaker, life coach, and philanthropist.[1] Robbins is known for his infomercials, seminars, and self-help books including the books Unlimited Power")
+        }else if(word == "PROBLEM" || num == 68){
+            self.initializeNextLevel(level: 68, title: "21ST CENTURY", popTitle: "‭‭Salma Hayek", popBody: "Salma Hayek Pinault is a Mexican and American film actress and producer.")
+        }else if(word == "REALIZING" || num == 69){
+            self.initializeNextLevel(level: 69, title: "21ST CENTURY", popTitle: "‭‭Dennis Wholey", popBody: "Dennis Wholey is an American television host and producer, and the author of a number of self-help books, one of which was a New York Times bestseller.")
+        }else if(word == "WORLD" || num == 70){
+            self.initializeNextLevel(level: 70, title: "21ST CENTURY", popTitle: "‭‭James Corden", popBody: "James Kimberley Corden OBE is an English actor, comedian, writer, and television host.")
+        }else if(word == "BEST" || num == 71){
+            self.initializeNextLevel(level: 71, title: "21ST CENTURY", popTitle: "‭‭Nelson Mandela", popBody: "Nelson Rolihlahla Mandela was a South African anti-apartheid revolutionary, political leader and philanthropist who served as President of South Africa from 1994 to 1999.")
+        }else if(word == "EXPECTING" || num == 72){
+            self.initializeNextLevel(level: 72, title: "21ST CENTURY", popTitle: "‭‭Marilyn Monroe", popBody: "Marilyn Monroe was an American actress, model, and singer.")
+        }else if(word == "CUTTING" || num == 73){
+            self.initializeNextLevel(level: 73, title: "21ST CENTURY", popTitle: "‭‭Guy Kawasaki", popBody: "Guy Takeo Kawasaki is an American marketing specialist, author, and Silicon Valley venture capitalist.")
+        }else if(word == "TITLE" || num == 74){
+            self.initializeNextLevel(level: 74, title: "21ST CENTURY", popTitle: "‭‭Charlie Chaplin", popBody: "Sir Charles Spencer Chaplin KBE was an English comic actor, filmmaker, and composer who rose to fame in the era of silent film.")
+        }else if(word == "NEVER" || num == 75){
+            self.initializeNextLevel(level: 75, title: "21ST CENTURY", popTitle: "‭‭T. Harv Eker", popBody: "T. Harv Eker is an author, businessman and motivational speaker known for his theories on wealth and motivation. He is the author of the book Secrets of the Millionaire Mind published by HarperCollins.")
+        }else if(word == "UNVIVERSE" || num == 76){
+            self.initializeNextLevel(level: 76, title: "21ST CENTURY", popTitle: "‭‭Drew Brees", popBody: "Drew Christopher Brees is an American football quarterback for the New Orleans Saints of the National Football League (NFL). He had a successful college football career at Purdue University")
+        }else if(word == "ADVERSITY" || num == 77){
+            self.initializeNextLevel(level: 77, title: "21ST CENTURY", popTitle: "‭‭Alan Alda", popBody: "Alan Alda is an American actor, director, screenwriter, comedian, and author. A six-time Emmy Award and Golden Globe Award winner")
+        }else if(word == "INTUITION" || num == 78){
+            self.initializeNextLevel(level: 78, title: "21ST CENTURY", popTitle: "‭‭", popBody: "")
+        }else if(word == "PLENTIFUL" || num == 79){
+            defaults.set(true, forKey: "level4")
+            defaults.set(31, forKey: "game3level")
             defaults.set(false, forKey: "startview")
-            performSegue(withIdentifier: "levelselect2", sender: nil)
+            performSegue(withIdentifier: "levelselect3", sender: nil)
 
         }
+//            self.initializeNextLevel(level: 69, title: "21ST CENTURY", popTitle: "‭‭Salma Hayek", popBody: "Salma Hayek Pinault is a Mexican and American film actress and producer.")
+//
+//        }else if(word == "UNDESERVED" || num == 46){
+//            self.initializeNextLevel(level: 46, title: "21ST CENTURY", popTitle: "‭‭Ephesians‬ ‭5:25‬ ‭CEV‬‬", popBody: "A major theme in Ephesians is the keeping of Christ's body (that is, the Church) pure and holy. Therefore be imitators of God, as beloved children. And walk in love, as Christ loved us and gave himself up for us, a fragrant offering and sacrifice to God.")
+//
+//
+//        }else if(word == "MUCH" || num == 47){
+//            self.initializeNextLevel(level: 47, title: "21ST CENTURY", popTitle: "‭‭‭‭‭‭Hebrews‬ ‭13:4‬ ‭CEV‬‬", popBody: "The Epistle to the Hebrews, or Letter to the Hebrews, or in the Greek manuscripts, simply To the Hebrews is one of the books of the New Testament.")
+//        }else if(word == "IMMORAL" || num == 48){
+//            self.initializeNextLevel(level: 48, title: "21ST CENTURY", popTitle: "‭‭‭‭James‬ ‭2:11‬ ‭CEV‬‬", popBody: "The Letter of James, the Epistle of James, or simply James, is one of the 21 epistles in the New Testament.")
+//        }else if((word == "MURDER" && currentLevel == 48) || num == 49){
+//            self.initializeNextLevel(level: 49, title: "21ST CENTURY", popTitle: "‭‭‭‭Mark‬ ‭10:19‬ ‭CEV‬‬", popBody: "Mark the Evangelist (Acts 12:12; 15:37), an associate of St. Paul and a disciple of St. Peter, whose teachings the Gospel may reflect. It is the shortest and the earliest of the four Gospels.")
+//        }else if((word == "RESPECT" && currentLevel == 49) || num == 50){
+//            self.initializeNextLevel(level: 50, title: "21ST CENTURY", popTitle: "‭‭Isaiah‬ ‭40:31‬ ‭CEV‬‬", popBody: "Isaiah was the 8th-century BC Israelite prophet after whom the Book of Isaiah is named. Within the text of the Book of Isaiah, Isaiah himself is referred to as \"the prophet\"")
+//        }else if(word == "TRUST" || num == 51){
+//            self.initializeNextLevel(level: 51, title: "21ST CENTURY", popTitle: "‭‭Isaiah‬ ‭40:31‬ ‭CEV‬‬", popBody: "Isaiah was the 8th-century BC Israelite prophet after whom the Book of Isaiah is named. Within the text of the Book of Isaiah, Isaiah himself is referred to as \"the prophet\"")
+//        }else if(word == "TREMBLE" || num == 52){
+//            self.initializeNextLevel(level: 52, title: "21ST CENTURY", popTitle: "‭‭Job‬ ‭24:22‬ ‭CEV‬‬", popBody: "Rabbinic tradition ascribes it to Moses, but scholars generally agree that it was written between the 7th and 4th centuries BCE.")
+//        }else if(word == "DOOMED" || num == 53){
+//            self.initializeNextLevel(level: 53, title: "21ST CENTURY", popTitle: "‭‭‭‭2 John‬ ‭1:6‬ ‭NLT‬‬", popBody: "The Second Epistle of John, often referred to as Second John and often written 2 John or II John, is a book of the New Testament attributed to John the Evangelist.")
+//        }else if((word == "DOING"  && currentLevel == 53) || num == 54){
+//            self.initializeNextLevel(level: 54, title: "21ST CENTURY", popTitle: "‭‭‭‭1 Peter‬ ‭3:7‬ ‭NLT‬‬", popBody: "The First Epistle of Peter, usually referred to simply as First Peter and often written 1 Peter, is a book of the New Testament.")
+//        }else if(word == "HONOR" || num == 55){
+////            defaults.set(true, forKey: "level3")
+//            defaults.set(31, forKey: "game2level")
+//            defaults.set(false, forKey: "startview")
+//            performSegue(withIdentifier: "levelselect3", sender: nil)
+//
+        
 
 
 
@@ -565,7 +596,7 @@ class GameViewController2: UIViewController {
             if touchedNode == gameBack
             {
                 defaults.set(true, forKey: "startview")
-                performSegue(withIdentifier: "levelselect2", sender: nil)
+                performSegue(withIdentifier: "levelselect3", sender: nil)
             }
             if touchedNode == gameOptionShuffle
             {
@@ -593,7 +624,7 @@ class GameViewController2: UIViewController {
             {
                 defaults.set(false, forKey: "startview")
                 gameOptionSearch?.run(SKAction.fadeAlpha(to: 1, duration: 0))
-                performSegue(withIdentifier: "levelselect2", sender: nil)
+                performSegue(withIdentifier: "levelselect3", sender: nil)
 
             }
 

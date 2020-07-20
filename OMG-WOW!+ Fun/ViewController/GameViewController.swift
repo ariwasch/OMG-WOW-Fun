@@ -9,8 +9,9 @@
 import UIKit
 import SpriteKit
 import GameplayKit
+import GoogleMobileAds
 
-class GameViewController: UIViewController {
+class GameViewController: UIViewController, GADBannerViewDelegate, GADInterstitialDelegate {
     
     var gameScene : MyScene?
     var homeBackground : SKSpriteNode?
@@ -18,6 +19,8 @@ class GameViewController: UIViewController {
     var homePlayContainer : SKSpriteNode?
     var homePlayButton : SKSpriteNode?
     let defaults = UserDefaults.standard
+    var bannerView: GADBannerView!
+    var interstitial: GADInterstitial!
 
     var arr : [SKSpriteNode] = []
     var gameBlockContainer : SKSpriteNode?
@@ -26,7 +29,7 @@ class GameViewController: UIViewController {
     var gameLevelHeader : SKSpriteNode?
     var gameTitleHeader : SKSpriteNode?
     var gameCoin : SKSpriteNode?
-    var allStrings = [["GOOD","BETTER","BEST"], ["GOLF","TENNIS","BALL","ROW","PITCH"], ["NEVER","ALWAYS","EYE"], ["NOTHING","THAN","POSITIVE"], ["THOUGHT","CHANGE","SMALL","DAY"], ["SITUATION","SITUATION","TURN","INTO"]]
+    var allStrings = [["GOOD","BETTER","BEST"], ["GOLF","TENNIS","BALL","ROW","PITCH"], ["NEVER","ALWAYS","EYE"]]
     
     var block : BlockNode = BlockNode()
     var gameOptionsBackground : SKSpriteNode?
@@ -56,6 +59,7 @@ class GameViewController: UIViewController {
 
     //MARK:- View LifeCycle
     override func viewDidLoad() {
+        loadAds()
         super.viewDidLoad()
         currentLevel = 1
         allStrings = block.allStrings
@@ -64,11 +68,12 @@ class GameViewController: UIViewController {
         initializationOfGameVariable()
         hideGameComponents()
         initializeGameSwipeAction()
-        if(!(defaults.integer(forKey: "game1level") ?? 1 == 1)){
-            skip(to: defaults.integer(forKey: "game1level") ?? 1)
+        print(defaults.integer(forKey: "game1level"))
+        if(defaults.integer(forKey: "game1level") != 1 && (defaults.integer(forKey: "game1level") != 0)){
+            skip(to: defaults.integer(forKey: "game1level"))
         }
-//        actionOnWord(word: "",num: 2)
     }
+    
     override var prefersStatusBarHidden: Bool {
         return true
     }
@@ -89,16 +94,24 @@ class GameViewController: UIViewController {
                 view.presentScene(gameScene!)
             }
             
-            //view.ignoresSiblingOrder = true
-            //            view.showsFPS = true
-            //            view.showsNodeCount = true
-            //            view.showsPhysics = true
-            //            view.showsFields = true
-            //            view.showsDrawCount = true
-            //            view.showsQuadCount = true
         }
     }
     
+    func loadAds(){
+        bannerView = GADBannerView(adSize: kGADAdSizeBanner)
+        bannerView.adUnitID = "ca-app-pub-3940256099942544/2934735716"
+        bannerView.center = CGPoint(x: view.frame.midX, y: view.bounds.height - bannerView.bounds.height / 2)
+        bannerView.rootViewController = self
+        bannerView.load(GADRequest())
+        interstitial = GADInterstitial(adUnitID: "ca-app-pub-3940256099942544/4411468910")
+        let request = GADRequest()
+        interstitial.delegate = self
+        interstitial.load(request)
+
+        addBannerViewToView(bannerView)
+        self.view.bringSubviewToFront(bannerView);
+
+    }
     //MARK:- Initilizing Game Variables and Components
     
     func initializationOfGameVariable()
@@ -313,9 +326,25 @@ class GameViewController: UIViewController {
         }
     }
     
+    func createAndLoadInterstitial() -> GADInterstitial {
+      var interstitial = GADInterstitial(adUnitID: "ca-app-pub-3940256099942544/4411468910")
+      interstitial.delegate = self
+      interstitial.load(GADRequest())
+      return interstitial
+    }
+
+    func interstitialDidDismissScreen(_ ad: GADInterstitial) {
+        print("hi123")
+      interstitial = createAndLoadInterstitial()
+//        skip(to: currentLevel+1)
     
+    }
+
     func initializeNextLevel(level: Int, title: String, popTitle: String, popBody: String)
     {
+        if interstitial.isReady {
+          interstitial.present(fromRootViewController: self)
+        }
         self.currentLevel = level
         defaults.set(level, forKey: "level")
         defaults.set(level, forKey: "game1level")
@@ -659,56 +688,6 @@ class GameViewController: UIViewController {
     }
     
     //MARK:- Touch Actions
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if let touch = touches.randomElement(), gameScene != nil
-        {
-            let positionInScene = touch.location(in: gameScene!)
-            let touchedNode = gameScene!.atPoint(positionInScene)
-            if touchedNode == touchBeganNode {
-                if touchBeganNode == homePlayButton {
-                    hideHomeComponentsAndLoadGame()
-                }
-            }
-            
-            if touchedNode == gameBack
-            {
-                if touchBeganNode == gameBack {
-//                    self.viewDidLoad()
-                    defaults.set(true, forKey: "startview")
-                    performSegue(withIdentifier: "levelselect1", sender: nil)
-                }
-            }
-            if touchedNode == gameOptionShuffle
-            {
-                print("SOFJODFHOIDHJFSIOJIOFJSODIFJOSDIFJOSDJFOSDJF")
-                skip()
-
-                touchedNode.run(SKAction.fadeAlpha(to: 1.0, duration: 0))
-            }
-            
-            if touchedNode.name == "closeInfo" && touchBeganNode?.name == "closeInfo"
-            {
-                infoPopup?.isHidden = true
-                touchedNode.run(SKAction.fadeAlpha(to: 1.0, duration: 0))
-            }
-            if touchedNode.name == "Author"
-            {
-                infoPopup?.isHidden = false
-                touchedNode.run(SKAction.fadeAlpha(to: 1.0, duration: 0))
-            }
-            touchBeganNode = nil
-            homePlayButton?.run(SKAction.fadeAlpha(to: 1.0, duration: 0))
-            gameBack?.run(SKAction.fadeAlpha(to: 1.0, duration: 0))
-            
-            if touchedNode == gameOptionSearch
-            {
-                defaults.set(false, forKey: "startview")
-                gameOptionSearch?.run(SKAction.fadeAlpha(to: 1, duration: 0))
-                performSegue(withIdentifier: "levelselect1", sender: nil)
-
-            }
-        }
-    }
     func skip(to: Int){
 
         for node in self.gameScene?.gameCanvases[currentLevel-1]?.children ?? []
@@ -738,12 +717,13 @@ class GameViewController: UIViewController {
             }
         }
         actionOnWord(word: "",num: currentLevel+1)
-//        initializeNextLevel(level: currentLevel+1, title: "String", popTitle: "String", popBody: "String")
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        
         if let touch = touches.first, gameScene != nil
         {
+            isSwiping = false
             let positionInScene = touch.location(in: gameScene!)
             let touchedNode = gameScene!.atPoint(positionInScene)
             touchBeganNode = touchedNode as? SKSpriteNode
@@ -768,11 +748,155 @@ class GameViewController: UIViewController {
                 gameOptionSearch?.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
 
             }
+            if touchedNode == gameOptionHint
+            {
+                gameOptionHint?.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
+
+            }
+
         }
 
     }
+    var isSwiping = false
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        isSwiping = true
+//            if let touch = touches.randomElement(), gameScene != nil
+//            {
+//                let positionInScene = touch.location(in: gameScene!)
+//                let touchedNode = gameScene!.atPoint(positionInScene)
+//
+//                if touchedNode == touchBeganNode {
+//                    if touchBeganNode == homePlayButton {
+//                        hideHomeComponentsAndLoadGame()
+//                    }
+//                }
+//
+//                if touchedNode == gameBack
+//                {
+//                    if touchBeganNode == gameBack {
+//        //                   self.viewDidLoad()
+//                        defaults.set(true, forKey: "startview")
+//                        performSegue(withIdentifier: "levelselect1", sender: nil)
+//                    }
+//                }
+//                if touchedNode == gameOptionShuffle
+//                {
+//                    touchedNode.run(SKAction.fadeAlpha(to: 1.0, duration: 0))
+//                }
+//
+//                if touchedNode.name == "closeInfo" && touchBeganNode?.name == "closeInfo"
+//                {
+//                    infoPopup?.isHidden = true
+//                    touchedNode.run(SKAction.fadeAlpha(to: 1.0, duration: 0))
+//                }
+//                if touchedNode.name == "Author"
+//                {
+//                    infoPopup?.isHidden = false
+//                    touchedNode.run(SKAction.fadeAlpha(to: 1.0, duration: 0))
+//                }
+//                touchBeganNode = nil
+//                homePlayButton?.run(SKAction.fadeAlpha(to: 1.0, duration: 0))
+//                gameBack?.run(SKAction.fadeAlpha(to: 1.0, duration: 0))
+//
+//                if touchedNode == gameOptionSearch
+//                {
+//                    defaults.set(false, forKey: "startview")
+//                    gameOptionSearch?.run(SKAction.fadeAlpha(to: 1, duration: 0))
+//                    performSegue(withIdentifier: "levelselect1", sender: nil)
+//                }
     
+    }
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        print("SIJDSA \(isSwiping)")
+        if let touch = touches.randomElement(), gameScene != nil
+        {
+            let positionInScene = touch.location(in: gameScene!)
+            let touchedNode = gameScene!.atPoint(positionInScene)
+            if touchedNode == touchBeganNode {
+                if touchBeganNode == homePlayButton {
+                    hideHomeComponentsAndLoadGame()
+                }
+            }
+            
+            if touchedNode == gameBack
+            {
+                if touchBeganNode == gameBack {
+    //                   self.viewDidLoad()
+                    defaults.set(true, forKey: "startview")
+                    performSegue(withIdentifier: "levelselect1", sender: nil)
+                }
+            }
+            if touchedNode == gameOptionShuffle
+            {
+                print("SOFJODFHOIDHJFSIOJIOFJSODIFJOSDIFJOSDJFOSDJF")
+                skip()
+                touchedNode.run(SKAction.fadeAlpha(to: 1.0, duration: 0))
+            }
+            
+            if touchedNode.name == "closeInfo" && touchBeganNode?.name == "closeInfo"
+            {
+                infoPopup?.isHidden = true
+                touchedNode.run(SKAction.fadeAlpha(to: 1.0, duration: 0))
+            }
+            if touchedNode.name == "Author"
+            {
+                infoPopup?.isHidden = false
+                touchedNode.run(SKAction.fadeAlpha(to: 1.0, duration: 0))
+            }
+            touchBeganNode = nil
+            homePlayButton?.run(SKAction.fadeAlpha(to: 1.0, duration: 0))
+            gameBack?.run(SKAction.fadeAlpha(to: 1.0, duration: 0))
+            
+            if touchedNode == gameOptionSearch
+            {
+                defaults.set(false, forKey: "startview")
+                gameOptionSearch?.run(SKAction.fadeAlpha(to: 1, duration: 0))
+                performSegue(withIdentifier: "levelselect1", sender: nil)
+            }
+            if touchedNode == gameOptionHint
+            {
+                gameOptionHint?.run(SKAction.fadeAlpha(to: 1, duration: 0))
+                var counter = 0
+                self.gameScene?.gameCanvases[currentLevel-1]?.children.forEach({ (node) in
+                    if node is BlockNode
+                    {
+                        node.children[0].description
+                        let nodeText = (((node.children[0]) as! SKLabelNode).text)!
+                        let stringHint = allStrings[currentLevel-1][allStrings[currentLevel-1].count-1]
+                        print(nodeText)
+                        print(allStrings[currentLevel-1][allStrings[currentLevel-1].count-1])
+                        if(stringHint.contains(nodeText) && counter < 6){
+                            (node as! SKSpriteNode).color = colorHighlighted
+                            counter += 1
+                        }
+                    }
+                })
+//                sprite.color = colorHighlighted
+            }
 
+        }
+    }
+
+    func addBannerViewToView(_ bannerView: GADBannerView) {
+     bannerView.translatesAutoresizingMaskIntoConstraints = false
+     view.addSubview(bannerView)
+     view.addConstraints(
+       [NSLayoutConstraint(item: bannerView,
+                           attribute: .bottomMargin,
+                           relatedBy: .equal,
+                           toItem: bottomLayoutGuide,
+                           attribute: .top,
+                           multiplier: 1,
+                           constant: 0),
+        NSLayoutConstraint(item: bannerView,
+                           attribute: .centerX,
+                           relatedBy: .equal,
+                           toItem: view,
+                           attribute: .centerX,
+                           multiplier: 1,
+                           constant: 0)
+       ])
+    }
 
 }
 

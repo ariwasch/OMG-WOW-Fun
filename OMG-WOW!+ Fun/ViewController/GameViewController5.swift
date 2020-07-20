@@ -1,23 +1,24 @@
 //
-//  GameViewController.swift
-//  SampleGame
+//  GameViewController5.swift
+//  OMG-WOW!+ Fun
 //
-//  Created by Hitesh Trantor on 30/03/20.
+//  Created by Ari Wasch on 7/19/20.
 //  Copyright © 2020 TrantorSoftware. All rights reserved.
 //
 
+import Foundation
 import UIKit
 import SpriteKit
 import GameplayKit
 
-class GameViewController2: UIViewController {
+class GameViewController5: UIViewController {
     
-    var gameScene : MyScene2?
+    var gameScene : MyScene5?
     var homeBackground : SKSpriteNode?
     var homeLogo : SKSpriteNode?
     var homePlayContainer : SKSpriteNode?
     var homePlayButton : SKSpriteNode?
-    let previous = 30
+    let previous = 84
     let defaults = UserDefaults.standard
 
     var arr : [SKSpriteNode] = []
@@ -50,7 +51,7 @@ class GameViewController2: UIViewController {
     var gameTextTest : SKSpriteNode?
 
     var touchBeganNode : SKSpriteNode?
-    var currentLevel : Int = 31
+    var currentLevel : Int = 79
     var SKSpriteNodelol : SKSpriteNode?
     var infoTitle : SKSpriteNode?
     var infoBody : SKSpriteNode?
@@ -58,17 +59,16 @@ class GameViewController2: UIViewController {
     //MARK:- View LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        currentLevel = 31
-        allStrings = block.allStrings2
+        currentLevel = 85
+        allStrings = block.allStrings5
         view.layoutIfNeeded()
         presentGameScene()
         initializationOfGameVariable()
         hideGameComponents()
         initializeGameSwipeAction()
-        if(defaults.integer(forKey: "game2level") != 1 && (defaults.integer(forKey: "game2level") != 0)){
-            skip(to: defaults.integer(forKey: "game2level"))
+        if(defaults.integer(forKey: "game5level") != 84 && (defaults.integer(forKey: "game5level") != 0)){
+            skip(to: defaults.integer(forKey: "game5level"))
         }
-
     }
     override var prefersStatusBarHidden: Bool {
         return true
@@ -78,7 +78,7 @@ class GameViewController2: UIViewController {
     func presentGameScene()
     {
         if let view = self.view as! SKView? {
-            if let scene = SKScene(fileNamed: "MyScene2") as? MyScene2 {
+            if let scene = SKScene(fileNamed: "MyScene5") as? MyScene5 {
                 
                 if gameScene != nil {
                     gameScene?.removeFromParent()
@@ -159,7 +159,7 @@ class GameViewController2: UIViewController {
     }
     func wordInWord(string: String) -> Bool{
         var isDuplicate = true
-        if((string == "LOVE" && currentLevel == 43) || (string == "LOVE" && currentLevel == 47) || (string == "TREAT" && currentLevel == 45)){
+        if((string == "LEADER" && currentLevel == 86) || (string == "LEAD" && currentLevel == 85) || (string == "LEAD" && currentLevel == 86)){
             isDuplicate = false
         }
         return isDuplicate
@@ -168,64 +168,19 @@ class GameViewController2: UIViewController {
     func duplicate(string: String) -> Bool{
         var isDuplicate = false
         print(currentLevel)
-        if(string == "EVERYONE" || string == "WELL" || string == "LIFE" || string == "GIVES" || string == "KNOW" || string == "MURDER" || string == "RESPECT" || string == "EVEN" || string == "ANOTHER"){
+        if(string == "PEOPLE" ){
             isDuplicate = true
         }
         return isDuplicate
     }
     func duplicateHelper(string: String) -> Int{
         var num = 0
-        if(string == "EVERYONE" && currentLevel == 34){
-            num = 33 - previous
-        }else if(string == "EVERYONE" && currentLevel == 37){
-            num = 36 - previous
-        }
-        if(string == "WELL" && currentLevel == 32){
-            num = 31 - previous
-        }else if(string == "WELL" && currentLevel == 39){
-            num = 38 - previous
-        }
-        if(string == "GIVES" && currentLevel == 41){
-            num = 40 - previous
-        }else if(string == "GIVES" && currentLevel == 36){
-            num = 35 - previous
-        }
-        if(string == "LIFE" && currentLevel == 33){
-            num = 32 - previous
-        }else if(string == "LIFE" && currentLevel == 43){
-            num = 42 - previous
-        }else if(string == "LIFE" && currentLevel == 46){
-            num = 45 - previous
-        }
-        if(string == "KNOW" && currentLevel == 37){
-            num = 36 - previous
-        }else if(string == "KNOW" && currentLevel == 49){
-            num = 48 - previous
-        }
-        if(string == "MURDER" && currentLevel == 49){
-            num = 48 - previous
-        }else if(string == "MURDER" && currentLevel == 48){
-            num = 47 - previous
-        }
-        if(string == "RESPECT" && currentLevel == 47){
-            num = 46 - previous
-        }else if(string == "RESPECT" && currentLevel == 49){
-            num = 48 - previous
-        }
-        if(string == "EVEN" && currentLevel == 48){
-            num = 47 - previous
-        }else if(string == "EVEN" && currentLevel == 52){
-            num = 51 - previous
-        }
-        if(string == "ANOTHER" && currentLevel == 53){
-            num = 52 - previous
-        }else if(string == "ANOTHER" && currentLevel == 40){
-            num = 39 - previous
+        if(string == "PEOPLE" && currentLevel == 85){
+            num = 84 - previous
+        }else if(string == "PEOPLE" && currentLevel == 89){
+            num = 88 - previous
         }
 
-
-//        print(num)
-//        print(currentLevel)
         return num
     }
 
@@ -245,7 +200,7 @@ class GameViewController2: UIViewController {
     func initializeNextLevel(level: Int, title: String, popTitle: String, popBody: String)
     {
         defaults.set(level, forKey: "level")
-        defaults.set(level, forKey: "game2level")
+        defaults.set(level, forKey: "game5level")
 
         self.currentLevel = level
         if(popTitle != "" && popBody != ""){
@@ -408,72 +363,20 @@ class GameViewController2: UIViewController {
     
     func actionOnWord(word: String, num: Int){
     
-        if(word == "MEANINGS" || num == 32){
-            self.initializeNextLevel(level: 32, title: "‭‭FAITH", popTitle: "Proverbs‬ ‭1:5-6‬ ‭CEV‬‬", popBody: "Proverbs is not merely an anthology but a \",collection of collections\" relating to a pattern of life which lasted for more than a millennium.[2] It is an example of the biblical wisdom literature")
-        }else if(word == "RIDDLES" || num == 33){
-            self.initializeNextLevel(level: 33, title: "FAITH", popTitle: "John‬ ‭3:16‬ ‭CEV‬‬", popBody: "John the Apostle (c. AD 6 – c. 100) was one of the Twelve Apostles of Jesus according to the New Testament. Generally listed as the youngest apostle. His brother was James, who was another of the Twelve Apostles.")
-        }else if((word == "EVERYONE" && currentLevel == 33) || num == 34){
-            self.initializeNextLevel(level: 34, title: "‭‭FAITH", popTitle: "Philippians‬ ‭4:6‬ ‭CEV‬‬", popBody: "Philippians 1 is the first chapter of the Epistle to the Philippians in the New Testament of the Christian Bible. It is authored by Paul the Apostle about mid-50s to early 60s AD and addressed to the Christians in Philippi, written either in Rome or Ephesus.")
-        }else if(word == "WORRY" || num == 35){
-            self.initializeNextLevel(level: 35, title: "FAITH", popTitle: "‭‭Ephesians‬ ‭2:8‬ ‭CEV‬‬", popBody: "A major theme in Ephesians is the keeping of Christ's body (that is, the Church) pure and holy. Therefore be imitators of God, as beloved children. And walk in love, as Christ loved us and gave himself up for us, a fragrant offering and sacrifice to God.")
-        }else if(word == "ANYTHING" || num == 36){
-            self.initializeNextLevel(level: 36, title: "FAITH", popTitle: "‭‭Hebrews‬ ‭11:1‬ ‭CEV‬‬", popBody: "The Epistle to the Hebrews, or Letter to the Hebrews, or in the Greek manuscripts, simply To the Hebrews is one of the books of the New Testament. The text does not mention the name of its author, but was traditionally attributed to Paul the Apostle.")
-        }else if((word == "GIVES" && currentLevel == 36) || num == 37){
-            self.initializeNextLevel(level: 37, title: "FAITH", popTitle: "‭‭Romans‬ ‭8:28‬ ‭CEV‬‬", popBody: "The Epistle to the Romans or Letter to the Romans, often shortened to Romans, is the sixth book in the New Testament.  ")
-        }else if((word == "EVERYONE" && currentLevel == 37) || num == 38){
-            self.initializeNextLevel(level: 38, title: "FAITH", popTitle: "‭‭Matthew‬ ‭17:20-21‬ ‭CEV‬‬", popBody: "Matthew the Apostle, also known as Saint Matthew and as Levi, was, according to the New Testament, one of the twelve apostles of Jesus. According to Christian tradition, he was also one of the four Evangelists and thus is also known as Matthew the Evangelist.")
-        }else if(word == "POSSIBLE" || num == 39){
-            self.initializeNextLevel(level: 39, title: "FAITH", popTitle: "‭‭Mark‬ ‭5:34‬ ‭CEV‬‬", popBody: "Mark the Evangelist (Acts 12:12; 15:37), an associate of St. Paul and a disciple of St. Peter, whose teachings the Gospel may reflect. It is the shortest and the earliest of the four Gospels, presumably written during the decade preceding the destruction of Jerusalem in 70 ce.")
-        }else if(word == "HEALED" || num == 40){
-            self.initializeNextLevel(level: 40, title: "FAITH", popTitle: "‭‭James‬ ‭5:16‬ ‭CEV‬‬", popBody: "The Letter of James, the Epistle of James, or simply James, is one of the 21 epistles in the New Testament. The author identifies himself as \"James, a servant [or slave] of God and of the Lord Jesus Christ\".")
-        }else if(word == "INNOCENT" || num == 41){
-            self.initializeNextLevel(level: 41, title: "FAITH", popTitle: "‭‭Ephesians‬ ‭6:13‬ ‭CEV‬‬", popBody: "A major theme in Ephesians is the keeping of Christ's body (that is, the Church) pure and holy. Therefore be imitators of God, as beloved children. And walk in love, as Christ loved us and gave himself up for us, a fragrant offering and sacrifice to God.")
-        }else if((word == "GIVES" && currentLevel == 41) || num == 42){
-            self.initializeNextLevel(level: 42, title: "FAITH", popTitle: "‭‭‭‭‭‭Philippians‬ ‭4:19‬ ‭CEV‬‬", popBody: "Philippians 1 is the first chapter of the Epistle to the Philippians in the New Testament of the Christian Bible. It is authored by Paul the Apostle.  ")
-
-        }else if(word == "CARE" || num == 43){
-            self.initializeNextLevel(level: 43, title: "FAITH", popTitle: "‭‭‭‭John‬ ‭10:10‬ ‭CEV‬‬", popBody: "John the Apostle (c. AD 6 – c. 100) was one of the Twelve Apostles of Jesus according to the New Testament. Generally listed as the youngest apostle. His brother was James, who was another of the Twelve Apostles.")
-
-        }else if(word == "THIEF" || num == 44){
-            self.initializeNextLevel(level: 44, title: "FAITH", popTitle: "‭‭Hebrews‬ ‭11:6‬ ‭CEV‬‬", popBody: "The Epistle to the Hebrews, or Letter to the Hebrews, or in the Greek manuscripts, simply To the Hebrews is one of the books of the New Testament. The text does not mention the name of its author, but was traditionally attributed to Paul the Apostle.")
-
-        }else if(word == "BELIEVE" || num == 45){
-            self.initializeNextLevel(level: 45, title: "FAITH", popTitle: "‭‭1 Peter‬ ‭5:10‬ ‭CEV‬‬", popBody: "The First Epistle of Peter, usually referred to simply as First Peter and often written 1 Peter, is a book of the New Testament.")
-
-        }else if(word == "UNDESERVED" || num == 46){
-            self.initializeNextLevel(level: 46, title: "FAITH", popTitle: "‭‭Ephesians‬ ‭5:25‬ ‭CEV‬‬", popBody: "A major theme in Ephesians is the keeping of Christ's body (that is, the Church) pure and holy. Therefore be imitators of God, as beloved children. And walk in love, as Christ loved us and gave himself up for us, a fragrant offering and sacrifice to God.")
-
-
-        }else if(word == "MUCH" || num == 47){
-            self.initializeNextLevel(level: 47, title: "FAITH", popTitle: "‭‭‭‭‭‭Hebrews‬ ‭13:4‬ ‭CEV‬‬", popBody: "The Epistle to the Hebrews, or Letter to the Hebrews, or in the Greek manuscripts, simply To the Hebrews is one of the books of the New Testament.")
-        }else if(word == "IMMORAL" || num == 48){
-            self.initializeNextLevel(level: 48, title: "FAITH", popTitle: "‭‭‭‭James‬ ‭2:11‬ ‭CEV‬‬", popBody: "The Letter of James, the Epistle of James, or simply James, is one of the 21 epistles in the New Testament.")
-        }else if((word == "MURDER" && currentLevel == 48) || num == 49){
-            self.initializeNextLevel(level: 49, title: "FAITH", popTitle: "‭‭‭‭Mark‬ ‭10:19‬ ‭CEV‬‬", popBody: "Mark the Evangelist (Acts 12:12; 15:37), an associate of St. Paul and a disciple of St. Peter, whose teachings the Gospel may reflect. It is the shortest and the earliest of the four Gospels.")
-        }else if((word == "RESPECT" && currentLevel == 49) || num == 50){
-            self.initializeNextLevel(level: 50, title: "FAITH", popTitle: "‭‭Isaiah‬ ‭40:31‬ ‭CEV‬‬", popBody: "Isaiah was the 8th-century BC Israelite prophet after whom the Book of Isaiah is named. Within the text of the Book of Isaiah, Isaiah himself is referred to as \"the prophet\"")
-        }else if(word == "TRUST" || num == 51){
-            self.initializeNextLevel(level: 51, title: "FAITH", popTitle: "‭‭Isaiah‬ ‭40:31‬ ‭CEV‬‬", popBody: "Isaiah was the 8th-century BC Israelite prophet after whom the Book of Isaiah is named. Within the text of the Book of Isaiah, Isaiah himself is referred to as \"the prophet\"")
-        }else if(word == "TREMBLE" || num == 52){
-            self.initializeNextLevel(level: 52, title: "FAITH", popTitle: "‭‭Job‬ ‭24:22‬ ‭CEV‬‬", popBody: "Rabbinic tradition ascribes it to Moses, but scholars generally agree that it was written between the 7th and 4th centuries BCE.")
-        }else if(word == "DOOMED" || num == 53){
-            self.initializeNextLevel(level: 53, title: "FAITH", popTitle: "‭‭‭‭2 John‬ ‭1:6‬ ‭NLT‬‬", popBody: "The Second Epistle of John, often referred to as Second John and often written 2 John or II John, is a book of the New Testament attributed to John the Evangelist.")
-        }else if((word == "DOING"  && currentLevel == 53) || num == 54){
-            self.initializeNextLevel(level: 54, title: "FAITH", popTitle: "‭‭‭‭1 Peter‬ ‭3:7‬ ‭NLT‬‬", popBody: "The First Epistle of Peter, usually referred to simply as First Peter and often written 1 Peter, is a book of the New Testament.")
-        }else if(word == "HONOR" || num == 55){
-            defaults.set(true, forKey: "level3")
-            defaults.set(31, forKey: "game2level")
+        if(word == "GREATEST" || num == 86){
+            self.initializeNextLevel(level: 86, title: "LEADERSHIP", popTitle: "John C. Maxwell", popBody: "John Calvin Maxwell is an American author, speaker, and pastor who has written many books, primarily focusing on leadership.")
+        }else if(word == "RELATE" || num == 87){
+            self.initializeNextLevel(level: 87, title: "‭‭LEADERSHIP", popTitle: "Brandon Sanderson", popBody: "Brandon Sanderson is an American fantasy and science fiction writer. He is best known for the Cosmere universe.")
+        }else if(word == "ACCEPT" || num == 88){
+            self.initializeNextLevel(level: 88, title: "LEADERSHIP", popTitle: "‭‭Eleanor Roosevelt", popBody: "Anna Eleanor Roosevelt was an American political figure, diplomat and activist.")
+        }else if(word == "OTHERS" || num == 89){
+            self.initializeNextLevel(level: 89, title: "LEADERSHIP", popTitle: "‭‭Steve Jobs", popBody: "Steven Paul Jobs was an American business magnate, industrial designer, investor, and media proprietor.")
+        }else if(word == "YARDSTICK" || num == 90){
+            defaults.set(true, forKey: "level6")
+            defaults.set(79, forKey: "game5level")
             defaults.set(false, forKey: "startview")
-            performSegue(withIdentifier: "levelselect2", sender: nil)
-
+            performSegue(withIdentifier: "levelselect5", sender: nil)
         }
-
-
-
-
-
-        
-
     }
     func correctWordSwipe(forSwippedWord strWord:String, selectedNodes arrNodes:[SKSpriteNode])
     {
@@ -565,7 +468,7 @@ class GameViewController2: UIViewController {
             if touchedNode == gameBack
             {
                 defaults.set(true, forKey: "startview")
-                performSegue(withIdentifier: "levelselect2", sender: nil)
+                performSegue(withIdentifier: "levelselect4", sender: nil)
             }
             if touchedNode == gameOptionShuffle
             {
@@ -593,7 +496,7 @@ class GameViewController2: UIViewController {
             {
                 defaults.set(false, forKey: "startview")
                 gameOptionSearch?.run(SKAction.fadeAlpha(to: 1, duration: 0))
-                performSegue(withIdentifier: "levelselect2", sender: nil)
+                performSegue(withIdentifier: "levelselect4", sender: nil)
 
             }
 

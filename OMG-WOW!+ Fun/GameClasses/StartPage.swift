@@ -1,22 +1,22 @@
 //
-//  MyScene.swift
-//  SampleGame
+//  StartPage.swift
+//  OMG-WOW!+ Fun
 //
-//  Created by Hitesh Trantor on 15/04/20.
+//  Created by Ari Wasch on 7/10/20.
 //  Copyright © 2020 TrantorSoftware. All rights reserved.
 //
 
 import Foundation
 import SpriteKit
 
-class MyScene2: SKScene {
+class StartPage: SKScene {
     var gameCanvas : SKSpriteNode?
     var gameCanvas2 : SKSpriteNode?
 //    var gameCanvas3 : SKSpriteNode?
-    var gameCanvases : [SKSpriteNode?] = []
-    var textCanvases : [SKSpriteNode?] = []
-    var block : BlockNode = BlockNode()
-    let defaults = UserDefaults.standard
+//    var gameCanvases : [SKSpriteNode?] = []
+//    var textCanvases : [SKSpriteNode?] = []
+//    var block : BlockNode = BlockNode()
+//    let defaults = UserDefaults.standard
 
     func addPhysicsBody(onNode:SKNode)
     {
@@ -60,11 +60,10 @@ class MyScene2: SKScene {
 
     func addNextPhysicsBody(index: Int)
     {
-        print("PHYSCIS \(index)")
-        for node in gameCanvases[index]?.children ?? []
-        {
-            addPhysicsBody(onNode: node)
-        }
+//        for node in gameCanvases[index]?.children ?? []
+//        {
+//            addPhysicsBody(onNode: node)
+//        }
     }
     func delete(index: Int)
     {
@@ -85,19 +84,20 @@ class MyScene2: SKScene {
 //        gameCanvas = self.childNode(withName: "gameBlockContainer") as? SKSpriteNode
 //        gameCanvas2 = self.childNode(withName: "gameBlockContainer2") as? SKSpriteNode
 //        gameCanvas3 = self.childNode(withName: "gameBlockContainer3") as? SKSpriteNode
-        print("HELLO \(block.allStrings2.count)")
-        for i in 0...block.allStrings2.count-1{
-            if(i == 0){
-                gameCanvases.append(self.childNode(withName: "gameBlockContainer") as? SKSpriteNode)
-                textCanvases.append(self.childNode(withName: "gameTextContainer") as? SKSpriteNode)
-            }else{
-                gameCanvases.append(self.childNode(withName: "gameBlockContainer\(i+1)") as? SKSpriteNode)
-                textCanvases.append(self.childNode(withName: "gameTextContainer\(i+1)") as? SKSpriteNode)
-            }
-        }
-        print("ooo\(gameCanvases.count)")
-        defaults.set(31,forKey: "level")
-        addNextPhysicsBody(index: 0)
+//        for i in 0...block.allStrings2.count-1{
+//            if(i == 0){
+//                gameCanvases.append(self.childNode(withName: "gameBlockContainer") as? SKSpriteNode)
+//                textCanvases.append(self.childNode(withName: "gameTextContainer") as? SKSpriteNode)
+//            }else{
+//                gameCanvases.append(self.childNode(withName: "gameBlockContainer\(i+1)") as? SKSpriteNode)
+//                textCanvases.append(self.childNode(withName: "gameTextContainer\(i+1)") as? SKSpriteNode)
+//            }
+//        }
+//        print("ooo\(gameCanvases.count)")
+//        defaults.set(31,forKey: "level")
+//        addNextPhysicsBody(index: 0)
 //        addFirstLevelPhysicsBody()
     }
 }
+
+

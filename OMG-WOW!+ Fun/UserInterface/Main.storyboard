@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="bSW-Va-hoe">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="bSW-Va-hoe">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
-        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -11,11 +10,14 @@
         <scene sceneID="tXr-a1-R10">
             <objects>
                 <viewController storyboardIdentifier="GameViewController2" id="BV1-FR-VrT" customClass="GameViewController2" customModule="OMG_WOW" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="2yc-gg-q3A"/>
+                        <viewControllerLayoutGuide type="bottom" id="tVb-1i-w3C"/>
+                    </layoutGuides>
                     <view key="view" multipleTouchEnabled="YES" contentMode="scaleToFill" id="3se-qz-xqx" customClass="SKView">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <viewLayoutGuide key="safeArea" id="4qk-I5-YsI"/>
                     </view>
                     <navigationItem key="navigationItem" id="oeP-T6-M1v"/>
                     <connections>
@@ -26,20 +28,49 @@
             </objects>
             <point key="canvasLocation" x="1254" y="356"/>
         </scene>
+        <!--Game View Controller3-->
+        <scene sceneID="G5B-16-LN4">
+            <objects>
+                <viewController id="oEK-7m-rSy" customClass="GameViewController3" customModule="OMG_WOW" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="EB1-jc-dC1"/>
+                        <viewControllerLayoutGuide type="bottom" id="AvU-Kv-jED"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="l0n-zj-UeZ" customClass="SKView">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                    </view>
+                    <connections>
+                        <segue destination="bSW-Va-hoe" kind="presentation" identifier="levelselect3" modalPresentationStyle="fullScreen" modalTransitionStyle="crossDissolve" id="edE-GM-cVe"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="v2w-E1-xOh" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2739" y="322"/>
+        </scene>
         <!--Level Select Controller-->
         <scene sceneID="OwP-mZ-Z87">
             <objects>
                 <viewController storyboardIdentifier="LevelSelectController" id="bSW-Va-hoe" customClass="LevelSelectController" customModule="OMG_WOW" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="AKn-8F-hiK"/>
+                        <viewControllerLayoutGuide type="bottom" id="C0n-Bv-HVR"/>
+                    </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="gO9-Pl-a43" customClass="SKView">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                        <viewLayoutGuide key="safeArea" id="ypy-mc-qth"/>
                     </view>
                     <connections>
                         <segue destination="nkN-hY-Ehx" kind="presentation" identifier="togame1" modalPresentationStyle="fullScreen" modalTransitionStyle="crossDissolve" id="2zN-Xl-ICB"/>
                         <segue destination="BV1-FR-VrT" kind="presentation" identifier="togame2" modalPresentationStyle="fullScreen" modalTransitionStyle="crossDissolve" id="ISu-Ee-5ju"/>
                         <segue destination="2m6-Nx-T3V" kind="presentation" identifier="selectToCoins" modalPresentationStyle="fullScreen" modalTransitionStyle="crossDissolve" id="zQN-CF-oel"/>
+                        <segue destination="JoS-0L-cQo" kind="presentation" identifier="start" modalPresentationStyle="fullScreen" modalTransitionStyle="crossDissolve" id="FZJ-ee-Ep3"/>
+                        <segue destination="oEK-7m-rSy" kind="presentation" identifier="togame3" modalPresentationStyle="fullScreen" modalTransitionStyle="crossDissolve" id="7Mi-VD-myK"/>
+                        <segue destination="UuG-aN-cLq" kind="presentation" identifier="togame4" modalPresentationStyle="fullScreen" modalTransitionStyle="crossDissolve" id="EYS-OJ-Bfs"/>
+                        <segue destination="4je-YK-zKS" kind="presentation" identifier="togame5" modalPresentationStyle="fullScreen" modalTransitionStyle="crossDissolve" id="Byn-1c-q30"/>
+                        <segue destination="Esa-K6-vrQ" kind="presentation" identifier="togame6" modalPresentationStyle="fullScreen" modalTransitionStyle="crossDissolve" id="w7f-xo-bdo"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pCb-n8-9Vf" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -50,11 +81,14 @@
         <scene sceneID="lhp-qV-moA">
             <objects>
                 <viewController id="2m6-Nx-T3V" customClass="CoinsController" customModule="OMG_WOW" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="ena-Aq-mfn"/>
+                        <viewControllerLayoutGuide type="bottom" id="K9a-Ss-CBZ"/>
+                    </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="iBq-eq-eKh" customClass="SKView">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                        <viewLayoutGuide key="safeArea" id="D5G-TS-CoP"/>
                     </view>
                     <connections>
                         <segue destination="bSW-Va-hoe" kind="presentation" identifier="coinToLevels" modalPresentationStyle="fullScreen" modalTransitionStyle="crossDissolve" id="jAz-OQ-inE"/>
@@ -64,15 +98,40 @@
             </objects>
             <point key="canvasLocation" x="2353" y="-565"/>
         </scene>
+        <!--Start Page Controller-->
+        <scene sceneID="MR8-Ak-UTA">
+            <objects>
+                <viewController id="JoS-0L-cQo" customClass="StartPageController" customModule="OMG_WOW" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="7PP-OL-5jK"/>
+                        <viewControllerLayoutGuide type="bottom" id="obP-st-xh9"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="iNl-PC-tJV" customClass="SKView">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="raw-Zj-fdT"/>
+                    <connections>
+                        <segue destination="bSW-Va-hoe" kind="presentation" identifier="startSelect" modalPresentationStyle="fullScreen" modalTransitionStyle="crossDissolve" id="9cw-I8-4i2"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="58N-Ov-JlQ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-977" y="174"/>
+        </scene>
         <!--Game View Controller-->
         <scene sceneID="TvY-87-2zi">
             <objects>
                 <viewController storyboardIdentifier="GameViewController" id="nkN-hY-Ehx" customClass="GameViewController" customModule="OMG_WOW" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="cUo-Bv-gjd"/>
+                        <viewControllerLayoutGuide type="bottom" id="U9R-HG-sLy"/>
+                    </layoutGuides>
                     <view key="view" multipleTouchEnabled="YES" contentMode="scaleToFill" id="qpF-mc-yhG" customClass="SKView">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <viewLayoutGuide key="safeArea" id="QwK-c2-lS3"/>
                     </view>
                     <navigationItem key="navigationItem" id="hOn-8I-jd1"/>
                     <connections>
@@ -84,9 +143,72 @@
             </objects>
             <point key="canvasLocation" x="271" y="104"/>
         </scene>
+        <!--Game View Controller6-->
+        <scene sceneID="o6t-ZP-UMx">
+            <objects>
+                <viewController id="Esa-K6-vrQ" customClass="GameViewController6" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="2js-Tl-9op"/>
+                        <viewControllerLayoutGuide type="bottom" id="rJ1-sr-hhR"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="nFA-qw-rjD" customClass="SKView" customModule="OMG_WOW" customModuleProvider="target">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                    </view>
+                    <connections>
+                        <segue destination="bSW-Va-hoe" kind="presentation" identifier="levelselect6" modalPresentationStyle="fullScreen" modalTransitionStyle="crossDissolve" id="wTc-b5-EO1"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="pVa-bl-h6B" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="5391" y="386"/>
+        </scene>
+        <!--Game View Controller4-->
+        <scene sceneID="7P7-Jr-Jal">
+            <objects>
+                <viewController id="UuG-aN-cLq" customClass="GameViewController4" customModule="OMG_WOW" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="3I4-ez-9fL"/>
+                        <viewControllerLayoutGuide type="bottom" id="kbo-L0-jrN"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="MHF-tx-qDz" customClass="SKView">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                    </view>
+                    <connections>
+                        <segue destination="bSW-Va-hoe" kind="presentation" identifier="levelselect4" modalPresentationStyle="fullScreen" modalTransitionStyle="crossDissolve" id="HSs-jJ-BU3"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="q6b-pw-uB0" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3481" y="386"/>
+        </scene>
+        <!--Game View Controller5-->
+        <scene sceneID="MJg-7c-dZ0">
+            <objects>
+                <viewController id="4je-YK-zKS" customClass="GameViewController5" customModule="OMG_WOW" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="pme-zy-fuq"/>
+                        <viewControllerLayoutGuide type="bottom" id="b1L-UT-i0g"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="fjF-Rr-TyD" customClass="SKView">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                    </view>
+                    <connections>
+                        <segue destination="bSW-Va-hoe" kind="presentation" identifier="levelselect5" modalPresentationStyle="fullScreen" modalTransitionStyle="crossDissolve" id="b4r-h8-P6g"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="lfH-Cz-mEm" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4419" y="386"/>
+        </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="jAz-OQ-inE"/>
-        <segue reference="ISu-Ee-5ju"/>
+        <segue reference="edE-GM-cVe"/>
+        <segue reference="g6W-A9-9sZ"/>
     </inferredMetricsTieBreakers>
 </document>

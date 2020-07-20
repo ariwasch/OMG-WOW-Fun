@@ -14,8 +14,8 @@
             filePath = "OMG-WOW!+ Fun/ViewController/GameViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "596"
-            endingLineNumber = "596"
+            startingLineNumber = "625"
+            endingLineNumber = "625"
             landmarkName = "correctWordSwipe(forSwippedWord:selectedNodes:)"
             landmarkType = "7">
          </BreakpointContent>
