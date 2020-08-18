@@ -9,9 +9,13 @@
 import UIKit
 import SpriteKit
 import GameplayKit
+import AVKit
+import WebKit
 
-class LevelSelectController: UIViewController {
+class LevelSelectController: UIViewController, WKUIDelegate, WKNavigationDelegate {
     
+
+    @IBOutlet weak var webView: WKWebView!
     var gameScene : LevelSelect?
     var homeBackground : SKSpriteNode?
     var homeLogo : SKSpriteNode?
@@ -25,6 +29,8 @@ class LevelSelectController: UIViewController {
     var gameLevelHeader : SKSpriteNode?
     var gameTitleHeader : SKSpriteNode?
     var gameCoin : SKSpriteNode?
+    var gameCoin2 : SKSpriteNode?
+
     var allStrings = [["TEACH","BETTER","BEST"], ["GOLF","TENNIS","BALL","ROW","PITCH"], ["NEVER","ALWAYS","EYE"], ["NOTHING","THAN","POSITIVE"], ["THOUGHT","CHANGE","SMALL","DAY"], ["SITUATION","SITUATION","TURN","INTO"]]
     
     var block : BlockNode = BlockNode()
@@ -37,7 +43,7 @@ class LevelSelectController: UIViewController {
     var gameTextContainer4 : SKSpriteNode?
     var number : Int = 0
 
-//    var infoPopup : SKSpriteNode?
+    var infoPopup : SKSpriteNode?
         
     var variableArray: [[SKSpriteNode?]] = [[]]
     var gameCongratulations : SKLabelNode?
@@ -54,6 +60,8 @@ class LevelSelectController: UIViewController {
     var game4: SKSpriteNode?
     var game5: SKSpriteNode?
     var game6: SKSpriteNode?
+    var tutorial: SKSpriteNode?
+    var tips: SKSpriteNode?
 
     var game1Enabled: Bool = false
     var game2Enabled: Bool = false
@@ -67,12 +75,28 @@ class LevelSelectController: UIViewController {
 //    var SKSpriteNodelol : SKSpriteNode?
 //    var infoTitle : SKSpriteNode?
 //    var infoBody : SKSpriteNode?
-    
+
     //MARK:- View LifeCycle
     override func viewDidLoad() {
         number = number + 1
         print("number \(number)")
         super.viewDidLoad()
+//        view.addSubview(webView)
+        if(!self.defaults.bool(forKey: "initial")){
+            let url = "https://docs.google.com/forms/u/1/d/e/1FAIpQLSfUe7pVS2JJ7HqL2fsLgQa1X4Q-qgwhnn56rvOwJLoYNnr2hg/viewform"
+            
+            let request = URLRequest(url: URL(string: url)!)
+            
+            webView.load(request)
+            webView.navigationDelegate = self
+            webView.uiDelegate = self
+            defaults.set(true, forKey: "initial")
+        }else{
+            if(webView != nil){
+                webView.removeFromSuperview()
+            }
+        }
+    
         defaults.set(true, forKey: "level1")
 //        defaults.set("")
 //        defaults.set(true, forKey: "startview")
@@ -85,6 +109,7 @@ class LevelSelectController: UIViewController {
         trueFalse()
 //        initializeGameSwipeAction()
     }
+    
     
     override var prefersStatusBarHidden: Bool {
         return true
@@ -162,7 +187,8 @@ class LevelSelectController: UIViewController {
         gameLevelHeader = fetchSpriteNode(withName: "gameLevelHeader")
         gameTitleHeader = fetchSpriteNode(withName: "gameTitleHeader")
         gameCoin = fetchSpriteNode(withName: "gameCoin")
-        
+        gameCoin2 = fetchSpriteNode(withName: "gameCoin2")
+
         gameOptionsBackground = fetchSpriteNode(withName: "gameOptionsBackground")
         gameOptionSearch = fetchSpriteNode(withName: "gameOptionSearch")
         gameOptionHint = fetchSpriteNode(withName: "gameOptionHint")
@@ -176,7 +202,9 @@ class LevelSelectController: UIViewController {
         game4 = fetchSpriteNode(withName: "game4")
         game5 = fetchSpriteNode(withName: "game5")
         game6 = fetchSpriteNode(withName: "game6")
-
+        infoPopup = fetchSpriteNode(withName: "infoPopup")
+        tutorial = fetchSpriteNode(withName: "tutorial")
+        tips = fetchSpriteNode(withName: "tips")
         homePlayButton?.isUserInteractionEnabled = true
         gameBack?.isUserInteractionEnabled = true
     }
@@ -198,6 +226,8 @@ class LevelSelectController: UIViewController {
         gameTitleHeader?.isHidden = true
         gameLevelHeader?.isHidden = true
         gameCoin?.isHidden = true
+        gameCoin2?.isHidden = true
+
         gameOptionsBackground?.isHidden = true
         gameOptionSearch?.isHidden = true
         gameOptionHint?.isHidden = true
@@ -243,6 +273,8 @@ class LevelSelectController: UIViewController {
             self.gameTitleHeader?.isHidden = false
             self.gameLevelHeader?.isHidden = false
             self.gameCoin?.isHidden = false
+            self.gameCoin2?.isHidden = false
+
             self.gameOptionsBackground?.isHidden = false
             self.gameOptionSearch?.isHidden = false
             self.gameOptionHint?.isHidden = false
@@ -265,6 +297,7 @@ class LevelSelectController: UIViewController {
         
     //MARK:- Touch Actions
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if(end){
         if let touch = touches.randomElement(), gameScene != nil
         {
             let positionInScene = touch.location(in: gameScene!)
@@ -274,9 +307,12 @@ class LevelSelectController: UIViewController {
                     hideHomeComponentsAndLoadGame()
                 }
             }
-            if touchBeganNode == gameCoin || touchBeganNode?.name == "gameCoin2" {
+//            touchBeganNode?.name == "gameCoin2"
+            if touchBeganNode == gameCoin || touchBeganNode == gameCoin2 {
                 performSegue(withIdentifier: "selectToCoins", sender: nil)
                 gameCoin?.run(SKAction.fadeAlpha(to: 1.0, duration: 0))
+                gameCoin2?.run(SKAction.fadeAlpha(to: 1.0, duration: 0))
+
             }
 
             if touchedNode == gameBack
@@ -310,8 +346,12 @@ class LevelSelectController: UIViewController {
 
             if(game3Enabled){
                 if touchedNode == game3{
-                    performSegue(withIdentifier: "togame3", sender: nil)
-                    touchedNode.run(SKAction.fadeAlpha(to: 1.0, duration: 0))
+                    if(defaults.bool(forKey: "moreLevels")){
+                        performSegue(withIdentifier: "togame3", sender: nil)
+                        touchedNode.run(SKAction.fadeAlpha(to: 1.0, duration: 0))
+                    }else{
+                        performSegue(withIdentifier: "selectToCoins", sender: nil)
+                    }
                 }
             }
             if(game4Enabled){
@@ -326,12 +366,63 @@ class LevelSelectController: UIViewController {
                     touchedNode.run(SKAction.fadeAlpha(to: 1.0, duration: 0))
                 }
             }
+            if(game6Enabled){
+                if touchedNode == game6{
+                    performSegue(withIdentifier: "togame6", sender: nil)
+                    touchedNode.run(SKAction.fadeAlpha(to: 1.0, duration: 0))
+                }
+            }
+            if touchedNode == tutorial{
+//                performSegue(withIdentifier: "tutorial", sender: nil)
+                tutorial?.run(SKAction.fadeAlpha(to: 1, duration: 0))
+            }
+            if touchedNode == tips{
+                infoPopup?.isHidden = false
+                tutorial?.run(SKAction.fadeAlpha(to: 1, duration: 0))
+            }
+            print(touchedNode.name, " ", touchBeganNode?.name)
+            if touchedNode.name == "closeInfo" && touchBeganNode?.name == "closeInfo"
+            {
+                print("PPP")
+                touchedNode.run(SKAction.fadeAlpha(to: 1, duration: 0))
+                infoPopup?.isHidden = true
+            }
 
 
 
         }
+            end = false
+        }
     }
     
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        gameBack?.run(SKAction.fadeAlpha(to: 1, duration: 0))
+        if(game1Enabled){
+            game1?.run(SKAction.fadeAlpha(to: 1, duration: 0))
+        }
+        if(game2Enabled){
+            game2?.run(SKAction.fadeAlpha(to: 1, duration: 0))
+        }
+        if(game3Enabled){
+            game3?.run(SKAction.fadeAlpha(to: 1, duration: 0))
+        }
+        if(game4Enabled){
+            game4?.run(SKAction.fadeAlpha(to: 1, duration: 0))
+        }
+        if(game5Enabled){
+            game5?.run(SKAction.fadeAlpha(to: 1, duration: 0))
+        }
+        if(game6Enabled){
+            game6?.run(SKAction.fadeAlpha(to: 1, duration: 0))
+        }
+        gameCoin?.run(SKAction.fadeAlpha(to: 1, duration: 0))
+        gameCoin2?.run(SKAction.fadeAlpha(to: 1, duration: 0))
+        tutorial?.run(SKAction.fadeAlpha(to: 1, duration: 0))
+        tips?.run(SKAction.fadeAlpha(to: 1, duration: 0))
+
+    }
+
+    var end:Bool = false
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         if let touch = touches.first, gameScene != nil
         {
@@ -339,52 +430,113 @@ class LevelSelectController: UIViewController {
             let touchedNode = gameScene!.atPoint(positionInScene)
             touchBeganNode = touchedNode as? SKSpriteNode
             if touchBeganNode == homePlayButton {
+                end = true
                 homePlayButton?.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
             }
             if touchBeganNode == gameBack {
-                
+                end = true
                 gameBack?.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
             }
-            if touchBeganNode == gameCoin {
+            if touchBeganNode == gameCoin || touchBeganNode == gameCoin2{
+                end = true
                 gameCoin?.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
+                gameCoin2?.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
             }
             trueFalse()
             print(game1Enabled)
             if(game1Enabled){
                 if touchedNode == game1{
+                    end = true
                     game1?.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
                 }
             }
             if(game2Enabled){
                 if touchedNode == game2{
+                    end = true
                     game2?.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
                 }
             }
             if(game3Enabled){
                 if touchedNode == game3{
+                    end = true
                     game3?.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
                 }
             }
             if(game4Enabled){
                 if touchedNode == game4{
+                    end = true
                     game4?.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
                 }
             }
             if(game5Enabled){
                 if touchedNode == game5{
+                    end = true
                     game5?.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
                 }
             }
             if(game6Enabled){
                 if touchedNode == game6{
+                    end = true
                     game6?.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
                 }
             }
-            
+            if touchedNode == tutorial{
+                end = true
+//                performSegue(withIdentifier: "tutorial", sender: nil)
+                tutorial?.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
+                playVideo()
+            }
+            if touchedNode == tips{
+                end = true
+                print("TIPS")
+                tips?.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
+            }
+            if touchedNode.name == "closeInfo" && touchBeganNode?.name == "closeInfo"
+            {
+                end = true
+                touchedNode.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
+            }
+
+
         }
     }
     
+    private func playVideo() {
+        guard let path = Bundle.main.path(forResource: "output", ofType:"mp4") else {
+            debugPrint("video.m4v not found")
+            return
+        }
+        let player = AVPlayer(url: URL(fileURLWithPath: path))
+        let playerController = AVPlayerViewController()
+        playerController.player = player
+        present(playerController, animated: true) {
+            player.play()
+        }
+    }
 
+//    func webView(_ webView: WKWebView, contextMenuForElement elementInfo: WKContextMenuElementInfo, willCommitWithAnimator animator: UIContextMenuInteractionCommitAnimating){
+//        print("request:  \(elementInfo.description)")
+//    }
+     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping ((WKNavigationActionPolicy) -> Void)) {
+
+        if let url = navigationAction.request.url {
+                print(url.absoluteString)
+                if url.absoluteString.hasPrefix("https://docs.google.com/forms/u/1/d/e/1FAIpQLSfUe7pVS2JJ7HqL2fsLgQa1X4Q-qgwhnn56rvOwJLoYNnr2hg/formResponse"){
+                    print("SUCCESS")
+                    DispatchQueue.main.asyncAfter(deadline: .now()+0.1) {
+                        webView.removeFromSuperview()
+                    }
+
+             }
+        }
+
+        decisionHandler(.allow)
+    }
+
+
+
+    
+    
 
 }
 

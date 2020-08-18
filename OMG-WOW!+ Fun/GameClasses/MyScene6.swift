@@ -85,8 +85,8 @@ class MyScene6: SKScene {
 //        gameCanvas = self.childNode(withName: "gameBlockContainer") as? SKSpriteNode
 //        gameCanvas2 = self.childNode(withName: "gameBlockContainer2") as? SKSpriteNode
 //        gameCanvas3 = self.childNode(withName: "gameBlockContainer3") as? SKSpriteNode
-        print("HELLO \(block.allStrings3.count)")
-        for i in 0...block.allStrings3.count-1{
+        print("HELLO \(block.allStrings6.count)")
+        for i in 0...block.allStrings6.count-1{
             if(i == 0){
                 gameCanvases.append(self.childNode(withName: "gameBlockContainer") as? SKSpriteNode)
                 textCanvases.append(self.childNode(withName: "gameTextContainer") as? SKSpriteNode)
@@ -96,7 +96,7 @@ class MyScene6: SKScene {
             }
         }
         print("ooo\(gameCanvases.count)")
-        defaults.set(55,forKey: "level")
+        defaults.set(90,forKey: "level")
         addNextPhysicsBody(index: 0)
 //        addFirstLevelPhysicsBody()
     }

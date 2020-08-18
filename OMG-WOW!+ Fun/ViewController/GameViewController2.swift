@@ -9,8 +9,9 @@
 import UIKit
 import SpriteKit
 import GameplayKit
+import GoogleMobileAds
 
-class GameViewController2: UIViewController {
+class GameViewController2: UIViewController, GADInterstitialDelegate, GADRewardedAdDelegate {
     
     var gameScene : MyScene2?
     var homeBackground : SKSpriteNode?
@@ -27,6 +28,8 @@ class GameViewController2: UIViewController {
     var gameLevelHeader : SKSpriteNode?
     var gameTitleHeader : SKSpriteNode?
     var gameCoin : SKSpriteNode?
+    var coin : SKSpriteNode?
+
     var allStrings = [["TEACH","BETTER","BEST"], ["GOLF","TENNIS","BALL","ROW","PITCH"], ["NEVER","ALWAYS","EYE"], ["NOTHING","THAN","POSITIVE"], ["THOUGHT","CHANGE","SMALL","DAY"], ["SITUATION","SITUATION","TURN","INTO"]]
     
     var block : BlockNode = BlockNode()
@@ -48,6 +51,10 @@ class GameViewController2: UIViewController {
 
     var gameBlockTest : SKSpriteNode?
     var gameTextTest : SKSpriteNode?
+    
+    var bannerView: GADBannerView!
+    var interstitial: GADInterstitial!
+    var rewardedAd: GADRewardedAd?
 
     var touchBeganNode : SKSpriteNode?
     var currentLevel : Int = 31
@@ -55,9 +62,17 @@ class GameViewController2: UIViewController {
     var infoTitle : SKSpriteNode?
     var infoBody : SKSpriteNode?
 
+    var enableEndPop: Bool = false
+    var pLevel: Int = 1
+    var pBody: String = ""
+    var pTitle: String = ""
+    var pLTitle: String = ""
+    var levelDelay = 0.0
+
     //MARK:- View LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        loadAds()
         currentLevel = 31
         allStrings = block.allStrings2
         view.layoutIfNeeded()
@@ -65,15 +80,17 @@ class GameViewController2: UIViewController {
         initializationOfGameVariable()
         hideGameComponents()
         initializeGameSwipeAction()
-        if(defaults.integer(forKey: "game2level") != 1 && (defaults.integer(forKey: "game2level") != 0)){
+        print("IM BIG DUMB \(defaults.integer(forKey: "game2level"))")
+        if(defaults.integer(forKey: "game2level") != 31 && (defaults.integer(forKey: "game2level") != 0)){
             skip(to: defaults.integer(forKey: "game2level"))
         }
+        reloadBalance()
 
     }
     override var prefersStatusBarHidden: Bool {
         return true
     }
-    
+
     //MARK:- Load Scene
     func presentGameScene()
     {
@@ -116,7 +133,8 @@ class GameViewController2: UIViewController {
         gameLevelHeader = fetchSpriteNode(withName: "gameLevelHeader")
         gameTitleHeader = fetchSpriteNode(withName: "gameTitleHeader")
         gameCoin = fetchSpriteNode(withName: "gameCoin")
-        
+        coin = fetchSpriteNode(withName: "coin")
+
         gameOptionsBackground = fetchSpriteNode(withName: "gameOptionsBackground")
         gameOptionSearch = fetchSpriteNode(withName: "gameOptionSearch")
         gameOptionHint = fetchSpriteNode(withName: "gameOptionHint")
@@ -159,7 +177,7 @@ class GameViewController2: UIViewController {
     }
     func wordInWord(string: String) -> Bool{
         var isDuplicate = true
-        if((string == "LOVE" && currentLevel == 43) || (string == "LOVE" && currentLevel == 47) || (string == "TREAT" && currentLevel == 45)){
+        if((string == "LOVE" && currentLevel == 43) || (string == "LOVE" && currentLevel == 33) || (string == "LOVE" && currentLevel == 47) || (string == "TREAT" && currentLevel == 45)){
             isDuplicate = false
         }
         return isDuplicate
@@ -168,17 +186,22 @@ class GameViewController2: UIViewController {
     func duplicate(string: String) -> Bool{
         var isDuplicate = false
         print(currentLevel)
-        if(string == "EVERYONE" || string == "WELL" || string == "LIFE" || string == "GIVES" || string == "KNOW" || string == "MURDER" || string == "RESPECT" || string == "EVEN" || string == "ANOTHER"){
+        if(string == "EVERYONE" || string == "WELL" || string == "LIFE" || string == "GIVES" || string == "KNOW" || string == "MURDER" || string == "RESPECT" || string == "EVEN" || string == "ANOTHER" || string == "ANYTHING"){
             isDuplicate = true
         }
         return isDuplicate
     }
     func duplicateHelper(string: String) -> Int{
         var num = 0
-        if(string == "EVERYONE" && currentLevel == 34){
-            num = 33 - previous
+        if(string == "EVERYONE" && currentLevel == 33){
+            num = 32 - previous
         }else if(string == "EVERYONE" && currentLevel == 37){
             num = 36 - previous
+        }
+        if(string == "ANYTHING" && currentLevel == 34){
+            num = 33 - previous
+        }else if(string == "ANYTHING" && currentLevel == 35){
+            num = 34 - previous
         }
         if(string == "WELL" && currentLevel == 32){
             num = 31 - previous
@@ -244,55 +267,69 @@ class GameViewController2: UIViewController {
     
     func initializeNextLevel(level: Int, title: String, popTitle: String, popBody: String)
     {
-        defaults.set(level, forKey: "level")
-        defaults.set(level, forKey: "game2level")
+        pLevel = level
+        pBody = popBody
+        pTitle = popTitle
+        pLTitle = title
+        if(enableEndPop){
+            infoPopup?.isHidden = false
+        }else{
+        DispatchQueue.main.asyncAfter(deadline: .now() + levelDelay) {
+        if(!self.defaults.bool(forKey: "no-ads")){
+            if self.interstitial.isReady {
+                self.interstitial.present(fromRootViewController: self)
+            }
+        }
+
+        self.defaults.set(level, forKey: "level")
+        self.defaults.set(level, forKey: "game2level")
 
         self.currentLevel = level
         if(popTitle != "" && popBody != ""){
-            if let body = SKSpriteNodelol?.childNode(withName: "infoBody") as? SKLabelNode
+            if let body = self.SKSpriteNodelol?.childNode(withName: "infoBody") as? SKLabelNode
             {
                 body.text = popBody
             }
-            if let title = SKSpriteNodelol?.childNode(withName: "infoTitle") as? SKLabelNode
+            if let title = self.SKSpriteNodelol?.childNode(withName: "infoTitle") as? SKLabelNode
             {
                 title.text = popTitle
             }
         }
 
 
-        infoPopup?.isHidden = true
+        self.infoPopup?.isHidden = true
         
-        self.gameScene?.gameCanvases[level-previous-1]?.children.forEach({ (node) in
+        self.gameScene?.gameCanvases[level-self.previous-1]?.children.forEach({ (node) in
             if node is BlockNode
             {
                 node.run(SKAction.fadeOut(withDuration: 0))
             }
         })
-        if let lblLevel = gameLevelHeader?.childNode(withName: "Label") as? SKLabelNode
+        if let lblLevel = self.gameLevelHeader?.childNode(withName: "Label") as? SKLabelNode
         {
             lblLevel.text = "LEVEL \(level)"
         }
-        if let lblTitle = gameTitleHeader?.childNode(withName: "Label") as? SKLabelNode
+        if let lblTitle = self.gameTitleHeader?.childNode(withName: "Label") as? SKLabelNode
         {
             lblTitle.text = title
         }
         
-        self.gameScene?.addNextPhysicsBody(index: level-1-previous)
+        self.gameScene?.addNextPhysicsBody(index: level-1-self.previous)
         
-        for scene in gameScene!.gameCanvases{
+        for scene in self.gameScene!.gameCanvases{
             if(scene != nil){
                 scene!.isHidden = true
             }
         }
         
-        for scene in gameScene!.textCanvases{
+        for scene in self.gameScene!.textCanvases{
             scene!.isHidden = true
         }
-        gameScene?.gameCanvases[level-previous-1]?.isHidden = false
-        gameScene?.textCanvases[level-previous-1]?.isHidden = false
+        self.gameScene?.gameCanvases[level-self.previous-1]?.isHidden = false
+        self.gameScene?.textCanvases[level-self.previous-1]?.isHidden = false
 
         var delay = 0.1
-        for node in self.gameScene?.gameCanvases[level-previous-1]?.children ?? []
+        for node in self.gameScene?.gameCanvases[level-self.previous-1]?.children ?? []
         {
             if node is BlockNode
             {
@@ -301,6 +338,8 @@ class GameViewController2: UIViewController {
                 }
                 delay = delay + 0.1
             }
+            }
+        }
         }
     }
 
@@ -372,6 +411,7 @@ class GameViewController2: UIViewController {
             self.gameTitleHeader?.isHidden = false
             self.gameLevelHeader?.isHidden = false
             self.gameCoin?.isHidden = false
+            self.coin?.isHidden = false
             self.gameOptionsBackground?.isHidden = false
             self.gameOptionSearch?.isHidden = false
             self.gameOptionHint?.isHidden = false
@@ -407,32 +447,35 @@ class GameViewController2: UIViewController {
     //MARK:- Swipe Action
     
     func actionOnWord(word: String, num: Int){
-    
+        if(word != "" && num == 0){
+            self.enableEndPop = true
+        }
+
         if(word == "MEANINGS" || num == 32){
-            self.initializeNextLevel(level: 32, title: "‭‭FAITH", popTitle: "Proverbs‬ ‭1:5-6‬ ‭CEV‬‬", popBody: "Proverbs is not merely an anthology but a \",collection of collections\" relating to a pattern of life which lasted for more than a millennium.[2] It is an example of the biblical wisdom literature")
+            self.initializeNextLevel(level: 32, title: "‭‭FAITH", popTitle: "Proverbs‬ ‭1:5-6‬ ‭CEV‬‬", popBody: "Proverbs is not merely an anthology but a \",collection of collections\" relating to a pattern of life which lasted for more than a millennium. It is an example of the biblical wisdom literature")
         }else if(word == "RIDDLES" || num == 33){
-            self.initializeNextLevel(level: 33, title: "FAITH", popTitle: "John‬ ‭3:16‬ ‭CEV‬‬", popBody: "John the Apostle (c. AD 6 – c. 100) was one of the Twelve Apostles of Jesus according to the New Testament. Generally listed as the youngest apostle. His brother was James, who was another of the Twelve Apostles.")
+            self.initializeNextLevel(level: 33, title: "FAITH", popTitle: "John‬ ‭3:16‬ ‭CEV‬‬", popBody: "John the Apostle (c. AD 6 – c. 100) was one of the Twelve Apostles of Jesus according to the New Testament. Generally listed as the youngest apostle.")
         }else if((word == "EVERYONE" && currentLevel == 33) || num == 34){
-            self.initializeNextLevel(level: 34, title: "‭‭FAITH", popTitle: "Philippians‬ ‭4:6‬ ‭CEV‬‬", popBody: "Philippians 1 is the first chapter of the Epistle to the Philippians in the New Testament of the Christian Bible. It is authored by Paul the Apostle about mid-50s to early 60s AD and addressed to the Christians in Philippi, written either in Rome or Ephesus.")
+            self.initializeNextLevel(level: 34, title: "‭‭FAITH", popTitle: "Philippians‬ ‭4:6‬ ‭CEV‬‬", popBody: "Philippians 1 is the first chapter of the Epistle to the Philippians in the New Testament of the Christian Bible. It is authored by Paul the Apostle about mid-50s to early 60s AD.")
         }else if(word == "WORRY" || num == 35){
-            self.initializeNextLevel(level: 35, title: "FAITH", popTitle: "‭‭Ephesians‬ ‭2:8‬ ‭CEV‬‬", popBody: "A major theme in Ephesians is the keeping of Christ's body (that is, the Church) pure and holy. Therefore be imitators of God, as beloved children. And walk in love, as Christ loved us and gave himself up for us, a fragrant offering and sacrifice to God.")
-        }else if(word == "ANYTHING" || num == 36){
-            self.initializeNextLevel(level: 36, title: "FAITH", popTitle: "‭‭Hebrews‬ ‭11:1‬ ‭CEV‬‬", popBody: "The Epistle to the Hebrews, or Letter to the Hebrews, or in the Greek manuscripts, simply To the Hebrews is one of the books of the New Testament. The text does not mention the name of its author, but was traditionally attributed to Paul the Apostle.")
+            self.initializeNextLevel(level: 35, title: "FAITH", popTitle: "‭‭Ephesians‬ ‭2:8‬ ‭CEV‬‬", popBody: "A major theme in Ephesians is the keeping of Christ's body (that is, the Church) pure and holy. Therefore be imitators of God, as beloved children.")
+        }else if((word == "ANYTHING" && currentLevel == 35) || num == 36){
+            self.initializeNextLevel(level: 36, title: "FAITH", popTitle: "‭‭Hebrews‬ ‭11:1‬ ‭CEV‬‬", popBody: "The Epistle to the Hebrews, or Letter to the Hebrews, or in the Greek manuscripts, simply To the Hebrews is one of the books of the New Testament.")
         }else if((word == "GIVES" && currentLevel == 36) || num == 37){
-            self.initializeNextLevel(level: 37, title: "FAITH", popTitle: "‭‭Romans‬ ‭8:28‬ ‭CEV‬‬", popBody: "The Epistle to the Romans or Letter to the Romans, often shortened to Romans, is the sixth book in the New Testament.  ")
+            self.initializeNextLevel(level: 37, title: "FAITH", popTitle: "‭‭Romans‬ ‭8:28‬ ‭CEV‬‬", popBody: "The Epistle to the Romans or Letter to the Romans, often shortened to Romans, is the sixth book in the New Testament.")
         }else if((word == "EVERYONE" && currentLevel == 37) || num == 38){
-            self.initializeNextLevel(level: 38, title: "FAITH", popTitle: "‭‭Matthew‬ ‭17:20-21‬ ‭CEV‬‬", popBody: "Matthew the Apostle, also known as Saint Matthew and as Levi, was, according to the New Testament, one of the twelve apostles of Jesus. According to Christian tradition, he was also one of the four Evangelists and thus is also known as Matthew the Evangelist.")
+            self.initializeNextLevel(level: 38, title: "FAITH", popTitle: "‭‭Matthew‬ ‭17:20-21‬", popBody: "Matthew the Apostle, also known as Saint Matthew and as Levi, was, according to the New Testament, one of the twelve apostles of Jesus.")
         }else if(word == "POSSIBLE" || num == 39){
-            self.initializeNextLevel(level: 39, title: "FAITH", popTitle: "‭‭Mark‬ ‭5:34‬ ‭CEV‬‬", popBody: "Mark the Evangelist (Acts 12:12; 15:37), an associate of St. Paul and a disciple of St. Peter, whose teachings the Gospel may reflect. It is the shortest and the earliest of the four Gospels, presumably written during the decade preceding the destruction of Jerusalem in 70 ce.")
+            self.initializeNextLevel(level: 39, title: "FAITH", popTitle: "‭‭Mark‬ ‭5:34‬ ‭CEV‬‬", popBody: "Mark the Evangelist (Acts 12:12; 15:37), an associate of St. Paul and a disciple of St. Peter, whose teachings the Gospel may reflect.")
         }else if(word == "HEALED" || num == 40){
-            self.initializeNextLevel(level: 40, title: "FAITH", popTitle: "‭‭James‬ ‭5:16‬ ‭CEV‬‬", popBody: "The Letter of James, the Epistle of James, or simply James, is one of the 21 epistles in the New Testament. The author identifies himself as \"James, a servant [or slave] of God and of the Lord Jesus Christ\".")
+            self.initializeNextLevel(level: 40, title: "FAITH", popTitle: "‭‭James‬ ‭5:16‬ ‭CEV‬‬", popBody: "The Letter of James, the Epistle of James, or simply James, is one of the 21 epistles in the New Testament.")
         }else if(word == "INNOCENT" || num == 41){
-            self.initializeNextLevel(level: 41, title: "FAITH", popTitle: "‭‭Ephesians‬ ‭6:13‬ ‭CEV‬‬", popBody: "A major theme in Ephesians is the keeping of Christ's body (that is, the Church) pure and holy. Therefore be imitators of God, as beloved children. And walk in love, as Christ loved us and gave himself up for us, a fragrant offering and sacrifice to God.")
+            self.initializeNextLevel(level: 41, title: "FAITH", popTitle: "‭‭Ephesians‬ ‭6:13‬ ‭CEV‬‬", popBody: "The Letter of James, the Epistle of James, or simply James, is one of the 21 epistles in the New Testament.")
         }else if((word == "GIVES" && currentLevel == 41) || num == 42){
-            self.initializeNextLevel(level: 42, title: "FAITH", popTitle: "‭‭‭‭‭‭Philippians‬ ‭4:19‬ ‭CEV‬‬", popBody: "Philippians 1 is the first chapter of the Epistle to the Philippians in the New Testament of the Christian Bible. It is authored by Paul the Apostle.  ")
+            self.initializeNextLevel(level: 42, title: "FAITH", popTitle: "‭‭‭‭‭‭Philippians‬ ‭4:19‬ ‭CEV‬‬", popBody: "Philippians 1 is the first chapter of the Epistle to the Philippians in the New Testament of the Christian Bible. It is authored by Paul the Apostle.")
 
         }else if(word == "CARE" || num == 43){
-            self.initializeNextLevel(level: 43, title: "FAITH", popTitle: "‭‭‭‭John‬ ‭10:10‬ ‭CEV‬‬", popBody: "John the Apostle (c. AD 6 – c. 100) was one of the Twelve Apostles of Jesus according to the New Testament. Generally listed as the youngest apostle. His brother was James, who was another of the Twelve Apostles.")
+            self.initializeNextLevel(level: 43, title: "FAITH", popTitle: "‭‭‭‭John‬ ‭10:10‬ ‭CEV‬‬", popBody: "John the Apostle (c. AD 6 – c. 100) was one of the Twelve Apostles of Jesus according to the New Testament. Generally listed as the youngest apostle.")
 
         }else if(word == "THIEF" || num == 44){
             self.initializeNextLevel(level: 44, title: "FAITH", popTitle: "‭‭Hebrews‬ ‭11:6‬ ‭CEV‬‬", popBody: "The Epistle to the Hebrews, or Letter to the Hebrews, or in the Greek manuscripts, simply To the Hebrews is one of the books of the New Testament. The text does not mention the name of its author, but was traditionally attributed to Paul the Apostle.")
@@ -441,8 +484,7 @@ class GameViewController2: UIViewController {
             self.initializeNextLevel(level: 45, title: "FAITH", popTitle: "‭‭1 Peter‬ ‭5:10‬ ‭CEV‬‬", popBody: "The First Epistle of Peter, usually referred to simply as First Peter and often written 1 Peter, is a book of the New Testament.")
 
         }else if(word == "UNDESERVED" || num == 46){
-            self.initializeNextLevel(level: 46, title: "FAITH", popTitle: "‭‭Ephesians‬ ‭5:25‬ ‭CEV‬‬", popBody: "A major theme in Ephesians is the keeping of Christ's body (that is, the Church) pure and holy. Therefore be imitators of God, as beloved children. And walk in love, as Christ loved us and gave himself up for us, a fragrant offering and sacrifice to God.")
-
+            self.initializeNextLevel(level: 46, title: "FAITH", popTitle: "‭‭Ephesians‬ ‭5:25‬ ‭CEV‬‬", popBody: "A major theme in Ephesians is the keeping of Christ's body (that is, the Church) pure and holy. Therefore be imitators of God, as beloved children.")
 
         }else if(word == "MUCH" || num == 47){
             self.initializeNextLevel(level: 47, title: "FAITH", popTitle: "‭‭‭‭‭‭Hebrews‬ ‭13:4‬ ‭CEV‬‬", popBody: "The Epistle to the Hebrews, or Letter to the Hebrews, or in the Greek manuscripts, simply To the Hebrews is one of the books of the New Testament.")
@@ -549,9 +591,73 @@ class GameViewController2: UIViewController {
             })
         }
     }
-    
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        gameBack?.run(SKAction.fadeAlpha(to: 1, duration: 0))
+        gameOptionShuffle?.run(SKAction.fadeAlpha(to: 1, duration: 0))
+        gameBack?.run(SKAction.fadeAlpha(to: 1, duration: 0))
+        gameOptionHint?.run(SKAction.fadeAlpha(to: 1, duration: 0))
+        gameOptionSearch?.run(SKAction.fadeAlpha(to: 1, duration: 0))
+        gameOptionAds?.run(SKAction.fadeAlpha(to: 1, duration: 0))
+        gameCoin?.run(SKAction.fadeAlpha(to: 1, duration: 0))
+        coin?.run(SKAction.fadeAlpha(to: 1, duration: 0))
+    }
     //MARK:- Touch Actions
+    
+    var end:Bool = false
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if let touch = touches.first, gameScene != nil
+        {
+            let positionInScene = touch.location(in: gameScene!)
+            let touchedNode = gameScene!.atPoint(positionInScene)
+            touchBeganNode = touchedNode as? SKSpriteNode
+            if touchBeganNode == homePlayButton {
+                homePlayButton?.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
+            }
+            if touchBeganNode == gameBack {
+                end = true
+                gameBack?.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
+            }
+            if touchBeganNode?.name == "closeInfo" {
+                end = true
+                touchBeganNode?.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
+            }
+            if touchedNode.name == "Author" {
+                end = true
+                touchedNode.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
+            }
+            if touchedNode == gameOptionShuffle
+            {
+                end = true
+                touchedNode.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
+            }
+            if touchedNode == gameOptionSearch
+            {
+                end = true
+                gameOptionSearch?.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
+            }
+            if touchedNode == gameOptionHint
+            {
+                end = true
+                gameOptionHint?.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
+            }
+            if touchedNode == gameCoin || touchedNode == coin
+            {
+                end = true
+                gameCoin?.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
+            }
+            if touchedNode == gameOptionAds
+            {
+                end = true
+                gameOptionAds?.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
+            }
+
+
+        }
+    }
+    
+    
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if(end){
         if let touch = touches.randomElement(), gameScene != nil
         {
             let positionInScene = touch.location(in: gameScene!)
@@ -564,12 +670,25 @@ class GameViewController2: UIViewController {
             
             if touchedNode == gameBack
             {
-                defaults.set(true, forKey: "startview")
-                performSegue(withIdentifier: "levelselect2", sender: nil)
+                enableEndPop = false
+                if touchBeganNode == gameBack {
+                    if(currentLevel > previous+1){
+                        defaults.set(currentLevel-1, forKey: "level")
+                        defaults.set(currentLevel-1, forKey: "game2level")
+                        viewDidLoad()
+                    }else{
+                        defaults.set(false, forKey: "startview")
+                        performSegue(withIdentifier: "levelselect2", sender: nil)
+                    }
+                }
+
+//                defaults.set(true, forKey: "startview")
+//                performSegue(withIdentifier: "levelselect2", sender: nil)
             }
             if touchedNode == gameOptionShuffle
             {
 //                print("SOFJODFHOIDHJFSIOJIOFJSODIFJOSDIFJOSDJFOSDJF")
+                enableEndPop = false
                 skip()
 
                 touchedNode.run(SKAction.fadeAlpha(to: 1.0, duration: 0))
@@ -578,6 +697,12 @@ class GameViewController2: UIViewController {
             if touchedNode.name == "closeInfo" && touchBeganNode?.name == "closeInfo"
             {
                 infoPopup?.isHidden = true
+                if(enableEndPop){
+                    enableEndPop = false
+                    levelDelay = 5
+                    initializeNextLevel(level: pLevel, title: pLTitle, popTitle: pTitle, popBody: pBody)
+                    levelDelay = 0
+                }
                 touchedNode.run(SKAction.fadeAlpha(to: 1.0, duration: 0))
             }
             if touchedNode.name == "Author"
@@ -596,23 +721,81 @@ class GameViewController2: UIViewController {
                 performSegue(withIdentifier: "levelselect2", sender: nil)
 
             }
-
-        }
-    }
-    func skip(){
-
-        for node in self.gameScene?.gameCanvases[currentLevel-previous-1]?.children ?? []
-        {
-            if node is BlockNode
+            if touchedNode == gameOptionHint
             {
-                DispatchQueue.main.asyncAfter(deadline: .now()) {
-                    node.run(SKAction.fadeOut(withDuration: 0.2))
-                    node.run(SKAction.removeFromParent())
+                gameOptionHint?.run(SKAction.fadeAlpha(to: 1, duration: 0))
+                hint()
+            }
+            if touchedNode == gameCoin || touchedNode == coin
+            {
+                gameCoin?.run(SKAction.fadeAlpha(to: 1, duration: 0))
+                performSegue(withIdentifier: "tocoins2", sender: nil)
+            }
+            if touchedNode == gameOptionAds
+            {
+                gameOptionAds?.run(SKAction.fadeAlpha(to: 1, duration: 0))
+                if rewardedAd?.isReady == true {
+                   rewardedAd?.present(fromRootViewController: self, delegate:self)
                 }
             }
+
+
+
         }
-        actionOnWord(word: "",num: currentLevel+1)
-//        initializeNextLevel(level: currentLevel+1, title: "String", popTitle: "String", popBody: "String")
+            end = false
+        }
+    }
+    func hint(){
+        let balance = defaults.integer(forKey: "balance")
+        var counter = 0
+        if(balance >= 10){
+        self.gameScene?.gameCanvases[currentLevel-previous-1]?.children.forEach({ (node) in
+                if node is BlockNode
+                {
+                    node.children[0].description
+                    let nodeText = (((node.children[0]) as! SKLabelNode).text)!
+                    let stringHint = allStrings[currentLevel-previous-1][allStrings [currentLevel-previous-1].count-1]
+                    print(nodeText)
+                    print(allStrings[currentLevel-previous-1][allStrings        [currentLevel-previous-1].count-1])
+                    if(stringHint.contains(nodeText) && counter < 6){
+                        (node as! SKSpriteNode).color = colorHighlighted
+                        counter += 1
+                    }
+                }
+            })
+            defaults.set(balance-10, forKey: "balance")
+            reloadBalance()
+        }else{
+            performSegue(withIdentifier: "tocoins2", sender: nil)
+        }
+        
+    }
+    func skip(){
+        let balance = defaults.integer(forKey: "balance")
+        if(balance >= 20){
+            for node in self.gameScene?.gameCanvases[currentLevel-previous-1]?.children ?? []
+            {
+                if node is BlockNode
+                {
+                    DispatchQueue.main.asyncAfter(deadline: .now()) {
+                        node.run(SKAction.fadeOut(withDuration: 0.2))
+                        node.run(SKAction.removeFromParent())
+                    }
+                }
+            }
+            actionOnWord(word: "",num: currentLevel+1)
+            defaults.set(balance-20, forKey: "balance")
+            reloadBalance()
+        }else{
+            performSegue(withIdentifier: "tocoins2", sender: nil)
+        }
+    }
+    func reloadBalance(){
+        if let lblLevel = gameCoin?.childNode(withName: "balance") as? SKLabelNode
+        {
+            lblLevel.text = "\(defaults.integer(forKey: "balance"))"
+        }
+
     }
     func skip(to: Int){
 
@@ -627,41 +810,86 @@ class GameViewController2: UIViewController {
             }
         }
         actionOnWord(word: "",num: to)
-    //        initializeNextLevel(level: currentLevel+1, title: "String", popTitle: "String", popBody: "String")
     }
 
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if let touch = touches.first, gameScene != nil
-        {
-            let positionInScene = touch.location(in: gameScene!)
-            let touchedNode = gameScene!.atPoint(positionInScene)
-            touchBeganNode = touchedNode as? SKSpriteNode
-            if touchBeganNode == homePlayButton {
-                homePlayButton?.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
-            }
-            if touchBeganNode == gameBack {
-                gameBack?.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
-            }
-            if touchBeganNode?.name == "closeInfo" {
-                touchBeganNode?.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
-            }
-            if touchedNode.name == "Author" {
-                touchedNode.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
-            }
-            if touchedNode == gameOptionShuffle
-            {
-                touchedNode.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
-            }
-            if touchedNode == gameOptionSearch
-            {
-                gameOptionSearch?.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
+    func createAndLoadInterstitial() -> GADInterstitial {
+          var interstitial = GADInterstitial(adUnitID: "ca-app-pub-3940256099942544/4411468910")
+          interstitial.delegate = self
+          interstitial.load(GADRequest())
+          return interstitial
+        }
 
-            }
+        func interstitialDidDismissScreen(_ ad: GADInterstitial) {
+            print("hi123")
+          interstitial = createAndLoadInterstitial()
+        
+        }
 
 
+    func addBannerViewToView(_ bannerView: GADBannerView) {
+     bannerView.translatesAutoresizingMaskIntoConstraints = false
+     view.addSubview(bannerView)
+     view.addConstraints(
+       [NSLayoutConstraint(item: bannerView,
+                           attribute: .bottomMargin,
+                           relatedBy: .equal,
+                           toItem: bottomLayoutGuide,
+                           attribute: .top,
+                           multiplier: 1,
+                           constant: 0),
+        NSLayoutConstraint(item: bannerView,
+                           attribute: .centerX,
+                           relatedBy: .equal,
+                           toItem: view,
+                           attribute: .centerX,
+                           multiplier: 1,
+                           constant: 0)
+       ])
+    }
+    func loadAds(){
+        rewardedAd = GADRewardedAd(adUnitID: "ca-app-pub-3940256099942544/1712485313")
+        rewardedAd?.load(GADRequest()) { error in
+          if let error = error {
+            // Handle ad failed to load case.
+          } else {
+            // Ad successfully loaded.
+          }
+        }
+        if(!(defaults.bool(forKey: "no-ads"))){
+            bannerView = GADBannerView(adSize: kGADAdSizeBanner)
+            bannerView.adUnitID = "ca-app-pub-3940256099942544/2934735716"
+            bannerView.center = CGPoint(x: view.frame.midX, y: view.bounds.height - bannerView.bounds.height / 2)
+            bannerView.rootViewController = self
+            bannerView.load(GADRequest())
+            interstitial = GADInterstitial(adUnitID: "ca-app-pub-3940256099942544/4411468910")
+            let request = GADRequest()
+            interstitial.delegate = self
+            interstitial.load(request)
+
+            addBannerViewToView(bannerView)
+            self.view.bringSubviewToFront(bannerView);
         }
     }
-    
+    func rewardedAd(_ rewardedAd: GADRewardedAd, userDidEarn reward: GADAdReward) {
+        let balance = defaults.integer(forKey: "balance")
+        defaults.set(balance+10, forKey: "balance")
+        reloadBalance()
+    }
+    func createAndLoadRewardedAd() -> GADRewardedAd{
+      rewardedAd = GADRewardedAd(adUnitID: "ca-app-pub-3940256099942544/1712485313")
+      rewardedAd?.load(GADRequest()) { error in
+        if let error = error {
+          print("Loading failed: \(error)")
+        } else {
+          print("Loading Succeeded")
+        }
+      }
+        return rewardedAd!
+    }
+    func rewardedAdDidDismiss(_ rewardedAd: GADRewardedAd) {
+      let rewardedAd = createAndLoadRewardedAd()
+    }
+
 
 
 }

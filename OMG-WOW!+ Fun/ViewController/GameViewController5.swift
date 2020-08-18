@@ -10,8 +10,9 @@ import Foundation
 import UIKit
 import SpriteKit
 import GameplayKit
+import GoogleMobileAds
 
-class GameViewController5: UIViewController {
+class GameViewController5: UIViewController, GADInterstitialDelegate, GADRewardedAdDelegate {
     
     var gameScene : MyScene5?
     var homeBackground : SKSpriteNode?
@@ -28,6 +29,8 @@ class GameViewController5: UIViewController {
     var gameLevelHeader : SKSpriteNode?
     var gameTitleHeader : SKSpriteNode?
     var gameCoin : SKSpriteNode?
+    var coin : SKSpriteNode?
+
     var allStrings = [["TEACH","BETTER","BEST"], ["GOLF","TENNIS","BALL","ROW","PITCH"], ["NEVER","ALWAYS","EYE"], ["NOTHING","THAN","POSITIVE"], ["THOUGHT","CHANGE","SMALL","DAY"], ["SITUATION","SITUATION","TURN","INTO"]]
     
     var block : BlockNode = BlockNode()
@@ -56,19 +59,35 @@ class GameViewController5: UIViewController {
     var infoTitle : SKSpriteNode?
     var infoBody : SKSpriteNode?
 
+    var bannerView: GADBannerView!
+    var interstitial: GADInterstitial!
+    var rewardedAd: GADRewardedAd?
+
+    var enableEndPop: Bool = false
+    var pLevel: Int = 1
+    var pBody: String = ""
+    var pTitle: String = ""
+    var pLTitle: String = ""
+    var levelDelay = 0.0
+
     //MARK:- View LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
         currentLevel = 85
+        loadAds()
         allStrings = block.allStrings5
         view.layoutIfNeeded()
         presentGameScene()
         initializationOfGameVariable()
         hideGameComponents()
         initializeGameSwipeAction()
-        if(defaults.integer(forKey: "game5level") != 84 && (defaults.integer(forKey: "game5level") != 0)){
+        print("IM BIG DUMB \(defaults.integer(forKey: "game5level"))")
+
+        if(defaults.integer(forKey: "game5level") != 85 && (defaults.integer(forKey: "game5level") != 0)){
             skip(to: defaults.integer(forKey: "game5level"))
         }
+        reloadBalance()
+
     }
     override var prefersStatusBarHidden: Bool {
         return true
@@ -116,7 +135,7 @@ class GameViewController5: UIViewController {
         gameLevelHeader = fetchSpriteNode(withName: "gameLevelHeader")
         gameTitleHeader = fetchSpriteNode(withName: "gameTitleHeader")
         gameCoin = fetchSpriteNode(withName: "gameCoin")
-        
+        coin = fetchSpriteNode(withName: "coin")
         gameOptionsBackground = fetchSpriteNode(withName: "gameOptionsBackground")
         gameOptionSearch = fetchSpriteNode(withName: "gameOptionSearch")
         gameOptionHint = fetchSpriteNode(withName: "gameOptionHint")
@@ -199,55 +218,68 @@ class GameViewController5: UIViewController {
     
     func initializeNextLevel(level: Int, title: String, popTitle: String, popBody: String)
     {
-        defaults.set(level, forKey: "level")
-        defaults.set(level, forKey: "game5level")
+        pLevel = level
+        pBody = popBody
+        pTitle = popTitle
+        pLTitle = title
+        if(enableEndPop){
+            infoPopup?.isHidden = false
+        }else{
+        DispatchQueue.main.asyncAfter(deadline: .now() + levelDelay) {
+            if(!self.defaults.bool(forKey: "no-ads")){
+            if self.interstitial.isReady {
+                self.interstitial.present(fromRootViewController: self)
+            }
+        }
+        self.defaults.set(level, forKey: "level")
+        self.defaults.set(level, forKey: "game5level")
 
         self.currentLevel = level
         if(popTitle != "" && popBody != ""){
-            if let body = SKSpriteNodelol?.childNode(withName: "infoBody") as? SKLabelNode
+            if let body = self.SKSpriteNodelol?.childNode(withName: "infoBody") as? SKLabelNode
             {
                 body.text = popBody
             }
-            if let title = SKSpriteNodelol?.childNode(withName: "infoTitle") as? SKLabelNode
+            if let title = self.SKSpriteNodelol?.childNode(withName: "infoTitle") as? SKLabelNode
             {
                 title.text = popTitle
             }
         }
 
 
-        infoPopup?.isHidden = true
+        self.infoPopup?.isHidden = true
         
-        self.gameScene?.gameCanvases[level-previous-1]?.children.forEach({ (node) in
+        self.gameScene?.gameCanvases[level-self.previous-1]?.children.forEach({ (node) in
             if node is BlockNode
             {
                 node.run(SKAction.fadeOut(withDuration: 0))
             }
         })
-        if let lblLevel = gameLevelHeader?.childNode(withName: "Label") as? SKLabelNode
+        if let lblLevel = self.gameLevelHeader?.childNode(withName: "Label") as? SKLabelNode
         {
             lblLevel.text = "LEVEL \(level)"
         }
-        if let lblTitle = gameTitleHeader?.childNode(withName: "Label") as? SKLabelNode
+        if let lblTitle = self.gameTitleHeader?.childNode(withName: "Label") as? SKLabelNode
         {
             lblTitle.text = title
         }
         
-        self.gameScene?.addNextPhysicsBody(index: level-1-previous)
+        self.gameScene?.addNextPhysicsBody(index: level-1-self.previous)
         
-        for scene in gameScene!.gameCanvases{
+        for scene in self.gameScene!.gameCanvases{
             if(scene != nil){
                 scene!.isHidden = true
             }
         }
         
-        for scene in gameScene!.textCanvases{
+        for scene in self.gameScene!.textCanvases{
             scene!.isHidden = true
         }
-        gameScene?.gameCanvases[level-previous-1]?.isHidden = false
-        gameScene?.textCanvases[level-previous-1]?.isHidden = false
+        self.gameScene?.gameCanvases[level-self.previous-1]?.isHidden = false
+        self.gameScene?.textCanvases[level-self.previous-1]?.isHidden = false
 
         var delay = 0.1
-        for node in self.gameScene?.gameCanvases[level-previous-1]?.children ?? []
+        for node in self.gameScene?.gameCanvases[level-self.previous-1]?.children ?? []
         {
             if node is BlockNode
             {
@@ -256,6 +288,8 @@ class GameViewController5: UIViewController {
                 }
                 delay = delay + 0.1
             }
+        }
+        }
         }
     }
 
@@ -362,7 +396,11 @@ class GameViewController5: UIViewController {
     //MARK:- Swipe Action
     
     func actionOnWord(word: String, num: Int){
-    
+        
+        if(word != "" && num == 0){
+            self.enableEndPop = true
+        }
+
         if(word == "GREATEST" || num == 86){
             self.initializeNextLevel(level: 86, title: "LEADERSHIP", popTitle: "John C. Maxwell", popBody: "John Calvin Maxwell is an American author, speaker, and pastor who has written many books, primarily focusing on leadership.")
         }else if(word == "RELATE" || num == 87){
@@ -373,7 +411,7 @@ class GameViewController5: UIViewController {
             self.initializeNextLevel(level: 89, title: "LEADERSHIP", popTitle: "‭‭Steve Jobs", popBody: "Steven Paul Jobs was an American business magnate, industrial designer, investor, and media proprietor.")
         }else if(word == "YARDSTICK" || num == 90){
             defaults.set(true, forKey: "level6")
-            defaults.set(79, forKey: "game5level")
+            defaults.set(85, forKey: "game5level")
             defaults.set(false, forKey: "startview")
             performSegue(withIdentifier: "levelselect5", sender: nil)
         }
@@ -467,12 +505,19 @@ class GameViewController5: UIViewController {
             
             if touchedNode == gameBack
             {
-                defaults.set(true, forKey: "startview")
-                performSegue(withIdentifier: "levelselect4", sender: nil)
-            }
+                enableEndPop = false
+                if(currentLevel > previous+1){
+                    defaults.set(currentLevel-1, forKey: "level")
+                    defaults.set(currentLevel-1, forKey: "game5level")
+                    viewDidLoad()
+                }else{
+                    defaults.set(false, forKey: "startview")
+                    performSegue(withIdentifier: "levelselect5", sender: nil)
+                }            }
             if touchedNode == gameOptionShuffle
             {
 //                print("SOFJODFHOIDHJFSIOJIOFJSODIFJOSDIFJOSDJFOSDJF")
+                enableEndPop = false
                 skip()
 
                 touchedNode.run(SKAction.fadeAlpha(to: 1.0, duration: 0))
@@ -481,6 +526,12 @@ class GameViewController5: UIViewController {
             if touchedNode.name == "closeInfo" && touchBeganNode?.name == "closeInfo"
             {
                 infoPopup?.isHidden = true
+                if(enableEndPop){
+                    enableEndPop = false
+                    levelDelay = 5
+                    initializeNextLevel(level: pLevel, title: pLTitle, popTitle: pTitle, popBody: pBody)
+                    levelDelay = 0
+                }
                 touchedNode.run(SKAction.fadeAlpha(to: 1.0, duration: 0))
             }
             if touchedNode.name == "Author"
@@ -496,26 +547,83 @@ class GameViewController5: UIViewController {
             {
                 defaults.set(false, forKey: "startview")
                 gameOptionSearch?.run(SKAction.fadeAlpha(to: 1, duration: 0))
-                performSegue(withIdentifier: "levelselect4", sender: nil)
+                performSegue(withIdentifier: "levelselect5", sender: nil)
 
             }
+            if touchedNode == gameOptionHint
+            {
+                gameOptionHint?.run(SKAction.fadeAlpha(to: 1, duration: 0))
+                hint()
+            }
+            if touchedNode == gameCoin || touchedNode == coin
+            {
+                gameCoin?.run(SKAction.fadeAlpha(to: 1, duration: 0))
+                performSegue(withIdentifier: "tocoins5", sender: nil)
+            }
+            if touchedNode == gameOptionAds
+            {
+                gameOptionAds?.run(SKAction.fadeAlpha(to: 1, duration: 0))
+                if rewardedAd?.isReady == true {
+                   rewardedAd?.present(fromRootViewController: self, delegate:self)
+                }
+            }
+
 
         }
     }
-    func skip(){
+    func hint(){
+        let balance = defaults.integer(forKey: "balance")
+        var counter = 0
+        if(balance >= 10){
+        self.gameScene?.gameCanvases[currentLevel-previous-1]?.children.forEach({ (node) in
+                if node is BlockNode
+                {
+                    node.children[0].description
+                    let nodeText = (((node.children[0]) as! SKLabelNode).text)!
+                    let stringHint = allStrings[currentLevel-previous-1][allStrings [currentLevel-previous-1].count-1]
+                    print(nodeText)
+                    print(allStrings[currentLevel-previous-1][allStrings        [currentLevel-previous-1].count-1])
+                    if(stringHint.contains(nodeText) && counter < 6){
+                        (node as! SKSpriteNode).color = colorHighlighted
+                        counter += 1
+                    }
+                }
+            })
+            defaults.set(balance-10, forKey: "balance")
+            reloadBalance()
+        }else{
+            performSegue(withIdentifier: "tocoins5", sender: nil)
 
-        for node in self.gameScene?.gameCanvases[currentLevel-previous-1]?.children ?? []
-        {
-            if node is BlockNode
+        }
+        
+    }
+    func skip(){
+        let balance = defaults.integer(forKey: "balance")
+        if(balance >= 20){
+            for node in self.gameScene?.gameCanvases[currentLevel-previous-1]?.children ?? []
             {
-                DispatchQueue.main.asyncAfter(deadline: .now()) {
-                    node.run(SKAction.fadeOut(withDuration: 0.2))
-                    node.run(SKAction.removeFromParent())
+                if node is BlockNode
+                {
+                    DispatchQueue.main.asyncAfter(deadline: .now()) {
+                        node.run(SKAction.fadeOut(withDuration: 0.2))
+                        node.run(SKAction.removeFromParent())
+                    }
                 }
             }
+            actionOnWord(word: "",num: currentLevel+1)
+            defaults.set(balance-20, forKey: "balance")
+            reloadBalance()
+        }else{
+            performSegue(withIdentifier: "tocoins5", sender: nil)
+
         }
-        actionOnWord(word: "",num: currentLevel+1)
-//        initializeNextLevel(level: currentLevel+1, title: "String", popTitle: "String", popBody: "String")
+    }
+    func reloadBalance(){
+        if let lblLevel = gameCoin?.childNode(withName: "balance") as? SKLabelNode
+        {
+            lblLevel.text = "\(defaults.integer(forKey: "balance"))"
+        }
+
     }
     func skip(to: Int){
 
@@ -532,39 +640,151 @@ class GameViewController5: UIViewController {
         actionOnWord(word: "",num: to)
     //        initializeNextLevel(level: currentLevel+1, title: "String", popTitle: "String", popBody: "String")
     }
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        gameBack?.run(SKAction.fadeAlpha(to: 1, duration: 0))
+        gameOptionShuffle?.run(SKAction.fadeAlpha(to: 1, duration: 0))
+        gameBack?.run(SKAction.fadeAlpha(to: 1, duration: 0))
+        gameOptionHint?.run(SKAction.fadeAlpha(to: 1, duration: 0))
+        gameOptionSearch?.run(SKAction.fadeAlpha(to: 1, duration: 0))
+        gameOptionAds?.run(SKAction.fadeAlpha(to: 1, duration: 0))
+        gameCoin?.run(SKAction.fadeAlpha(to: 1, duration: 0))
+        coin?.run(SKAction.fadeAlpha(to: 1, duration: 0))
+    }
 
+    var end:Bool = false
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if(end){
         if let touch = touches.first, gameScene != nil
         {
             let positionInScene = touch.location(in: gameScene!)
             let touchedNode = gameScene!.atPoint(positionInScene)
             touchBeganNode = touchedNode as? SKSpriteNode
             if touchBeganNode == homePlayButton {
+                end = true
                 homePlayButton?.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
             }
             if touchBeganNode == gameBack {
+                end = true
                 gameBack?.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
             }
             if touchBeganNode?.name == "closeInfo" {
+                end = true
                 touchBeganNode?.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
             }
             if touchedNode.name == "Author" {
+                end = true
                 touchedNode.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
             }
             if touchedNode == gameOptionShuffle
             {
+                end = true
                 touchedNode.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
             }
             if touchedNode == gameOptionSearch
             {
+                end = true
                 gameOptionSearch?.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
 
             }
+            if touchedNode == gameOptionHint
+            {
+                end = true
+                gameOptionHint?.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
+            }
+            if touchedNode == gameCoin || touchedNode == coin
+            {
+                end = true
+                gameCoin?.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
+            }
+            if touchedNode == gameOptionAds
+            {
+                end = true
+                gameOptionAds?.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
+            }
 
+            }
 
         }
     }
     
+    func createAndLoadInterstitial() -> GADInterstitial {
+          var interstitial = GADInterstitial(adUnitID: "ca-app-pub-3940256099942544/4411468910")
+          interstitial.delegate = self
+          interstitial.load(GADRequest())
+          return interstitial
+        }
+
+        func interstitialDidDismissScreen(_ ad: GADInterstitial) {
+            print("hi123")
+          interstitial = createAndLoadInterstitial()
+        
+        }
+
+
+    func addBannerViewToView(_ bannerView: GADBannerView) {
+     bannerView.translatesAutoresizingMaskIntoConstraints = false
+     view.addSubview(bannerView)
+     view.addConstraints(
+       [NSLayoutConstraint(item: bannerView,
+                           attribute: .bottomMargin,
+                           relatedBy: .equal,
+                           toItem: bottomLayoutGuide,
+                           attribute: .top,
+                           multiplier: 1,
+                           constant: 0),
+        NSLayoutConstraint(item: bannerView,
+                           attribute: .centerX,
+                           relatedBy: .equal,
+                           toItem: view,
+                           attribute: .centerX,
+                           multiplier: 1,
+                           constant: 0)
+       ])
+    }
+    func loadAds(){
+        rewardedAd = GADRewardedAd(adUnitID: "ca-app-pub-3940256099942544/1712485313")
+        rewardedAd?.load(GADRequest()) { error in
+          if let error = error {
+            // Handle ad failed to load case.
+          } else {
+            // Ad successfully loaded.
+          }
+        }
+        if(!(defaults.bool(forKey: "no-ads"))){
+            bannerView = GADBannerView(adSize: kGADAdSizeBanner)
+            bannerView.adUnitID = "ca-app-pub-3940256099942544/2934735716"
+            bannerView.center = CGPoint(x: view.frame.midX, y: view.bounds.height - bannerView.bounds.height / 2)
+            bannerView.rootViewController = self
+            bannerView.load(GADRequest())
+            interstitial = GADInterstitial(adUnitID: "ca-app-pub-3940256099942544/4411468910")
+            let request = GADRequest()
+            interstitial.delegate = self
+            interstitial.load(request)
+
+            addBannerViewToView(bannerView)
+            self.view.bringSubviewToFront(bannerView);
+        }
+    }
+    func rewardedAd(_ rewardedAd: GADRewardedAd, userDidEarn reward: GADAdReward) {
+        let balance = defaults.integer(forKey: "balance")
+        defaults.set(balance+10, forKey: "balance")
+        reloadBalance()
+    }
+    func createAndLoadRewardedAd() -> GADRewardedAd{
+      rewardedAd = GADRewardedAd(adUnitID: "ca-app-pub-3940256099942544/1712485313")
+      rewardedAd?.load(GADRequest()) { error in
+        if let error = error {
+          print("Loading failed: \(error)")
+        } else {
+          print("Loading Succeeded")
+        }
+      }
+        return rewardedAd!
+    }
+    func rewardedAdDidDismiss(_ rewardedAd: GADRewardedAd) {
+      let rewardedAd = createAndLoadRewardedAd()
+    }
+
 
 
 }

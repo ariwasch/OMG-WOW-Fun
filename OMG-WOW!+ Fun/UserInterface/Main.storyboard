@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="bSW-Va-hoe">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="JoS-0L-cQo">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
@@ -22,6 +22,7 @@
                     <navigationItem key="navigationItem" id="oeP-T6-M1v"/>
                     <connections>
                         <segue destination="bSW-Va-hoe" kind="presentation" identifier="levelselect2" modalPresentationStyle="fullScreen" modalTransitionStyle="crossDissolve" id="kap-B4-Q7r"/>
+                        <segue destination="2m6-Nx-T3V" kind="presentation" identifier="tocoins2" modalPresentationStyle="fullScreen" id="BqI-W8-1Ws"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SZV-WD-TEh" sceneMemberID="firstResponder"/>
@@ -43,6 +44,7 @@
                     </view>
                     <connections>
                         <segue destination="bSW-Va-hoe" kind="presentation" identifier="levelselect3" modalPresentationStyle="fullScreen" modalTransitionStyle="crossDissolve" id="edE-GM-cVe"/>
+                        <segue destination="2m6-Nx-T3V" kind="presentation" identifier="tocoins3" modalPresentationStyle="fullScreen" id="RcE-Yu-hdv"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="v2w-E1-xOh" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -60,9 +62,26 @@
                     <view key="view" contentMode="scaleToFill" id="gO9-Pl-a43" customClass="SKView">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Mi7-uq-Iqs">
+                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                                <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <wkWebViewConfiguration key="configuration">
+                                    <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
+                                    <wkPreferences key="preferences"/>
+                                </wkWebViewConfiguration>
+                            </wkWebView>
+                        </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="Mi7-uq-Iqs" firstAttribute="top" secondItem="AKn-8F-hiK" secondAttribute="bottom" id="1QR-kb-XXs"/>
+                            <constraint firstItem="Mi7-uq-Iqs" firstAttribute="leading" secondItem="gO9-Pl-a43" secondAttribute="leading" id="OpH-yi-PGV"/>
+                            <constraint firstItem="C0n-Bv-HVR" firstAttribute="top" secondItem="Mi7-uq-Iqs" secondAttribute="bottom" id="hhA-aa-4RQ"/>
+                            <constraint firstAttribute="trailing" secondItem="Mi7-uq-Iqs" secondAttribute="trailing" id="qFa-7n-Ss4"/>
+                        </constraints>
                     </view>
                     <connections>
+                        <outlet property="webView" destination="Mi7-uq-Iqs" id="ba2-Ly-6g6"/>
                         <segue destination="nkN-hY-Ehx" kind="presentation" identifier="togame1" modalPresentationStyle="fullScreen" modalTransitionStyle="crossDissolve" id="2zN-Xl-ICB"/>
                         <segue destination="BV1-FR-VrT" kind="presentation" identifier="togame2" modalPresentationStyle="fullScreen" modalTransitionStyle="crossDissolve" id="ISu-Ee-5ju"/>
                         <segue destination="2m6-Nx-T3V" kind="presentation" identifier="selectToCoins" modalPresentationStyle="fullScreen" modalTransitionStyle="crossDissolve" id="zQN-CF-oel"/>
@@ -71,11 +90,12 @@
                         <segue destination="UuG-aN-cLq" kind="presentation" identifier="togame4" modalPresentationStyle="fullScreen" modalTransitionStyle="crossDissolve" id="EYS-OJ-Bfs"/>
                         <segue destination="4je-YK-zKS" kind="presentation" identifier="togame5" modalPresentationStyle="fullScreen" modalTransitionStyle="crossDissolve" id="Byn-1c-q30"/>
                         <segue destination="Esa-K6-vrQ" kind="presentation" identifier="togame6" modalPresentationStyle="fullScreen" modalTransitionStyle="crossDissolve" id="w7f-xo-bdo"/>
+                        <segue destination="Bgu-ld-JAN" kind="presentation" identifier="tutorial" modalPresentationStyle="fullScreen" id="lTf-WF-OFd"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pCb-n8-9Vf" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1254" y="-617"/>
+            <point key="canvasLocation" x="1253.6231884057972" y="-617.41071428571422"/>
         </scene>
         <!--Coins Controller-->
         <scene sceneID="lhp-qV-moA">
@@ -135,29 +155,51 @@
                     </view>
                     <navigationItem key="navigationItem" id="hOn-8I-jd1"/>
                     <connections>
-                        <segue destination="BV1-FR-VrT" kind="presentation" identifier="faith" modalPresentationStyle="fullScreen" modalTransitionStyle="crossDissolve" id="g6W-A9-9sZ"/>
                         <segue destination="bSW-Va-hoe" kind="presentation" identifier="levelselect1" modalPresentationStyle="fullScreen" modalTransitionStyle="crossDissolve" id="bgF-st-6kb"/>
+                        <segue destination="2m6-Nx-T3V" kind="presentation" identifier="tocoins1" modalPresentationStyle="fullScreen" id="v5B-CD-6mv"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HEJ-0X-chk" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="271" y="104"/>
+            <point key="canvasLocation" x="177" y="321"/>
+        </scene>
+        <!--Tutorial Controller-->
+        <scene sceneID="EkR-tb-ZMw">
+            <objects>
+                <viewController id="Bgu-ld-JAN" customClass="TutorialController" customModule="OMG_WOW" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Zes-2W-1QZ"/>
+                        <viewControllerLayoutGuide type="bottom" id="j8b-Bf-Fzl"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Hjn-wE-iaU">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                    </view>
+                    <connections>
+                        <segue destination="bSW-Va-hoe" kind="presentation" identifier="tutorialToLevelSelect" modalPresentationStyle="fullScreen" id="BTj-DR-xBU"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="wDI-EO-g91" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="5830" y="-310"/>
         </scene>
         <!--Game View Controller6-->
         <scene sceneID="o6t-ZP-UMx">
             <objects>
-                <viewController id="Esa-K6-vrQ" customClass="GameViewController6" sceneMemberID="viewController">
+                <viewController id="Esa-K6-vrQ" customClass="GameViewController6" customModule="OMG_WOW" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="2js-Tl-9op"/>
                         <viewControllerLayoutGuide type="bottom" id="rJ1-sr-hhR"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="nFA-qw-rjD" customClass="SKView" customModule="OMG_WOW" customModuleProvider="target">
+                    <view key="view" contentMode="scaleToFill" id="nFA-qw-rjD" customClass="SKView">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                     </view>
                     <connections>
                         <segue destination="bSW-Va-hoe" kind="presentation" identifier="levelselect6" modalPresentationStyle="fullScreen" modalTransitionStyle="crossDissolve" id="wTc-b5-EO1"/>
+                        <segue destination="2m6-Nx-T3V" kind="presentation" identifier="tocoins6" modalPresentationStyle="fullScreen" id="h7t-9t-QeN"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pVa-bl-h6B" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -179,6 +221,7 @@
                     </view>
                     <connections>
                         <segue destination="bSW-Va-hoe" kind="presentation" identifier="levelselect4" modalPresentationStyle="fullScreen" modalTransitionStyle="crossDissolve" id="HSs-jJ-BU3"/>
+                        <segue destination="2m6-Nx-T3V" kind="presentation" identifier="tocoins4" modalPresentationStyle="fullScreen" id="LTL-m7-LjY"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="q6b-pw-uB0" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -200,15 +243,17 @@
                     </view>
                     <connections>
                         <segue destination="bSW-Va-hoe" kind="presentation" identifier="levelselect5" modalPresentationStyle="fullScreen" modalTransitionStyle="crossDissolve" id="b4r-h8-P6g"/>
+                        <segue destination="2m6-Nx-T3V" kind="presentation" identifier="tocoins5" modalPresentationStyle="fullScreen" id="WmR-1T-9BY"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lfH-Cz-mEm" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4419" y="386"/>
+            <point key="canvasLocation" x="4452" y="413"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="edE-GM-cVe"/>
-        <segue reference="g6W-A9-9sZ"/>
+        <segue reference="2zN-Xl-ICB"/>
+        <segue reference="zQN-CF-oel"/>
+        <segue reference="bgF-st-6kb"/>
     </inferredMetricsTieBreakers>
 </document>

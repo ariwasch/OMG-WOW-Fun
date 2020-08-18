@@ -10,6 +10,7 @@
 		3222F8BCFBEEEB4351A77F85 /* Pods_OMG_WOW___Fun.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BFD8848FF805355C12606AB /* Pods_OMG_WOW___Fun.framework */; };
 		950D180424B3C26C00276A3B /* LevelSelect.sks in Resources */ = {isa = PBXBuildFile; fileRef = 950D180324B3C26C00276A3B /* LevelSelect.sks */; };
 		950D180624B3C29100276A3B /* Coins.sks in Resources */ = {isa = PBXBuildFile; fileRef = 950D180524B3C29100276A3B /* Coins.sks */; };
+		951DEAE224D2477A0015C8F8 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 951DEAE124D2477A0015C8F8 /* StoreKit.framework */; };
 		952DAE8D24ABC9F900B8E152 /* MyScene2.sks in Resources */ = {isa = PBXBuildFile; fileRef = 952DAE8C24ABC9F900B8E152 /* MyScene2.sks */; };
 		9534123F24C4E0240075E152 /* MyScene4.sks in Resources */ = {isa = PBXBuildFile; fileRef = 9534123E24C4E0240075E152 /* MyScene4.sks */; };
 		9534124124C4E0370075E152 /* MyScene5.sks in Resources */ = {isa = PBXBuildFile; fileRef = 9534124024C4E0370075E152 /* MyScene5.sks */; };
@@ -29,7 +30,10 @@
 		957EC84624B8B1330078C959 /* StartPage.sks in Resources */ = {isa = PBXBuildFile; fileRef = 957EC84524B8B1330078C959 /* StartPage.sks */; };
 		958B9CFC24B75E7D00F65FE8 /* Coins.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958B9CFB24B75E7D00F65FE8 /* Coins.swift */; };
 		958B9CFE24B75EAC00F65FE8 /* CoinsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958B9CFD24B75EAC00F65FE8 /* CoinsController.swift */; };
+		959ECB5A24C747770028C732 /* Tutorial.sks in Resources */ = {isa = PBXBuildFile; fileRef = 959ECB5924C747770028C732 /* Tutorial.sks */; };
 		95B220F4249EBC2300B3CB0D /* Variables.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95B220F3249EBC2300B3CB0D /* Variables.swift */; };
+		95B8FD1924C8C3EE000494F2 /* TutorialController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95B8FD1824C8C3EE000494F2 /* TutorialController.swift */; };
+		95B8FD1D24C8CCFD000494F2 /* output.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 95B8FD1C24C8CCEB000494F2 /* output.mp4 */; };
 		95B9FD9324BD086E00366675 /* MyScene3.sks in Resources */ = {isa = PBXBuildFile; fileRef = 95B9FD9224BD086E00366675 /* MyScene3.sks */; };
 		95B9FD9524BD0A1E00366675 /* MyScene3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95B9FD9424BD0A1E00366675 /* MyScene3.swift */; };
 		95B9FD9724BD0AF200366675 /* GameViewController3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95B9FD9624BD0AF200366675 /* GameViewController3.swift */; };
@@ -51,6 +55,7 @@
 		6BFD8848FF805355C12606AB /* Pods_OMG_WOW___Fun.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = "Pods_OMG_WOW___Fun.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
 		950D180324B3C26C00276A3B /* LevelSelect.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = LevelSelect.sks; sourceTree = "<group>"; };
 		950D180524B3C29100276A3B /* Coins.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Coins.sks; sourceTree = "<group>"; };
+		951DEAE124D2477A0015C8F8 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		952DAE8C24ABC9F900B8E152 /* MyScene2.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MyScene2.sks; sourceTree = "<group>"; };
 		9534123E24C4E0240075E152 /* MyScene4.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MyScene4.sks; sourceTree = "<group>"; };
 		9534124024C4E0370075E152 /* MyScene5.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MyScene5.sks; sourceTree = "<group>"; };
@@ -70,7 +75,10 @@
 		957EC84524B8B1330078C959 /* StartPage.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = StartPage.sks; sourceTree = "<group>"; };
 		958B9CFB24B75E7D00F65FE8 /* Coins.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coins.swift; sourceTree = "<group>"; };
 		958B9CFD24B75EAC00F65FE8 /* CoinsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinsController.swift; sourceTree = "<group>"; };
+		959ECB5924C747770028C732 /* Tutorial.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Tutorial.sks; sourceTree = "<group>"; };
 		95B220F3249EBC2300B3CB0D /* Variables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Variables.swift; sourceTree = "<group>"; };
+		95B8FD1824C8C3EE000494F2 /* TutorialController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialController.swift; sourceTree = "<group>"; };
+		95B8FD1C24C8CCEB000494F2 /* output.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; name = output.mp4; path = ../../../output.mp4; sourceTree = "<group>"; };
 		95B9FD9224BD086E00366675 /* MyScene3.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MyScene3.sks; sourceTree = "<group>"; };
 		95B9FD9424BD0A1E00366675 /* MyScene3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyScene3.swift; sourceTree = "<group>"; };
 		95B9FD9624BD0AF200366675 /* GameViewController3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController3.swift; sourceTree = "<group>"; };
@@ -96,6 +104,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3222F8BCFBEEEB4351A77F85 /* Pods_OMG_WOW___Fun.framework in Frameworks */,
+				951DEAE224D2477A0015C8F8 /* StoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -105,6 +114,7 @@
 		CABEE6CA4B5E25554A466444 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				951DEAE124D2477A0015C8F8 /* StoreKit.framework */,
 				6BFD8848FF805355C12606AB /* Pods_OMG_WOW___Fun.framework */,
 			);
 			name = Frameworks;
@@ -153,6 +163,8 @@
 		D0C0E6792449935500201332 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				95B8FD1C24C8CCEB000494F2 /* output.mp4 */,
+				95B8FD1824C8C3EE000494F2 /* TutorialController.swift */,
 				957EC84124B8B0CB0078C959 /* StartPageController.swift */,
 				D0C0E67A2449935500201332 /* GameViewController.swift */,
 				95652CCE24ABCD5500475A84 /* GameViewController2.swift */,
@@ -179,6 +191,7 @@
 				9534124024C4E0370075E152 /* MyScene5.sks */,
 				9534124224C4E0450075E152 /* MyScene6.sks */,
 				950D180324B3C26C00276A3B /* LevelSelect.sks */,
+				959ECB5924C747770028C732 /* Tutorial.sks */,
 				950D180524B3C29100276A3B /* Coins.sks */,
 				957EC84524B8B1330078C959 /* StartPage.sks */,
 				957EC83F24B7A3770078C959 /* GoogleService-Info.plist */,
@@ -274,6 +287,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				95B8FD1D24C8CCFD000494F2 /* output.mp4 in Resources */,
 				D0C0E6832449935500201332 /* LaunchScreen.storyboard in Resources */,
 				9534123F24C4E0240075E152 /* MyScene4.sks in Resources */,
 				950D180624B3C29100276A3B /* Coins.sks in Resources */,
@@ -287,6 +301,7 @@
 				95B9FD9324BD086E00366675 /* MyScene3.sks in Resources */,
 				D0C0E6842449935500201332 /* Main.storyboard in Resources */,
 				9534124324C4E0450075E152 /* MyScene6.sks in Resources */,
+				959ECB5A24C747770028C732 /* Tutorial.sks in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -367,6 +382,7 @@
 				957EC84224B8B0CB0078C959 /* StartPageController.swift in Sources */,
 				95652CCF24ABCD5500475A84 /* GameViewController2.swift in Sources */,
 				9534124B24C4E4590075E152 /* GameViewController4.swift in Sources */,
+				95B8FD1924C8C3EE000494F2 /* TutorialController.swift in Sources */,
 				95BE783B24B60529005912EF /* LevelSelectController.swift in Sources */,
 				9534124724C4E3D80075E152 /* MyScene5.swift in Sources */,
 				D0C0E6852449935500201332 /* GameViewController.swift in Sources */,
@@ -504,9 +520,10 @@
 			baseConfigurationReference = DD9C2A7A6C7E3EBE668FFE92 /* Pods-OMG-WOW!+ Fun.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1.1;
-				DEVELOPMENT_TEAM = 3K6Q4C6RYZ;
+				DEVELOPMENT_TEAM = L5RQTB3896;
 				INFOPLIST_FILE = "OMG-WOW!+ Fun/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.1;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -515,6 +532,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.wasch.OMG-WOW-FunNew";
 				PRODUCT_NAME = "OMG-WOW";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -525,9 +543,10 @@
 			baseConfigurationReference = 1AC8544E41AEED4FB5E76ACB /* Pods-OMG-WOW!+ Fun.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1.1;
-				DEVELOPMENT_TEAM = 3K6Q4C6RYZ;
+				DEVELOPMENT_TEAM = L5RQTB3896;
 				INFOPLIST_FILE = "OMG-WOW!+ Fun/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.1;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -536,6 +555,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.wasch.OMG-WOW-FunNew";
 				PRODUCT_NAME = "OMG-WOW";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
