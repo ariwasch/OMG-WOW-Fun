@@ -11,8 +11,92 @@ import SpriteKit
 import GameplayKit
 import Firebase
 import GoogleSignIn
+import FBSDKCoreKit
+import FBSDKLoginKit
+import WebKit
 
-class StartPageController: UIViewController {
+class StartPageController: UIViewController, LoginButtonDelegate {
+    
+    func loginButton(_ loginButton: FBLoginButton!, didCompleteWith result: LoginManagerLoginResult!, error: Error!) {
+        if let error = error {
+            print(error.localizedDescription)
+        return
+        }
+        let credential = FacebookAuthProvider.credential(withAccessToken: AccessToken.current!.tokenString)
+        Auth.auth().signInAndRetrieveData(with: credential) { (authResult, error) in
+            if let error = error {
+                print("Facebook authentication with Firebase error: ", error)
+                return
+            }
+        print("Login success!")
+        }
+    }
+
+    
+    func loginButtonDidLogOut(_ loginButton: FBLoginButton!) {
+        // Do something when the user logout
+        print("Logged out")
+    }
+    
+    
+
+    func signIn(){
+        let loginManager = LoginManager()
+        
+        if let _ = AccessToken.current {
+            // Access token available -- user already logged in
+            // Perform log out
+            
+            // 2
+            loginManager.logOut()
+//            updateButton(isLoggedIn: false)
+//            updateMessage(with: nil)
+            
+        } else {
+            // Access token not available -- user already logged out
+            // Perform log in
+            
+            // 3
+            loginManager.logIn(permissions: ["public_profile", "email"], from: self) { [weak self] (result, error) in
+                
+                // 4
+                // Check for error
+                guard error == nil else {
+                    // Error occurred
+                    print(error!.localizedDescription)
+                    return
+                }
+                
+                // 5
+                // Check for cancel
+                guard let result = result, !result.isCancelled else {
+                    print("User cancelled login")
+                    return
+                }
+              
+                // Successfully logged in
+                // 6
+//                self?.updateButton(isLoggedIn: true)
+                print("Login succesful")
+                let credential = FacebookAuthProvider.credential(withAccessToken: AccessToken.current!.tokenString)
+
+                Auth.auth().signIn(with: credential) { (user, error) in
+                      if let error = error {
+                        print("Facebook authentication with Firebase error: ", error)
+                        return
+                      }
+                      print("User signed in!") // After this line the Facebook login should appear on your Firebase console
+                    }
+                self?.defaults.set(true, forKey: "startview")
+                self?.performSegue(withIdentifier: "startSelect", sender: nil)
+
+                // 7
+                Profile.loadCurrentProfile { (profile, error) in
+//                    self?.updateMessage(with: Profile.current?.name)
+                }
+            }
+        }
+    }
     
     
     var gameScene : StartPage?
@@ -67,7 +151,10 @@ class StartPageController: UIViewController {
 //        print("number \(number)")
         super.viewDidLoad()
         GIDSignIn.sharedInstance()?.presentingViewController = self
-        GIDSignIn.sharedInstance().signIn()
+//        GIDSignIn.sharedInstance().signIn()
+        let loginButton = FBLoginButton()
+        loginButton.delegate = self
+        
 //        defaults.set(true, forKey: "level1")
 //        defaults.set("")
 //        defaults.set(true, forKey: "startview")
@@ -142,7 +229,19 @@ class StartPageController: UIViewController {
         homePlayButton?.isUserInteractionEnabled = true
         gameBack?.isUserInteractionEnabled = true
     }
-    
+    func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
+        guard let url = URLContexts.first?.url else {
+            return
+        }
+
+        ApplicationDelegate.shared.application(
+            UIApplication.shared,
+            open: url,
+            sourceApplication: nil,
+            annotation: [UIApplication.OpenURLOptionsKey.annotation]
+        )
+    }
+
 
     func hideAndShowLabel(inNode wordNode:SKSpriteNode?, hide:Bool)
     {
@@ -181,6 +280,7 @@ class StartPageController: UIViewController {
             }
             if touchedNode == facebook
             {
+                signIn()
                 touchedNode.run(SKAction.fadeAlpha(to: 1.0, duration: 0))
             }
             if touchedNode == email

@@ -29,9 +29,10 @@ class GameViewController2: UIViewController, GADInterstitialDelegate, GADRewarde
     var gameTitleHeader : SKSpriteNode?
     var gameCoin : SKSpriteNode?
     var coin : SKSpriteNode?
+    var nextLevelButton : SKSpriteNode?
 
     var allStrings = [["TEACH","BETTER","BEST"], ["GOLF","TENNIS","BALL","ROW","PITCH"], ["NEVER","ALWAYS","EYE"], ["NOTHING","THAN","POSITIVE"], ["THOUGHT","CHANGE","SMALL","DAY"], ["SITUATION","SITUATION","TURN","INTO"]]
-    
+    var wordsSolved : Int = 0
     var block : BlockNode = BlockNode()
     var gameOptionsBackground : SKSpriteNode?
     var gameOptionSearch : SKSpriteNode?
@@ -122,6 +123,7 @@ class GameViewController2: UIViewController, GADInterstitialDelegate, GADRewarde
     
     func initializationOfGameVariable()
     {
+        wordsSolved = 0
         homeBackground = fetchSpriteNode(withName: "homeBackground")
         homeLogo = fetchSpriteNode(withName: "homeLogo")
         homePlayContainer = fetchSpriteNode(withName: "homePlayContainer")
@@ -134,6 +136,7 @@ class GameViewController2: UIViewController, GADInterstitialDelegate, GADRewarde
         gameTitleHeader = fetchSpriteNode(withName: "gameTitleHeader")
         gameCoin = fetchSpriteNode(withName: "gameCoin")
         coin = fetchSpriteNode(withName: "coin")
+        nextLevelButton = fetchSpriteNode(withName: "nextLevel")
 
         gameOptionsBackground = fetchSpriteNode(withName: "gameOptionsBackground")
         gameOptionSearch = fetchSpriteNode(withName: "gameOptionSearch")
@@ -177,7 +180,7 @@ class GameViewController2: UIViewController, GADInterstitialDelegate, GADRewarde
     }
     func wordInWord(string: String) -> Bool{
         var isDuplicate = true
-        if((string == "LOVE" && currentLevel == 43) || (string == "LOVE" && currentLevel == 33) || (string == "LOVE" && currentLevel == 47) || (string == "TREAT" && currentLevel == 45)){
+        if((string == "LOVE" && currentLevel == 43) || (string == "LOVE" && currentLevel == 33) || (string == "LOVE" && currentLevel == 47)  || (string == "LOVE" && currentLevel == 37) || (string == "TREAT" && currentLevel == 45) || (string == "DONE" && currentLevel == 33) || (string == "FAITH" && currentLevel == 48) || (string == "LIVE" && currentLevel == 41) || (string == "EVIL" && currentLevel == 54)){
             isDuplicate = false
         }
         return isDuplicate
@@ -267,15 +270,24 @@ class GameViewController2: UIViewController, GADInterstitialDelegate, GADRewarde
     
     func initializeNextLevel(level: Int, title: String, popTitle: String, popBody: String)
     {
+        wordsSolved = 0
         pLevel = level
         pBody = popBody
         pTitle = popTitle
         pLTitle = title
+        
+
         if(enableEndPop){
             infoPopup?.isHidden = false
+        }else if(level == 55){
+            defaults.set(true, forKey: "level3")
+            defaults.set(31, forKey: "game2level")
+            defaults.set(false, forKey: "startview")
+            performSegue(withIdentifier: "levelselect2", sender: nil)
         }else{
         DispatchQueue.main.asyncAfter(deadline: .now() + levelDelay) {
-        if(!self.defaults.bool(forKey: "no-ads")){
+        let random = Int.random(in: 1...3)
+        if(!self.defaults.bool(forKey: "no-ads") && random % 3 == 0){
             if self.interstitial.isReady {
                 self.interstitial.present(fromRootViewController: self)
             }
@@ -503,11 +515,10 @@ class GameViewController2: UIViewController, GADInterstitialDelegate, GADRewarde
         }else if((word == "DOING"  && currentLevel == 53) || num == 54){
             self.initializeNextLevel(level: 54, title: "FAITH", popTitle: "‭‭‭‭1 Peter‬ ‭3:7‬ ‭NLT‬‬", popBody: "The First Epistle of Peter, usually referred to simply as First Peter and often written 1 Peter, is a book of the New Testament.")
         }else if(word == "HONOR" || num == 55){
-            defaults.set(true, forKey: "level3")
-            defaults.set(31, forKey: "game2level")
-            defaults.set(false, forKey: "startview")
-            performSegue(withIdentifier: "levelselect2", sender: nil)
+            self.initializeNextLevel(level: 55, title: "", popTitle: "‭‭‭‭", popBody: "")
 
+        }else{
+            self.enableEndPop = false
         }
 
 
@@ -519,6 +530,7 @@ class GameViewController2: UIViewController, GADInterstitialDelegate, GADRewarde
     }
     func correctWordSwipe(forSwippedWord strWord:String, selectedNodes arrNodes:[SKSpriteNode])
     {
+        wordsSolved += 1
         for i in 0...allStrings.count-1{
             var tempArray = [SKSpriteNode]()
             for j in 0...allStrings[i].count-1{
@@ -650,6 +662,11 @@ class GameViewController2: UIViewController, GADInterstitialDelegate, GADRewarde
                 end = true
                 gameOptionAds?.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
             }
+            if touchedNode == nextLevelButton
+            {
+                end = true
+                touchedNode.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
+            }
 
 
         }
@@ -688,6 +705,7 @@ class GameViewController2: UIViewController, GADInterstitialDelegate, GADRewarde
             if touchedNode == gameOptionShuffle
             {
 //                print("SOFJODFHOIDHJFSIOJIOFJSODIFJOSDIFJOSDJFOSDJF")
+                nextLevelButton?.isHidden = true
                 enableEndPop = false
                 skip()
 
@@ -696,15 +714,29 @@ class GameViewController2: UIViewController, GADInterstitialDelegate, GADRewarde
             
             if touchedNode.name == "closeInfo" && touchBeganNode?.name == "closeInfo"
             {
-                infoPopup?.isHidden = true
-                if(enableEndPop){
-                    enableEndPop = false
-                    levelDelay = 5
+                touchedNode.run(SKAction.fadeAlpha(to: 1.0, duration: 0))
+                    infoPopup?.isHidden = true
+                        if(enableEndPop){
+                            enableEndPop = false
+                            nextLevelButton?.isHidden = false
+                //                    levelDelay = 1
+                //                    initializeNextLevel(level: pLevel, title: pLTitle, popTitle: pTitle, popBody: pBody)
+                //                    levelDelay = 0
+                        }
+                
+            }
+            if touchedNode == nextLevelButton
+                {
+                    touchedNode.run(SKAction.fadeAlpha(to: 1.0, duration: 0))
+                    nextLevelButton?.isHidden = true
+                    infoPopup?.isHidden = true
+            //                if(enableEndPop){
+            //                    enableEndPop = false
+                    levelDelay = 1
                     initializeNextLevel(level: pLevel, title: pLTitle, popTitle: pTitle, popBody: pBody)
                     levelDelay = 0
+            //                }
                 }
-                touchedNode.run(SKAction.fadeAlpha(to: 1.0, duration: 0))
-            }
             if touchedNode.name == "Author"
             {
                 infoPopup?.isHidden = false
@@ -747,16 +779,20 @@ class GameViewController2: UIViewController, GADInterstitialDelegate, GADRewarde
     }
     func hint(){
         let balance = defaults.integer(forKey: "balance")
+        print("HINT \(wordsSolved)")
         var counter = 0
         if(balance >= 10){
-        self.gameScene?.gameCanvases[currentLevel-previous-1]?.children.forEach({ (node) in
+            self.gameScene?.gameCanvases[currentLevel-previous-1]?.children.forEach({ (node) in
                 if node is BlockNode
                 {
                     node.children[0].description
                     let nodeText = (((node.children[0]) as! SKLabelNode).text)!
-                    let stringHint = allStrings[currentLevel-previous-1][allStrings [currentLevel-previous-1].count-1]
+                    var stringHint = allStrings[currentLevel-previous-1][allStrings[currentLevel-previous-1].count-1]
+                    if(wordsSolved <= allStrings[currentLevel-previous-1].count-1){
+                        stringHint = allStrings[currentLevel-previous-1][wordsSolved]
+                    }
                     print(nodeText)
-                    print(allStrings[currentLevel-previous-1][allStrings        [currentLevel-previous-1].count-1])
+                    print(allStrings[currentLevel-previous-1][allStrings[currentLevel-previous-1].count-1])
                     if(stringHint.contains(nodeText) && counter < 6){
                         (node as! SKSpriteNode).color = colorHighlighted
                         counter += 1
@@ -765,10 +801,10 @@ class GameViewController2: UIViewController, GADInterstitialDelegate, GADRewarde
             })
             defaults.set(balance-10, forKey: "balance")
             reloadBalance()
+
         }else{
             performSegue(withIdentifier: "tocoins2", sender: nil)
         }
-        
     }
     func skip(){
         let balance = defaults.integer(forKey: "balance")

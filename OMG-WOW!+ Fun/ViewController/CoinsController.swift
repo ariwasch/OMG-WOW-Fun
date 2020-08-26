@@ -43,6 +43,8 @@ class CoinsController: UIViewController, SKProductsRequestDelegate, GADRewardedA
                     buy3?.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
                 }else if(id == "omg.moreLevels"){
                     defaults.set(true, forKey: "moreLevels")
+                    buy6?.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
+
                 }
                 
                 reloadBalance()
@@ -183,7 +185,7 @@ class CoinsController: UIViewController, SKProductsRequestDelegate, GADRewardedA
 //        productIDs.append("omg.coins.100")
 //        requestProductInfo()
 //        fetchProduct()
-        restorePurchases()
+        restorePurchases() //undo this
         super.viewDidLoad()
 //        defaults.set(true, forKey: "level1")
 //        defaults.set("")
@@ -349,6 +351,7 @@ class CoinsController: UIViewController, SKProductsRequestDelegate, GADRewardedA
     }
 
     func inAppPurchase(forKey: String){
+        //actual in app purchases
         completePurchase = false
         let request = SKProductsRequest(productIdentifiers: [forKey])
         request.delegate = self
@@ -363,6 +366,30 @@ class CoinsController: UIViewController, SKProductsRequestDelegate, GADRewardedA
             SKPaymentQueue.default().add(self)
             SKPaymentQueue.default().add(payment)
         }
+        
+        
+//        //test in app purchases buttons
+//        let id = forKey
+//        let balance = defaults.integer(forKey: "balance")
+//
+//                        if(id == "omg.coins.100"){
+//                            defaults.set(balance+100, forKey: "balance")
+//                        }else if(id == "omg.coins.250"){
+//                            defaults.set(balance+250, forKey: "balance")
+//                        }else if(id == "omg.no.ads"){
+//        //                    defaults.set(balance+500, forKey: "balance")
+//                            print("noADs")
+//                            defaults.set(true, forKey: "no-ads")
+//                            buy3?.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
+//                        }else if(id == "omg.moreLevels"){
+//                            defaults.set(true, forKey: "moreLevels")
+//                            buy6?.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
+//
+//                        }
+//                        
+//                        reloadBalance()
+
+        
 
     }
     //MARK:- Touch Actions

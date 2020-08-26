@@ -90,7 +90,6 @@ class LevelSelectController: UIViewController, WKUIDelegate, WKNavigationDelegat
             webView.load(request)
             webView.navigationDelegate = self
             webView.uiDelegate = self
-            defaults.set(true, forKey: "initial")
         }else{
             if(webView != nil){
                 webView.removeFromSuperview()
@@ -378,6 +377,7 @@ class LevelSelectController: UIViewController, WKUIDelegate, WKNavigationDelegat
             }
             if touchedNode == tips{
                 infoPopup?.isHidden = false
+                tips?.run(SKAction.fadeAlpha(to: 1, duration: 0))
                 tutorial?.run(SKAction.fadeAlpha(to: 1, duration: 0))
             }
             print(touchedNode.name, " ", touchBeganNode?.name)
@@ -523,6 +523,7 @@ class LevelSelectController: UIViewController, WKUIDelegate, WKNavigationDelegat
                 print(url.absoluteString)
                 if url.absoluteString.hasPrefix("https://docs.google.com/forms/u/1/d/e/1FAIpQLSfUe7pVS2JJ7HqL2fsLgQa1X4Q-qgwhnn56rvOwJLoYNnr2hg/formResponse"){
                     print("SUCCESS")
+                    defaults.set(true, forKey: "initial")
                     DispatchQueue.main.asyncAfter(deadline: .now()+0.1) {
                         webView.removeFromSuperview()
                     }

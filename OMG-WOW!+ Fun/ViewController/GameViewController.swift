@@ -31,9 +31,9 @@ class GameViewController: UIViewController, GADBannerViewDelegate, GADInterstiti
     var gameTitleHeader : SKSpriteNode?
     var gameCoin : SKSpriteNode?
     var coin : SKSpriteNode?
-
+    var nextLevelButton : SKSpriteNode?
     var allStrings = [["GOOD","BETTER","BEST"], ["GOLF","TENNIS","BALL","ROW","PITCH"], ["NEVER","ALWAYS","EYE"]]
-    
+    var wordsSolved : Int = 0
     var block : BlockNode = BlockNode()
     var gameOptionsBackground : SKSpriteNode?
     var gameOptionSearch : SKSpriteNode?
@@ -135,6 +135,7 @@ class GameViewController: UIViewController, GADBannerViewDelegate, GADInterstiti
     
     func initializationOfGameVariable()
     {
+        wordsSolved = 0
         homeBackground = fetchSpriteNode(withName: "homeBackground")
         homeLogo = fetchSpriteNode(withName: "homeLogo")
         homePlayContainer = fetchSpriteNode(withName: "homePlayContainer")
@@ -147,6 +148,7 @@ class GameViewController: UIViewController, GADBannerViewDelegate, GADInterstiti
         gameTitleHeader = fetchSpriteNode(withName: "gameTitleHeader")
         gameCoin = fetchSpriteNode(withName: "gameCoin")
         coin = fetchSpriteNode(withName: "coin")
+        nextLevelButton = fetchSpriteNode(withName: "nextLevel")
 
         gameOptionsBackground = fetchSpriteNode(withName: "gameOptionsBackground")
         gameOptionSearch = fetchSpriteNode(withName: "gameOptionSearch")
@@ -187,6 +189,7 @@ class GameViewController: UIViewController, GADBannerViewDelegate, GADInterstiti
         homePlayButton?.isUserInteractionEnabled = true
         gameBack?.isUserInteractionEnabled = true
         infoPopup?.isUserInteractionEnabled = true
+        
     }
     func wordInWord(string: String) -> Bool{
         var isDuplicate = true
@@ -362,15 +365,30 @@ class GameViewController: UIViewController, GADBannerViewDelegate, GADInterstiti
 
     func initializeNextLevel(level: Int, title: String, popTitle: String, popBody: String)
     {
+        wordsSolved = 0
         pLevel = level
         pBody = popBody
         pTitle = popTitle
         pLTitle = title
-        if(enableEndPop){
+        print("NEXT LEVELELLELELEL \(popTitle)")
+        if(level == 20 && enableEndPop){
+            nextLevelButton?.isHidden = false
+            enableEndPop = false
+        }else if(level == 31){
+            defaults.set(true, forKey: "level2")
+            defaults.set(true, forKey: "level1")
+            defaults.set(1, forKey: "game1level")
+            defaults.set(false, forKey: "startview")
+            performSegue(withIdentifier: "levelselect1", sender: nil)
+
+        }else if(enableEndPop){
             infoPopup?.isHidden = false
+
         }else{
         DispatchQueue.main.asyncAfter(deadline: .now() + levelDelay) {
-            if(!self.defaults.bool(forKey: "no-ads")){
+            let random = Int.random(in: 1...2)
+            print("random \(random)")
+            if(!self.defaults.bool(forKey: "no-ads") && random % 2 == 0){
                 if self.interstitial.isReady {
                 self.interstitial.present(fromRootViewController: self)
                 }
@@ -460,7 +478,7 @@ class GameViewController: UIViewController, GADBannerViewDelegate, GADInterstiti
         gameLevelHeader?.isHidden = true
         gameCoin?.isHidden = true
         coin?.isHidden = true
-
+        nextLevelButton?.isHidden = true
         gameOptionsBackground?.isHidden = true
         gameOptionSearch?.isHidden = true
         gameOptionHint?.isHidden = true
@@ -551,6 +569,7 @@ class GameViewController: UIViewController, GADBannerViewDelegate, GADInterstiti
     
 
     func actionOnWord(word: String, num: Int){
+        print("WTFFFF \(word)")
         if(word != "" && num == 0){
             self.enableEndPop = true
         }
@@ -625,11 +644,10 @@ class GameViewController: UIViewController, GADBannerViewDelegate, GADInterstiti
         }else if(word == "CONFIDENCE" || num == 30){
             self.initializeNextLevel(level: 30, title: "INSPIRATIONAL", popTitle: "Joel Osteen", popBody: "Joel Scott Osteen (born March 5, 1963)  is an American pastor, televangelist, and author, based in Houston, Texas. As of 2018, Osteen's televised sermons were seen by approximately 10 million viewers in the US and several million more in over 100 countries weekly. Osteen has also written several best-selling books.")
         }else if(word == "STEP" || num == 31){
-            defaults.set(true, forKey: "level2")
-            defaults.set(true, forKey: "level1")
-            defaults.set(1, forKey: "game1level")
-            defaults.set(false, forKey: "startview")
-            performSegue(withIdentifier: "levelselect1", sender: nil)
+            self.initializeNextLevel(level: 31, title: "", popTitle: "‭‭‭‭", popBody: "")
+
+        }else{
+            self.enableEndPop = false
         }
 //        else if(word != ""){
 //            self.enableEndPop = false
@@ -668,6 +686,7 @@ class GameViewController: UIViewController, GADBannerViewDelegate, GADInterstiti
     }
     func correctWordSwipe(forSwippedWord strWord:String, selectedNodes arrNodes:[SKSpriteNode])
     {
+        wordsSolved += 1
         for i in 0...allStrings.count-1{
             var tempArray = [SKSpriteNode]()
             for j in 0...allStrings[i].count-1{
@@ -843,6 +862,12 @@ class GameViewController: UIViewController, GADBannerViewDelegate, GADInterstiti
                 end = true
                 gameOptionAds?.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
             }
+            if touchedNode == nextLevelButton
+            {
+                end = true
+                touchedNode.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
+            }
+
 
 
 
@@ -852,6 +877,12 @@ class GameViewController: UIViewController, GADBannerViewDelegate, GADInterstiti
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if let touch = touches.randomElement(), gameScene != nil
+        {
+            let positionInScene = touch.location(in: gameScene!)
+            let touchedNode = gameScene!.atPoint(positionInScene)
+            touchedNode.run(SKAction.fadeAlpha(to: 1, duration: 0))
+        }
         gameBack?.run(SKAction.fadeAlpha(to: 1, duration: 0))
         gameOptionShuffle?.run(SKAction.fadeAlpha(to: 1, duration: 0))
         gameBack?.run(SKAction.fadeAlpha(to: 1, duration: 0))
@@ -860,6 +891,7 @@ class GameViewController: UIViewController, GADBannerViewDelegate, GADInterstiti
         gameOptionAds?.run(SKAction.fadeAlpha(to: 1, duration: 0))
         gameCoin?.run(SKAction.fadeAlpha(to: 1, duration: 0))
         coin?.run(SKAction.fadeAlpha(to: 1, duration: 0))
+        nextLevelButton?.run(SKAction.fadeAlpha(to: 1, duration: 0))
     }
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         if(end){
@@ -892,21 +924,38 @@ class GameViewController: UIViewController, GADBannerViewDelegate, GADInterstiti
             if touchedNode == gameOptionShuffle
             {
                 enableEndPop = false
+                nextLevelButton?.isHidden = true
                 skip()
                 touchedNode.run(SKAction.fadeAlpha(to: 1.0, duration: 0))
             }
             
             if touchedNode.name == "closeInfo" && touchBeganNode?.name == "closeInfo"
             {
+                touchedNode.run(SKAction.fadeAlpha(to: 1.0, duration: 0))
                 infoPopup?.isHidden = true
                 if(enableEndPop){
                     enableEndPop = false
-                    levelDelay = 5
+                    nextLevelButton?.isHidden = false
+//                    levelDelay = 1
+//                    initializeNextLevel(level: pLevel, title: pLTitle, popTitle: pTitle, popBody: pBody)
+//                    levelDelay = 0
+                }
+//                touchedNode.run(SKAction.fadeAlpha(to: 1.0, duration: 0))
+            }
+            
+            if touchedNode == nextLevelButton
+            {
+                touchedNode.run(SKAction.fadeAlpha(to: 1.0, duration: 0))
+                nextLevelButton?.isHidden = true
+                infoPopup?.isHidden = true
+//                if(enableEndPop){
+//                    enableEndPop = false
+                    levelDelay = 1
                     initializeNextLevel(level: pLevel, title: pLTitle, popTitle: pTitle, popBody: pBody)
                     levelDelay = 0
-                }
-                touchedNode.run(SKAction.fadeAlpha(to: 1.0, duration: 0))
+//                }
             }
+            
             if touchedNode.name == "Author"
             {
                 infoPopup?.isHidden = false
@@ -956,7 +1005,7 @@ class GameViewController: UIViewController, GADBannerViewDelegate, GADInterstiti
 
     func hint(){
         let balance = defaults.integer(forKey: "balance")
-
+        print("HINT \(wordsSolved)")
         var counter = 0
         if(balance >= 10){
             self.gameScene?.gameCanvases[currentLevel-1]?.children.forEach({ (node) in
@@ -964,7 +1013,10 @@ class GameViewController: UIViewController, GADBannerViewDelegate, GADInterstiti
                 {
                     node.children[0].description
                     let nodeText = (((node.children[0]) as! SKLabelNode).text)!
-                    let stringHint = allStrings[currentLevel-1][allStrings[currentLevel-1].count-1]
+                    var stringHint = allStrings[currentLevel-1][allStrings[currentLevel-1].count-1]
+                    if(wordsSolved <= allStrings[currentLevel-1].count-1){
+                        stringHint = allStrings[currentLevel-1][wordsSolved]
+                    }
                     print(nodeText)
                     print(allStrings[currentLevel-1][allStrings[currentLevel-1].count-1])
                     if(stringHint.contains(nodeText) && counter < 6){

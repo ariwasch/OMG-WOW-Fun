@@ -29,9 +29,11 @@ class GameViewController3: UIViewController, GADInterstitialDelegate, GADRewarde
     var gameTitleHeader : SKSpriteNode?
     var gameCoin : SKSpriteNode?
     var coin : SKSpriteNode?
+    var nextLevelButton : SKSpriteNode?
 
     var allStrings = [["TEACH","BETTER","BEST"], ["GOLF","TENNIS","BALL","ROW","PITCH"], ["NEVER","ALWAYS","EYE"], ["NOTHING","THAN","POSITIVE"], ["THOUGHT","CHANGE","SMALL","DAY"], ["SITUATION","SITUATION","TURN","INTO"]]
     
+    var wordsSolved : Int = 0
     var block : BlockNode = BlockNode()
     var gameOptionsBackground : SKSpriteNode?
     var gameOptionSearch : SKSpriteNode?
@@ -80,8 +82,9 @@ class GameViewController3: UIViewController, GADInterstitialDelegate, GADRewarde
         initializationOfGameVariable()
         hideGameComponents()
         initializeGameSwipeAction()
-        if(defaults.integer(forKey: "game3level") != 1 && (defaults.integer(forKey: "game3level") != 0)){
-//            skip(to: defaults.integer(forKey: "game3level"))
+        print("HEIRHIEHRHEIRH \(defaults.integer(forKey: "game3level"))")
+        if(defaults.integer(forKey: "game3level") != 55 && (defaults.integer(forKey: "game3level") != 0)){
+            skip(to: defaults.integer(forKey: "game3level"))
         }
         reloadBalance()
 
@@ -121,6 +124,7 @@ class GameViewController3: UIViewController, GADInterstitialDelegate, GADRewarde
     
     func initializationOfGameVariable()
     {
+        wordsSolved = 0
         homeBackground = fetchSpriteNode(withName: "homeBackground")
         homeLogo = fetchSpriteNode(withName: "homeLogo")
         homePlayContainer = fetchSpriteNode(withName: "homePlayContainer")
@@ -133,6 +137,8 @@ class GameViewController3: UIViewController, GADInterstitialDelegate, GADRewarde
         gameTitleHeader = fetchSpriteNode(withName: "gameTitleHeader")
         gameCoin = fetchSpriteNode(withName: "gameCoin")
         coin = fetchSpriteNode(withName: "coin")
+        nextLevelButton = fetchSpriteNode(withName: "nextLevel")
+
         gameOptionsBackground = fetchSpriteNode(withName: "gameOptionsBackground")
         gameOptionSearch = fetchSpriteNode(withName: "gameOptionSearch")
         gameOptionHint = fetchSpriteNode(withName: "gameOptionHint")
@@ -175,7 +181,7 @@ class GameViewController3: UIViewController, GADInterstitialDelegate, GADRewarde
     }
     func wordInWord(string: String) -> Bool{
         var isDuplicate = true
-        if((string == "OUT" && currentLevel == 68) || (string == "TAKE" && currentLevel == 70) || (string == "TAKE" && currentLevel == 76)){
+        if((string == "OUT" && currentLevel == 68) || (string == "TAKE" && currentLevel == 70) || (string == "TAKE" && currentLevel == 76) || (string == "TAKES" && currentLevel == 70)){
             isDuplicate = false
         }
         return isDuplicate
@@ -269,16 +275,22 @@ class GameViewController3: UIViewController, GADInterstitialDelegate, GADRewarde
     
     func initializeNextLevel(level: Int, title: String, popTitle: String, popBody: String)
     {
+        wordsSolved = 0
         pLevel = level
         pBody = popBody
         pTitle = popTitle
         pLTitle = title
         if(enableEndPop){
             infoPopup?.isHidden = false
+        }else if(level == 79){
+            defaults.set(true, forKey: "level4")
+            defaults.set(55, forKey: "game3level")
+            defaults.set(false, forKey: "startview")
+            performSegue(withIdentifier: "levelselect3", sender: nil)
         }else{
-            
         DispatchQueue.main.asyncAfter(deadline: .now() + levelDelay) {
-        if(!self.defaults.bool(forKey: "no-ads")){
+        let random = Int.random(in: 1...3)
+        if(!self.defaults.bool(forKey: "no-ads") && random % 3 == 0){
             if self.interstitial.isReady {
                 self.interstitial.present(fromRootViewController: self)
             }
@@ -452,10 +464,9 @@ class GameViewController3: UIViewController, GADInterstitialDelegate, GADRewarde
         if(word != "" && num == 0){
             self.enableEndPop = true
         }
-
         if((word == "LIFE" && currentLevel == 55) || num == 56){
             self.initializeNextLevel(level: 56, title: "‭‭21ST CENTURY", popTitle: "Venus Williams", popBody: "Venus Ebony Starr Williams is an American professional tennis player. A former world No. 1, Williams is generally regarded as one of the all-time greats")
-        }else if(word == "PRETEND" || num == 57){
+        }else if(word == "BELIEVE" || num == 57){
             self.initializeNextLevel(level: 57, title: "21ST CENTURY", popTitle: "John Mayer", popBody: "John Clayton Mayer is an American singer-songwriter, guitarist and record producer. Born in Bridgeport, Connecticut, Mayer attended Berklee College of Music in Boston")
         }else if((word == "LAUGH" && currentLevel == 57) || num == 58){
             self.initializeNextLevel(level: 58, title: "‭‭21ST CENTURY", popTitle: "Conan O'Brien", popBody: "Conan Christopher O'Brien is an American television host, comedian, writer, podcaster, and producer. He is best known for hosting the late-night talk shows Late Night with Conan O'Brien, The Tonight Show with Conan O'Brien")
@@ -493,18 +504,17 @@ class GameViewController3: UIViewController, GADInterstitialDelegate, GADRewarde
             self.initializeNextLevel(level: 74, title: "21ST CENTURY", popTitle: "‭‭Charlie Chaplin", popBody: "Sir Charles Spencer Chaplin KBE was an English comic actor, filmmaker, and composer who rose to fame in the era of silent film.")
         }else if(word == "NEVER" || num == 75){
             self.initializeNextLevel(level: 75, title: "21ST CENTURY", popTitle: "‭‭T. Harv Eker", popBody: "T. Harv Eker is an author, businessman and motivational speaker known for his theories on wealth and motivation. He is the author of the book Secrets of the Millionaire Mind published by HarperCollins.")
-        }else if(word == "UNVIVERSE" || num == 76){
+        }else if(word == "UNIVERSE" || num == 76){
             self.initializeNextLevel(level: 76, title: "21ST CENTURY", popTitle: "‭‭Drew Brees", popBody: "Drew Christopher Brees is an American football quarterback for the New Orleans Saints of the National Football League (NFL). He had a successful college football career at Purdue University")
         }else if(word == "ADVERSITY" || num == 77){
             self.initializeNextLevel(level: 77, title: "21ST CENTURY", popTitle: "‭‭Alan Alda", popBody: "Alan Alda is an American actor, director, screenwriter, comedian, and author. A six-time Emmy Award and Golden Globe Award winner")
         }else if(word == "INTUITION" || num == 78){
             self.initializeNextLevel(level: 78, title: "21ST CENTURY", popTitle: "‭‭", popBody: "")
         }else if(word == "PLENTIFUL" || num == 79){
-            defaults.set(true, forKey: "level4")
-            defaults.set(54, forKey: "game3level")
-            defaults.set(false, forKey: "startview")
-            performSegue(withIdentifier: "levelselect3", sender: nil)
+            self.initializeNextLevel(level: 79, title: "21ST CENTURY", popTitle: "‭‭", popBody: "")
 
+        }else{
+            self.enableEndPop = false
         }
 //            self.initializeNextLevel(level: 69, title: "21ST CENTURY", popTitle: "‭‭Salma Hayek", popBody: "Salma Hayek Pinault is a Mexican and American film actress and producer.")
 //
@@ -545,6 +555,7 @@ class GameViewController3: UIViewController, GADInterstitialDelegate, GADRewarde
     }
     func correctWordSwipe(forSwippedWord strWord:String, selectedNodes arrNodes:[SKSpriteNode])
     {
+        wordsSolved += 1
         for i in 0...allStrings.count-1{
             var tempArray = [SKSpriteNode]()
             for j in 0...allStrings[i].count-1{
@@ -646,6 +657,7 @@ class GameViewController3: UIViewController, GADInterstitialDelegate, GADRewarde
             if touchedNode == gameOptionShuffle
             {
 //                print("SOFJODFHOIDHJFSIOJIOFJSODIFJOSDIFJOSDJFOSDJF")
+                nextLevelButton?.isHidden = true
                 enableEndPop = false
                 skip()
 
@@ -654,15 +666,29 @@ class GameViewController3: UIViewController, GADInterstitialDelegate, GADRewarde
             
             if touchedNode.name == "closeInfo" && touchBeganNode?.name == "closeInfo"
             {
-                infoPopup?.isHidden = true
-                if(enableEndPop){
-                    enableEndPop = false
-                    levelDelay = 5
+                touchedNode.run(SKAction.fadeAlpha(to: 1.0, duration: 0))
+                    infoPopup?.isHidden = true
+                        if(enableEndPop){
+                            enableEndPop = false
+                            nextLevelButton?.isHidden = false
+                //                    levelDelay = 1
+                //                    initializeNextLevel(level: pLevel, title: pLTitle, popTitle: pTitle, popBody: pBody)
+                //                    levelDelay = 0
+                        }
+                
+            }
+            if touchedNode == nextLevelButton
+                {
+                    touchedNode.run(SKAction.fadeAlpha(to: 1.0, duration: 0))
+                    nextLevelButton?.isHidden = true
+                    infoPopup?.isHidden = true
+            //                if(enableEndPop){
+            //                    enableEndPop = false
+                    levelDelay = 1
                     initializeNextLevel(level: pLevel, title: pLTitle, popTitle: pTitle, popBody: pBody)
                     levelDelay = 0
+            //                }
                 }
-                touchedNode.run(SKAction.fadeAlpha(to: 1.0, duration: 0))
-            }
             if touchedNode.name == "Author"
             {
                 infoPopup?.isHidden = false
@@ -703,16 +729,20 @@ class GameViewController3: UIViewController, GADInterstitialDelegate, GADRewarde
     }
     func hint(){
         let balance = defaults.integer(forKey: "balance")
+        print("HINT \(wordsSolved)")
         var counter = 0
         if(balance >= 10){
-        self.gameScene?.gameCanvases[currentLevel-previous-1]?.children.forEach({ (node) in
+            self.gameScene?.gameCanvases[currentLevel-previous-1]?.children.forEach({ (node) in
                 if node is BlockNode
                 {
                     node.children[0].description
                     let nodeText = (((node.children[0]) as! SKLabelNode).text)!
-                    let stringHint = allStrings[currentLevel-previous-1][allStrings [currentLevel-previous-1].count-1]
+                    var stringHint = allStrings[currentLevel-previous-1][allStrings[currentLevel-previous-1].count-1]
+                    if(wordsSolved <= allStrings[currentLevel-previous-1].count-1){
+                        stringHint = allStrings[currentLevel-previous-1][wordsSolved]
+                    }
                     print(nodeText)
-                    print(allStrings[currentLevel-previous-1][allStrings        [currentLevel-previous-1].count-1])
+                    print(allStrings[currentLevel-previous-1][allStrings[currentLevel-previous-1].count-1])
                     if(stringHint.contains(nodeText) && counter < 6){
                         (node as! SKSpriteNode).color = colorHighlighted
                         counter += 1
@@ -721,11 +751,10 @@ class GameViewController3: UIViewController, GADInterstitialDelegate, GADRewarde
             })
             defaults.set(balance-10, forKey: "balance")
             reloadBalance()
+
         }else{
             performSegue(withIdentifier: "tocoins3", sender: nil)
-
         }
-        
     }
     func skip(){
         let balance = defaults.integer(forKey: "balance")
@@ -829,6 +858,11 @@ class GameViewController3: UIViewController, GADInterstitialDelegate, GADRewarde
             {
                 end = true
                 gameOptionAds?.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
+            }
+            if touchedNode == nextLevelButton
+            {
+                end = true
+                touchedNode.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
             }
 
 
