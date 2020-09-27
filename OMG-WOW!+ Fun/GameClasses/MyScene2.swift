@@ -3,7 +3,7 @@
 //  SampleGame
 //
 //  Created by Hitesh Trantor on 15/04/20.
-//  Copyright © 2020 TrantorSoftware. All rights reserved.
+//  Copyright © 2020 Ari Wasch. All rights reserved.
 //
 
 import Foundation

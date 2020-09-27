@@ -3,7 +3,7 @@
 //  OMG-WOW!+ Fun
 //
 //  Created by Ari Wasch on 7/19/20.
-//  Copyright © 2020 TrantorSoftware. All rights reserved.
+//  Copyright © 2020 Ari Wasch. All rights reserved.
 //
 
 import UIKit
@@ -157,10 +157,6 @@ class GameViewController4: UIViewController, GADInterstitialDelegate, GADRewarde
                     var tempVar = fetchSpriteNode(withName: "\(allStrings[i][j].lowercased())\(char+1)",inNode: gameScene?.textCanvases[i])
                     tempArray.append(tempVar)
 
-//                    if(exception(string: allStrings[i][j]) > 1){
-//                        var tempVar = fetchSpriteNode(withName: "\(allStrings[i][j].lowercased())\(exception(string: allStrings[i][j]))\(char+1)",inNode: gameScene?.textCanvases[i])
-//                        tempArray.append(tempVar)
-//                    }
                     
                     print("\(allStrings[i][j])\(char)")
                 }
@@ -180,7 +176,7 @@ class GameViewController4: UIViewController, GADInterstitialDelegate, GADRewarde
     }
     func wordInWord(string: String) -> Bool{
         var isDuplicate = true
-        if((string == "POOP" && currentLevel == 60)){
+        if((string == "fff" && currentLevel == 60)){
             isDuplicate = false
         }
         return isDuplicate
@@ -189,73 +185,13 @@ class GameViewController4: UIViewController, GADInterstitialDelegate, GADRewarde
     func duplicate(string: String) -> Bool{
         var isDuplicate = false
         print(currentLevel)
-        if(string == "POOP" ){
+        if(string == "fff" ){
             isDuplicate = true
         }
         return isDuplicate
     }
     func duplicateHelper(string: String) -> Int{
         var num = 0
-//        if(string == "EVERYONE" && currentLevel == 34){
-//            num = 33 - previous
-//        }else if(string == "EVERYONE" && currentLevel == 37){
-//            num = 36 - previous
-//        }
-//        if(string == "PEOPLE" && currentLevel == 61){
-//            num = 60 - previous
-//        }else if(string == "PEOPLE" && currentLevel == 59){
-//            num = 58 - previous
-//        }else if(string == "PEOPLE" && currentLevel == 72){
-//            num = 71 - previous
-//        }
-//        if(string == "LIVE" && currentLevel == 64){
-//            num = 63 - previous
-//        }else if(string == "LIVE" && currentLevel == 62){
-//            num = 61 - previous
-//        }
-//        if(string == "LAUGH" && currentLevel == 57){
-//            num = 56 - previous
-//        }else if(string == "LAUGH" && currentLevel == 63){
-//            num = 62 - previous
-//        }else if(string == "LAUGH" && currentLevel == 74){
-//            num = 73 - previous
-//        }
-//
-//        if(string == "MURDER" && currentLevel == 49){
-//            num = 48 - previous
-//        }else if(string == "MURDER" && currentLevel == 48){
-//            num = 47 - previous
-//        }
-//        if(string == "RESPECT" && currentLevel == 47){
-//            num = 46 - previous
-//        }else if(string == "RESPECT" && currentLevel == 49){
-//            num = 48 - previous
-//        }
-//        if(string == "EVEN" && currentLevel == 48){
-//            num = 47 - previous
-//        }else if(string == "EVEN" && currentLevel == 52){
-//            num = 51 - previous
-//        }
-//        if(string == "ANOTHER" && currentLevel == 53){
-//            num = 52 - previous
-//        }else if(string == "ANOTHER" && currentLevel == 40){
-//            num = 39 - previous
-//        }
-//        if(string == "LIFE" && currentLevel == 55){
-//            num = 54 - previous
-//        }else if(string == "LIFE" && currentLevel == 72){
-//            num = 71 - previous
-//        }
-//        if(string == "WHAT" && currentLevel == 77){
-//            num = 76 - previous
-//        }else if(string == "WHAT" && currentLevel == 62){
-//            num = 61 - previous
-//        }
-
-
-
-//        print(num)
-//        print(currentLevel)
         return num
     }
 
@@ -403,13 +339,8 @@ class GameViewController4: UIViewController, GADInterstitialDelegate, GADRewarde
     
     func hideHomeComponentsAndLoadGame()
     {
-//        homeLogo?.run(SKAction.moveTo(y: self.view.frame.height, duration: 0.5), completion: {
             self.homeLogo?.removeFromParent()
-//        })
-//        homePlayContainer?.run((SKAction.moveTo(y: 0, duration: 0.5)), completion: {
             self.homePlayContainer?.removeFromParent()
-//        })
-//        gameBackground?.run(SKAction.fadeAlpha(to: 1.0, duration: 0.75), completion: {
         gameBackground?.run(SKAction.fadeAlpha(to: 1.0, duration: 0))
 
             self.gameBlockContainer?.children.forEach({ (node) in
@@ -442,7 +373,6 @@ class GameViewController4: UIViewController, GADInterstitialDelegate, GADRewarde
                     delay = delay + 0.1
                 }
             }
-//        })
     }
     
     //MARK: Child Node
@@ -478,42 +408,6 @@ class GameViewController4: UIViewController, GADInterstitialDelegate, GADRewarde
         }else{
             self.enableEndPop = false
         }
-//            self.initializeNextLevel(level: 69, title: "21ST CENTURY", popTitle: "‭‭Salma Hayek", popBody: "Salma Hayek Pinault is a Mexican and American film actress and producer.")
-//
-//        }else if(word == "UNDESERVED" || num == 46){
-//            self.initializeNextLevel(level: 46, title: "21ST CENTURY", popTitle: "‭‭Ephesians‬ ‭5:25‬ ‭CEV‬‬", popBody: "A major theme in Ephesians is the keeping of Christ's body (that is, the Church) pure and holy. Therefore be imitators of God, as beloved children. And walk in love, as Christ loved us and gave himself up for us, a fragrant offering and sacrifice to God.")
-//
-//
-//        }else if(word == "MUCH" || num == 47){
-//            self.initializeNextLevel(level: 47, title: "21ST CENTURY", popTitle: "‭‭‭‭‭‭Hebrews‬ ‭13:4‬ ‭CEV‬‬", popBody: "The Epistle to the Hebrews, or Letter to the Hebrews, or in the Greek manuscripts, simply To the Hebrews is one of the books of the New Testament.")
-//        }else if(word == "IMMORAL" || num == 48){
-//            self.initializeNextLevel(level: 48, title: "21ST CENTURY", popTitle: "‭‭‭‭James‬ ‭2:11‬ ‭CEV‬‬", popBody: "The Letter of James, the Epistle of James, or simply James, is one of the 21 epistles in the New Testament.")
-//        }else if((word == "MURDER" && currentLevel == 48) || num == 49){
-//            self.initializeNextLevel(level: 49, title: "21ST CENTURY", popTitle: "‭‭‭‭Mark‬ ‭10:19‬ ‭CEV‬‬", popBody: "Mark the Evangelist (Acts 12:12; 15:37), an associate of St. Paul and a disciple of St. Peter, whose teachings the Gospel may reflect. It is the shortest and the earliest of the four Gospels.")
-//        }else if((word == "RESPECT" && currentLevel == 49) || num == 50){
-//            self.initializeNextLevel(level: 50, title: "21ST CENTURY", popTitle: "‭‭Isaiah‬ ‭40:31‬ ‭CEV‬‬", popBody: "Isaiah was the 8th-century BC Israelite prophet after whom the Book of Isaiah is named. Within the text of the Book of Isaiah, Isaiah himself is referred to as \"the prophet\"")
-//        }else if(word == "TRUST" || num == 51){
-//            self.initializeNextLevel(level: 51, title: "21ST CENTURY", popTitle: "‭‭Isaiah‬ ‭40:31‬ ‭CEV‬‬", popBody: "Isaiah was the 8th-century BC Israelite prophet after whom the Book of Isaiah is named. Within the text of the Book of Isaiah, Isaiah himself is referred to as \"the prophet\"")
-//        }else if(word == "TREMBLE" || num == 52){
-//            self.initializeNextLevel(level: 52, title: "21ST CENTURY", popTitle: "‭‭Job‬ ‭24:22‬ ‭CEV‬‬", popBody: "Rabbinic tradition ascribes it to Moses, but scholars generally agree that it was written between the 7th and 4th centuries BCE.")
-//        }else if(word == "DOOMED" || num == 53){
-//            self.initializeNextLevel(level: 53, title: "21ST CENTURY", popTitle: "‭‭‭‭2 John‬ ‭1:6‬ ‭NLT‬‬", popBody: "The Second Epistle of John, often referred to as Second John and often written 2 John or II John, is a book of the New Testament attributed to John the Evangelist.")
-//        }else if((word == "DOING"  && currentLevel == 53) || num == 54){
-//            self.initializeNextLevel(level: 54, title: "21ST CENTURY", popTitle: "‭‭‭‭1 Peter‬ ‭3:7‬ ‭NLT‬‬", popBody: "The First Epistle of Peter, usually referred to simply as First Peter and often written 1 Peter, is a book of the New Testament.")
-//        }else if(word == "HONOR" || num == 55){
-////            defaults.set(true, forKey: "level3")
-//            defaults.set(31, forKey: "game2level")
-//            defaults.set(false, forKey: "startview")
-//            performSegue(withIdentifier: "levelselect3", sender: nil)
-//
-        
-
-
-
-
-
-        
-
     }
     func correctWordSwipe(forSwippedWord strWord:String, selectedNodes arrNodes:[SKSpriteNode])
     {
@@ -631,9 +525,6 @@ class GameViewController4: UIViewController, GADInterstitialDelegate, GADRewarde
                         if(enableEndPop){
                             enableEndPop = false
                             nextLevelButton?.isHidden = false
-                //                    levelDelay = 1
-                //                    initializeNextLevel(level: pLevel, title: pLTitle, popTitle: pTitle, popBody: pBody)
-                //                    levelDelay = 0
                         }
                 
             }
@@ -642,12 +533,9 @@ class GameViewController4: UIViewController, GADInterstitialDelegate, GADRewarde
                 touchedNode.run(SKAction.fadeAlpha(to: 1.0, duration: 0))
                 nextLevelButton?.isHidden = true
                 infoPopup?.isHidden = true
-            //                if(enableEndPop){
-            //                    enableEndPop = false
                 levelDelay = 1
                 initializeNextLevel(level: pLevel, title: pLTitle, popTitle: pTitle, popBody: pBody)
                 levelDelay = 0
-            //                }
             }
             if touchedNode.name == "Author"
             {
@@ -671,7 +559,7 @@ class GameViewController4: UIViewController, GADInterstitialDelegate, GADRewarde
                 hint()
             }
 
-            if touchedNode == gameCoin || touchedNode == coin
+            if touchedNode == gameCoin || touchedNode == coin || touchedNode.parent == gameCoin
             {
                 gameCoin?.run(SKAction.fadeAlpha(to: 1, duration: 0))
                 performSegue(withIdentifier: "tocoins4", sender: nil)
@@ -755,7 +643,6 @@ class GameViewController4: UIViewController, GADInterstitialDelegate, GADRewarde
             }
         }
         actionOnWord(word: "",num: to)
-    //        initializeNextLevel(level: currentLevel+1, title: "String", popTitle: "String", popBody: "String")
     }
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         gameBack?.run(SKAction.fadeAlpha(to: 1, duration: 0))
@@ -807,7 +694,7 @@ class GameViewController4: UIViewController, GADInterstitialDelegate, GADRewarde
                 end = true
                 gameOptionHint?.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
             }
-            if touchedNode == gameCoin || touchedNode == coin
+            if touchedNode == gameCoin || touchedNode == coin || touchedNode.parent == gameCoin
             {
                 end = true
                 gameCoin?.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
@@ -826,7 +713,9 @@ class GameViewController4: UIViewController, GADInterstitialDelegate, GADRewarde
             }
     }
     func createAndLoadInterstitial() -> GADInterstitial {
-          var interstitial = GADInterstitial(adUnitID: "ca-app-pub-3940256099942544/4411468910")
+//          var interstitial = GADInterstitial(adUnitID: "ca-app-pub-3940256099942544/4411468910")
+        var interstitial = GADInterstitial(adUnitID: interstatialAdID)
+
           interstitial.delegate = self
           interstitial.load(GADRequest())
           return interstitial
@@ -860,7 +749,9 @@ class GameViewController4: UIViewController, GADInterstitialDelegate, GADRewarde
        ])
     }
     func loadAds(){
-        rewardedAd = GADRewardedAd(adUnitID: "ca-app-pub-3940256099942544/1712485313")
+//        rewardedAd = GADRewardedAd(adUnitID: "ca-app-pub-3940256099942544/1712485313")
+        rewardedAd = GADRewardedAd(adUnitID: rewardedAdID)
+
         rewardedAd?.load(GADRequest()) { error in
           if let error = error {
             // Handle ad failed to load case.
@@ -870,11 +761,15 @@ class GameViewController4: UIViewController, GADInterstitialDelegate, GADRewarde
         }
         if(!(defaults.bool(forKey: "no-ads"))){
             bannerView = GADBannerView(adSize: kGADAdSizeBanner)
-            bannerView.adUnitID = "ca-app-pub-3940256099942544/2934735716"
+//            bannerView.adUnitID = "ca-app-pub-3940256099942544/2934735716"
+            bannerView.adUnitID = bannerAdID
+
             bannerView.center = CGPoint(x: view.frame.midX, y: view.bounds.height - bannerView.bounds.height / 2)
             bannerView.rootViewController = self
             bannerView.load(GADRequest())
-            interstitial = GADInterstitial(adUnitID: "ca-app-pub-3940256099942544/4411468910")
+//            interstitial = GADInterstitial(adUnitID: "ca-app-pub-3940256099942544/4411468910")
+            interstitial = GADInterstitial(adUnitID: interstatialAdID)
+
             let request = GADRequest()
             interstitial.delegate = self
             interstitial.load(request)
@@ -889,7 +784,7 @@ class GameViewController4: UIViewController, GADInterstitialDelegate, GADRewarde
         reloadBalance()
     }
     func createAndLoadRewardedAd() -> GADRewardedAd{
-      rewardedAd = GADRewardedAd(adUnitID: "ca-app-pub-3940256099942544/1712485313")
+      rewardedAd = GADRewardedAd(adUnitID: rewardedAdID)
       rewardedAd?.load(GADRequest()) { error in
         if let error = error {
           print("Loading failed: \(error)")
@@ -903,47 +798,5 @@ class GameViewController4: UIViewController, GADInterstitialDelegate, GADRewarde
       let rewardedAd = createAndLoadRewardedAd()
     }
 
-
-
-
 }
 
-
-
-
-
-
-//    override var shouldAutorotate: Bool {
-//        return true
-//    }
-//
-//    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
-//        if UIDevice.current.userInterfaceIdiom == .phone {
-//            return .allButUpsideDown
-//        } else {
-//            return .all
-//        }
-//    }
-
-//let magneticField = SKFieldNode.radialGravityField()
-
-//magneticField.region = SKRegion.init(size: gameCanvas!.size)
-//magneticField.minimumRgameCanvassius = Float(gameCanvas!.size.width)
-// magneticField.strength = 10
-
-
-//                   physicsWorld.gravity = CGVector(dx: 0, dy: 0)
-//                   physicsBody = SKPhysicsBody(edgeLoopFrom: { () -> CGRect in
-//                       var frame = self.frame
-//                       frame.size.width = CGFloat(radius)
-//                       frame.origin.x -= frame.size.width / 2
-//                       return frame
-//                   }())
-
-/*let strength = Float(max(gameCanvas!.size.width, gameCanvas!.size.height))
- let radius = strength.squareRoot() * 100
- magneticField.region = SKRegion(radius: radius)
- magneticField.minimumRadius = radius
- magneticField.strength = 5000
- magneticField.position = CGPoint(x: (gameCanvas!.size.width/2)/gameCanvas!.xScale, y:0) //(gameCanvas!.size.height/2)/gameCanvas!.yScale)
- gameCanvas?.addChild(magneticField)*/

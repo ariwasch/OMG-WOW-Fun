@@ -66,10 +66,12 @@ class GameViewController: UIViewController, GADBannerViewDelegate, GADInterstiti
     var pTitle: String = ""
     var pLTitle: String = ""
     var levelDelay = 0.0
+    
     //MARK:- View LifeCycle
     override func viewDidLoad() {
         loadAds()
         super.viewDidLoad()
+//        defaults.set(100000, forKey: "balance")
         currentLevel = 1
         allStrings = block.allStrings
         view.layoutIfNeeded()
@@ -82,7 +84,6 @@ class GameViewController: UIViewController, GADBannerViewDelegate, GADInterstiti
             skip(to: defaults.integer(forKey: "game1level"))
         }
         reloadBalance()
-
     }
     
     override var prefersStatusBarHidden: Bool {
@@ -109,21 +110,29 @@ class GameViewController: UIViewController, GADBannerViewDelegate, GADInterstiti
     }
     
     func loadAds(){
-        rewardedAd = GADRewardedAd(adUnitID: "ca-app-pub-3940256099942544/1712485313")
+//        rewardedAd = GADRewardedAd(adUnitID: "ca-app-pub-3940256099942544/1712485313")
+        rewardedAd = GADRewardedAd(adUnitID: rewardedAdID)
+
         rewardedAd?.load(GADRequest()) { error in
           if let error = error {
             // Handle ad failed to load case.
+            print(error)
           } else {
             // Ad successfully loaded.
           }
         }
         if(!(defaults.bool(forKey: "no-ads"))){
             bannerView = GADBannerView(adSize: kGADAdSizeBanner)
-            bannerView.adUnitID = "ca-app-pub-3940256099942544/2934735716"
+//            bannerView.adUnitID = "ca-app-pub-3940256099942544/2934735716"
+            bannerView.adUnitID = bannerAdID//"ca-app-pub-7981805967745898/9084594126"
+
             bannerView.center = CGPoint(x: view.frame.midX, y: view.bounds.height - bannerView.bounds.height / 2)
             bannerView.rootViewController = self
             bannerView.load(GADRequest())
-            interstitial = GADInterstitial(adUnitID: "ca-app-pub-3940256099942544/4411468910")
+            print("LOADED")
+//            interstitial = GADInterstitial(adUnitID: "ca-app-pub-3940256099942544/4411468910")
+            interstitial = GADInterstitial(adUnitID: interstatialAdID)
+
             let request = GADRequest()
             interstitial.delegate = self
             interstitial.load(request)
@@ -168,12 +177,6 @@ class GameViewController: UIViewController, GADBannerViewDelegate, GADInterstiti
                     
                     var tempVar = fetchSpriteNode(withName: "\(allStrings[i][j].lowercased())\(char+1)",inNode: gameScene?.textCanvases[i])
                     tempArray.append(tempVar)
-
-//                    if(exception(string: allStrings[i][j]) > 1){
-//                        var tempVar = fetchSpriteNode(withName: "\(allStrings[i][j].lowercased())\(exception(string: allStrings[i][j]))\(char+1)",inNode: gameScene?.textCanvases[i])
-//                        tempArray.append(tempVar)
-//                    }
-                    
                     print("\(allStrings[i][j])\(char)")
                 }
                 variableArray.append(tempArray)
@@ -191,6 +194,7 @@ class GameViewController: UIViewController, GADBannerViewDelegate, GADInterstiti
         infoPopup?.isUserInteractionEnabled = true
         
     }
+    //if word contains another word that isn't supposed to be the word.
     func wordInWord(string: String) -> Bool{
         var isDuplicate = true
         if(string == "THING" && currentLevel == 12){
@@ -217,12 +221,10 @@ class GameViewController: UIViewController, GADBannerViewDelegate, GADInterstiti
         if(string == "WITH" && currentLevel == 29){
             isDuplicate = false
         }
-
-
-
         return isDuplicate
     }
 
+    //for duplicate words
     func duplicate(string: String) -> Bool{
         var isDuplicate = false
         print(currentLevel)
@@ -231,6 +233,8 @@ class GameViewController: UIViewController, GADBannerViewDelegate, GADInterstiti
         }
         return isDuplicate
     }
+    
+    //makes duplicates work
     func duplicateHelper(string: String) -> Int{
         var num = 0
         print(string)
@@ -319,20 +323,6 @@ class GameViewController: UIViewController, GADBannerViewDelegate, GADInterstiti
         }else if(string == "OPTIMISM" && currentLevel == 29){
             num = 28
         }
-
-
-
-
-
-
-
-
-
-//        if(string == "GOOD" && currentLevel == 1){
-//            num = 0
-//        }else if(string == "GOOD" && currentLevel == 13){
-//            num = 12
-//        }
         print(num)
         print(currentLevel)
         return num
@@ -350,7 +340,9 @@ class GameViewController: UIViewController, GADBannerViewDelegate, GADInterstiti
     }
     
     func createAndLoadInterstitial() -> GADInterstitial {
-      var interstitial = GADInterstitial(adUnitID: "ca-app-pub-3940256099942544/4411468910")
+//      var interstitial = GADInterstitial(adUnitID: "ca-app-pub-3940256099942544/4411468910")
+        var interstitial = GADInterstitial(adUnitID: interstatialAdID)
+
       interstitial.delegate = self
       interstitial.load(GADRequest())
       return interstitial
@@ -359,10 +351,10 @@ class GameViewController: UIViewController, GADBannerViewDelegate, GADInterstiti
     func interstitialDidDismissScreen(_ ad: GADInterstitial) {
         print("hi123")
       interstitial = createAndLoadInterstitial()
-//        skip(to: currentLevel+1)
     
     }
 
+    //initializes next level
     func initializeNextLevel(level: Int, title: String, popTitle: String, popBody: String)
     {
         wordsSolved = 0
@@ -393,10 +385,6 @@ class GameViewController: UIViewController, GADBannerViewDelegate, GADInterstiti
                 self.interstitial.present(fromRootViewController: self)
                 }
             }
-//        if(defaults.string(forKey: "skipped") != "" && defaults.bool(forKey: "end")){
-//            completeSkippedPuzzles()
-//            print("IS THIS THING")
-//        }else{
             self.currentLevel = level
             self.defaults.set(level, forKey: "level")
             self.defaults.set(level, forKey: "game1level")
@@ -456,7 +444,6 @@ class GameViewController: UIViewController, GADBannerViewDelegate, GADInterstiti
             }
             }
         }
-//        }
         
     }
 
@@ -472,7 +459,6 @@ class GameViewController: UIViewController, GADBannerViewDelegate, GADInterstiti
     func hideGameComponents()
     {
         gameBlockContainer?.isHidden = true
-//        gameBackground?.run(SKAction.fadeAlpha(to: 0, duration: 0))
         gameBack?.isHidden = true
         gameTitleHeader?.isHidden = true
         gameLevelHeader?.isHidden = true
@@ -512,20 +498,9 @@ class GameViewController: UIViewController, GADBannerViewDelegate, GADInterstiti
     
     func hideHomeComponentsAndLoadGame()
     {
-//        homeLogo?.run(SKAction.moveTo(y: self.view.frame.height, duration: 0.5), completion: {
             self.homeLogo?.removeFromParent()
-//        })
-//        homePlayContainer?.run((SKAction.moveTo(y: 0, duration: 0.5)), completion: {
             self.homePlayContainer?.removeFromParent()
-//        })
-//        gameBackground?.run(SKAction.fadeAlpha(to: 1.0, duration: 0.75), completion: {
-//
             self.gameBlockContainer?.children.forEach({ (node) in
-//                if node is BlockNode
-//                {
-//                    node.run(SKAction.fadeOut(withDuration: 0))
-//                }
-//            })
             self.homeBackground?.removeFromParent()
             self.gameBlockContainer?.isHidden = false
             self.gameBack?.isHidden = false
@@ -567,7 +542,6 @@ class GameViewController: UIViewController, GADBannerViewDelegate, GADInterstiti
     
     //MARK:- Swipe Action
     
-
     func actionOnWord(word: String, num: Int){
         print("WTFFFF \(word)")
         if(word != "" && num == 0){
@@ -591,7 +565,7 @@ class GameViewController: UIViewController, GADBannerViewDelegate, GADInterstiti
         }else if(word == "EMBRACE" || num == 9){
             self.initializeNextLevel(level: 9, title: "PURPOSE", popTitle: "Robert Schuller", popBody: "Robert Harold Schuller (September 16, 1926 – April 2, 2015) was an American Christian televangelist, pastor, motivational speaker, and author.")
         }else if(word == "GUIDELINES" || num == 10){
-            self.initializeNextLevel(level: 10, title: "INSPIRATIONAL", popTitle: "Albert Einstein", popBody: "Albert Einstein  was a German-born theoretical physicist who developed the theory of relativity, one of the two pillars of modern physics (alongside quantum mechanics). He is best known to the general public for his mass–energy equivalence formula E = mc^2.")
+            self.initializeNextLevel(level: 10, title: "INSPIRATIONAL", popTitle: "Albert Einstein", popBody: "Albert Einstein was a German-born theoretical physicist who developed the theory of relativity, one of the two pillars of modern physics (alongside quantum mechanics). He is best known to the general public for his mass–energy equivalence formula E = mc^2.")
         }else if(word == "THANKFUL" || num == 11){
             self.initializeNextLevel(level: 11, title: "INSPIRATIONAL", popTitle: "Abraham Lincoln", popBody: "Abraham Lincoln was an American statesman and lawyer who served as the 16th president of the United States (1861–1865). Lincoln led the nation through its greatest moral, constitutional, and political crisis in the American Civil War.")
         }else if((word == "IMPORTANT" && currentLevel == 11) || num == 12){
@@ -626,39 +600,23 @@ class GameViewController: UIViewController, GADBannerViewDelegate, GADInterstiti
         }else if((word == "ATTITUDE" && currentLevel == 25) || num == 26){
             self.initializeNextLevel(level: 26, title: "PURPOSE", popTitle: "Mary Lou Retton", popBody: "Mary Lou Retton (born January 24, 1968) is a retired American gymnast. At the boycotted 1984 Summer Olympics in Los Angeles, she won a gold medal in the individual all-around competition, as well as two silver medals and two bronze medals. Her performance made her one of the most popular athletes in the United States.")
         }else if((word == "OPTIMISM" && currentLevel == 26) || num == 27){
-            print(word)
-            print(currentLevel)
-            print(num)
             self.initializeNextLevel(level: 27, title: "INSPIRATIONAL", popTitle: "Dale Carnegie", popBody: "Dale Carnegie (November 24, 1888 – November 1, 1955) was an American writer and lecturer, and the developer of courses in self-improvement, salesmanship, corporate training, public speaking, and interpersonal skills.")
         }else if((word == "IMPORTANT" && currentLevel == 27) || num == 28){
-            print(word)
-            print(currentLevel)
-            print(num)
             self.initializeNextLevel(level: 28, title: "PURPOSE", popTitle: "William James", popBody: "William James (January 11, 1842 – August 26, 1910) was an American philosopher and psychologist, and the first educator to offer a psychology course in the United States.")
         }else if(word == "LIVING" || num == 29){
-            print(word)
-            print(currentLevel)
-            print(num)
-
             self.initializeNextLevel(level: 29, title: "INSPIRATIONAL", popTitle: "Helen Keller", popBody: "Helen Adams Keller (June 27, 1880 – June 1, 1968) was an American author, political activist, and lecturer. She was the first deaf-blind person to earn a Bachelor of Arts degree. The story of Keller and her teacher, Anne Sullivan, was made famous by Keller's autobiography, The Story of My Life, and its adaptations for film and stage, The Miracle Worker.")
         }else if(word == "CONFIDENCE" || num == 30){
             self.initializeNextLevel(level: 30, title: "INSPIRATIONAL", popTitle: "Joel Osteen", popBody: "Joel Scott Osteen (born March 5, 1963)  is an American pastor, televangelist, and author, based in Houston, Texas. As of 2018, Osteen's televised sermons were seen by approximately 10 million viewers in the US and several million more in over 100 countries weekly. Osteen has also written several best-selling books.")
         }else if(word == "STEP" || num == 31){
             self.initializeNextLevel(level: 31, title: "", popTitle: "‭‭‭‭", popBody: "")
-
         }else{
             self.enableEndPop = false
         }
-//        else if(word != ""){
-//            self.enableEndPop = false
-//
-//        }
 
     }
     func completeSkippedPuzzles(){
         print("COMPLETE THNG")
         let list = defaults.string(forKey: "skipped") ?? ""
-//        print(list)
         if(list != ""){
         defaults.set("", forKey: "skipped")
         let listItems = list.components(separatedBy: ",")
@@ -679,9 +637,6 @@ class GameViewController: UIViewController, GADBannerViewDelegate, GADInterstiti
                 defaults.set("", forKey: "skipped")
 
             }
-//        defaults.set(currentLevel-1, forKey: "level")
-//        defaults.set(currentLevel-1, forKey: "game1level")
-//            skip(to: currentLevel-1)
         }
     }
     func correctWordSwipe(forSwippedWord strWord:String, selectedNodes arrNodes:[SKSpriteNode])
@@ -781,16 +736,7 @@ class GameViewController: UIViewController, GADBannerViewDelegate, GADInterstiti
         let balance = defaults.integer(forKey: "balance")
 
         print("HELLOWOAWDS")
-//        print((defaults.string(forKey: "skipped"))!)
         if(balance >= 20){
-
-//            if(defaults.string(forKey: "skipped") == "" || defaults.string(forKey: "skipped") == nil){
-//                print("BIG CHUNGUS")
-//                defaults.set("\(currentLevel)", forKey: "skipped")
-//            }else{
-//                defaults.set("\((defaults.string(forKey: "skipped"))!),\(currentLevel)", forKey: "skipped")
-//            }
-//            print((defaults.string(forKey: "skipped"))!)
             for node in self.gameScene?.gameCanvases[currentLevel-1]?.children ?? []
             {
                 if node is BlockNode
@@ -851,7 +797,7 @@ class GameViewController: UIViewController, GADBannerViewDelegate, GADInterstiti
                 gameOptionHint?.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
 
             }
-            if touchedNode == gameCoin || touchedNode == coin
+            if touchedNode == gameCoin || touchedNode == coin || touchedNode.parent == gameCoin
             {
                 end = true
                 gameCoin?.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
@@ -867,9 +813,6 @@ class GameViewController: UIViewController, GADBannerViewDelegate, GADInterstiti
                 end = true
                 touchedNode.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
             }
-
-
-
 
         }
         }
@@ -936,11 +879,7 @@ class GameViewController: UIViewController, GADBannerViewDelegate, GADInterstiti
                 if(enableEndPop){
                     enableEndPop = false
                     nextLevelButton?.isHidden = false
-//                    levelDelay = 1
-//                    initializeNextLevel(level: pLevel, title: pLTitle, popTitle: pTitle, popBody: pBody)
-//                    levelDelay = 0
                 }
-//                touchedNode.run(SKAction.fadeAlpha(to: 1.0, duration: 0))
             }
             
             if touchedNode == nextLevelButton
@@ -948,12 +887,9 @@ class GameViewController: UIViewController, GADBannerViewDelegate, GADInterstiti
                 touchedNode.run(SKAction.fadeAlpha(to: 1.0, duration: 0))
                 nextLevelButton?.isHidden = true
                 infoPopup?.isHidden = true
-//                if(enableEndPop){
-//                    enableEndPop = false
                     levelDelay = 1
                     initializeNextLevel(level: pLevel, title: pLTitle, popTitle: pTitle, popBody: pBody)
                     levelDelay = 0
-//                }
             }
             
             if touchedNode.name == "Author"
@@ -972,7 +908,7 @@ class GameViewController: UIViewController, GADBannerViewDelegate, GADInterstiti
                 performSegue(withIdentifier: "levelselect1", sender: nil)
                 
             }
-            if touchedNode == gameCoin || touchedNode == coin
+            if touchedNode == gameCoin || touchedNode == coin || touchedNode.parent == gameCoin
             {
                 performSegue(withIdentifier: "tocoins1", sender: nil)
                 gameCoin?.run(SKAction.fadeAlpha(to: 1, duration: 0))
@@ -1058,7 +994,7 @@ class GameViewController: UIViewController, GADBannerViewDelegate, GADInterstiti
         reloadBalance()
     }
     func createAndLoadRewardedAd() -> GADRewardedAd{
-      rewardedAd = GADRewardedAd(adUnitID: "ca-app-pub-3940256099942544/1712485313")
+      rewardedAd = GADRewardedAd(adUnitID: rewardedAdID)
       rewardedAd?.load(GADRequest()) { error in
         if let error = error {
           print("Loading failed: \(error)")
@@ -1068,50 +1004,8 @@ class GameViewController: UIViewController, GADBannerViewDelegate, GADInterstiti
       }
         return rewardedAd!
     }
+    
     func rewardedAdDidDismiss(_ rewardedAd: GADRewardedAd) {
       let rewardedAd = createAndLoadRewardedAd()
     }
-
-
-
 }
-
-
-
-
-
-
-//    override var shouldAutorotate: Bool {
-//        return true
-//    }
-//
-//    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
-//        if UIDevice.current.userInterfaceIdiom == .phone {
-//            return .allButUpsideDown
-//        } else {
-//            return .all
-//        }
-//    }
-
-//let magneticField = SKFieldNode.radialGravityField()
-
-//magneticField.region = SKRegion.init(size: gameCanvas!.size)
-//magneticField.minimumRgameCanvassius = Float(gameCanvas!.size.width)
-// magneticField.strength = 10
-
-
-//                   physicsWorld.gravity = CGVector(dx: 0, dy: 0)
-//                   physicsBody = SKPhysicsBody(edgeLoopFrom: { () -> CGRect in
-//                       var frame = self.frame
-//                       frame.size.width = CGFloat(radius)
-//                       frame.origin.x -= frame.size.width / 2
-//                       return frame
-//                   }())
-
-/*let strength = Float(max(gameCanvas!.size.width, gameCanvas!.size.height))
- let radius = strength.squareRoot() * 100
- magneticField.region = SKRegion(radius: radius)
- magneticField.minimumRadius = radius
- magneticField.strength = 5000
- magneticField.position = CGPoint(x: (gameCanvas!.size.width/2)/gameCanvas!.xScale, y:0) //(gameCanvas!.size.height/2)/gameCanvas!.yScale)
- gameCanvas?.addChild(magneticField)*/

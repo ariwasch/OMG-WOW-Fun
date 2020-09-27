@@ -105,17 +105,9 @@ class GameViewController2: UIViewController, GADInterstitialDelegate, GADRewarde
                 
                 gameScene = scene
                 gameScene!.scaleMode = .aspectFit
-//                gameScene?.size = view.bounds.size
                 view.presentScene(gameScene!)
             }
             
-            //view.ignoresSiblingOrder = true
-            //            view.showsFPS = true
-            //            view.showsNodeCount = true
-            //            view.showsPhysics = true
-            //            view.showsFields = true
-            //            view.showsDrawCount = true
-            //            view.showsQuadCount = true
         }
     }
     
@@ -156,11 +148,6 @@ class GameViewController2: UIViewController, GADInterstitialDelegate, GADRewarde
                     
                     var tempVar = fetchSpriteNode(withName: "\(allStrings[i][j].lowercased())\(char+1)",inNode: gameScene?.textCanvases[i])
                     tempArray.append(tempVar)
-
-//                    if(exception(string: allStrings[i][j]) > 1){
-//                        var tempVar = fetchSpriteNode(withName: "\(allStrings[i][j].lowercased())\(exception(string: allStrings[i][j]))\(char+1)",inNode: gameScene?.textCanvases[i])
-//                        tempArray.append(tempVar)
-//                    }
                     
                     print("\(allStrings[i][j])\(char)")
                 }
@@ -249,9 +236,6 @@ class GameViewController2: UIViewController, GADInterstitialDelegate, GADRewarde
             num = 39 - previous
         }
 
-
-//        print(num)
-//        print(currentLevel)
         return num
     }
 
@@ -402,13 +386,8 @@ class GameViewController2: UIViewController, GADInterstitialDelegate, GADRewarde
     
     func hideHomeComponentsAndLoadGame()
     {
-//        homeLogo?.run(SKAction.moveTo(y: self.view.frame.height, duration: 0.5), completion: {
             self.homeLogo?.removeFromParent()
-//        })
-//        homePlayContainer?.run((SKAction.moveTo(y: 0, duration: 0.5)), completion: {
             self.homePlayContainer?.removeFromParent()
-//        })
-//        gameBackground?.run(SKAction.fadeAlpha(to: 1.0, duration: 0.75), completion: {
         gameBackground?.run(SKAction.fadeAlpha(to: 1.0, duration: 0))
 
             self.gameBlockContainer?.children.forEach({ (node) in
@@ -442,7 +421,6 @@ class GameViewController2: UIViewController, GADInterstitialDelegate, GADRewarde
                     delay = delay + 0.1
                 }
             }
-//        })
     }
     
     //MARK: Child Node
@@ -520,12 +498,6 @@ class GameViewController2: UIViewController, GADInterstitialDelegate, GADRewarde
         }else{
             self.enableEndPop = false
         }
-
-
-
-
-
-        
 
     }
     func correctWordSwipe(forSwippedWord strWord:String, selectedNodes arrNodes:[SKSpriteNode])
@@ -652,7 +624,7 @@ class GameViewController2: UIViewController, GADInterstitialDelegate, GADRewarde
                 end = true
                 gameOptionHint?.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
             }
-            if touchedNode == gameCoin || touchedNode == coin
+            if touchedNode == gameCoin || touchedNode == coin || touchedNode.parent == gameCoin
             {
                 end = true
                 gameCoin?.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
@@ -699,12 +671,9 @@ class GameViewController2: UIViewController, GADInterstitialDelegate, GADRewarde
                     }
                 }
 
-//                defaults.set(true, forKey: "startview")
-//                performSegue(withIdentifier: "levelselect2", sender: nil)
             }
             if touchedNode == gameOptionShuffle
             {
-//                print("SOFJODFHOIDHJFSIOJIOFJSODIFJOSDIFJOSDJFOSDJF")
                 nextLevelButton?.isHidden = true
                 enableEndPop = false
                 skip()
@@ -719,9 +688,6 @@ class GameViewController2: UIViewController, GADInterstitialDelegate, GADRewarde
                         if(enableEndPop){
                             enableEndPop = false
                             nextLevelButton?.isHidden = false
-                //                    levelDelay = 1
-                //                    initializeNextLevel(level: pLevel, title: pLTitle, popTitle: pTitle, popBody: pBody)
-                //                    levelDelay = 0
                         }
                 
             }
@@ -730,12 +696,9 @@ class GameViewController2: UIViewController, GADInterstitialDelegate, GADRewarde
                     touchedNode.run(SKAction.fadeAlpha(to: 1.0, duration: 0))
                     nextLevelButton?.isHidden = true
                     infoPopup?.isHidden = true
-            //                if(enableEndPop){
-            //                    enableEndPop = false
                     levelDelay = 1
                     initializeNextLevel(level: pLevel, title: pLTitle, popTitle: pTitle, popBody: pBody)
                     levelDelay = 0
-            //                }
                 }
             if touchedNode.name == "Author"
             {
@@ -758,7 +721,7 @@ class GameViewController2: UIViewController, GADInterstitialDelegate, GADRewarde
                 gameOptionHint?.run(SKAction.fadeAlpha(to: 1, duration: 0))
                 hint()
             }
-            if touchedNode == gameCoin || touchedNode == coin
+            if touchedNode == gameCoin || touchedNode == coin || touchedNode.parent == gameCoin
             {
                 gameCoin?.run(SKAction.fadeAlpha(to: 1, duration: 0))
                 performSegue(withIdentifier: "tocoins2", sender: nil)
@@ -849,7 +812,10 @@ class GameViewController2: UIViewController, GADInterstitialDelegate, GADRewarde
     }
 
     func createAndLoadInterstitial() -> GADInterstitial {
-          var interstitial = GADInterstitial(adUnitID: "ca-app-pub-3940256099942544/4411468910")
+//          var interstitial = GADInterstitial(adUnitID: "ca-app-pub-3940256099942544/4411468910")
+        var interstitial = GADInterstitial(adUnitID: interstatialAdID)
+
+        
           interstitial.delegate = self
           interstitial.load(GADRequest())
           return interstitial
@@ -883,7 +849,10 @@ class GameViewController2: UIViewController, GADInterstitialDelegate, GADRewarde
        ])
     }
     func loadAds(){
-        rewardedAd = GADRewardedAd(adUnitID: "ca-app-pub-3940256099942544/1712485313")
+//        rewardedAd = GADRewardedAd(adUnitID: "ca-app-pub-3940256099942544/1712485313")
+        rewardedAd = GADRewardedAd(adUnitID: rewardedAdID)
+
+        
         rewardedAd?.load(GADRequest()) { error in
           if let error = error {
             // Handle ad failed to load case.
@@ -893,11 +862,15 @@ class GameViewController2: UIViewController, GADInterstitialDelegate, GADRewarde
         }
         if(!(defaults.bool(forKey: "no-ads"))){
             bannerView = GADBannerView(adSize: kGADAdSizeBanner)
-            bannerView.adUnitID = "ca-app-pub-3940256099942544/2934735716"
+//            bannerView.adUnitID = "ca-app-pub-3940256099942544/2934735716"
+            bannerView.adUnitID = bannerAdID
+            
             bannerView.center = CGPoint(x: view.frame.midX, y: view.bounds.height - bannerView.bounds.height / 2)
             bannerView.rootViewController = self
             bannerView.load(GADRequest())
-            interstitial = GADInterstitial(adUnitID: "ca-app-pub-3940256099942544/4411468910")
+        //  interstitial = GADInterstitial(adUnitID: "ca-app-pub-3940256099942544/4411468910")
+
+            interstitial = GADInterstitial(adUnitID: interstatialAdID)
             let request = GADRequest()
             interstitial.delegate = self
             interstitial.load(request)
@@ -912,7 +885,7 @@ class GameViewController2: UIViewController, GADInterstitialDelegate, GADRewarde
         reloadBalance()
     }
     func createAndLoadRewardedAd() -> GADRewardedAd{
-      rewardedAd = GADRewardedAd(adUnitID: "ca-app-pub-3940256099942544/1712485313")
+      rewardedAd = GADRewardedAd(adUnitID: rewardedAdID)
       rewardedAd?.load(GADRequest()) { error in
         if let error = error {
           print("Loading failed: \(error)")
@@ -925,47 +898,4 @@ class GameViewController2: UIViewController, GADInterstitialDelegate, GADRewarde
     func rewardedAdDidDismiss(_ rewardedAd: GADRewardedAd) {
       let rewardedAd = createAndLoadRewardedAd()
     }
-
-
-
 }
-
-
-
-
-
-
-//    override var shouldAutorotate: Bool {
-//        return true
-//    }
-//
-//    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
-//        if UIDevice.current.userInterfaceIdiom == .phone {
-//            return .allButUpsideDown
-//        } else {
-//            return .all
-//        }
-//    }
-
-//let magneticField = SKFieldNode.radialGravityField()
-
-//magneticField.region = SKRegion.init(size: gameCanvas!.size)
-//magneticField.minimumRgameCanvassius = Float(gameCanvas!.size.width)
-// magneticField.strength = 10
-
-
-//                   physicsWorld.gravity = CGVector(dx: 0, dy: 0)
-//                   physicsBody = SKPhysicsBody(edgeLoopFrom: { () -> CGRect in
-//                       var frame = self.frame
-//                       frame.size.width = CGFloat(radius)
-//                       frame.origin.x -= frame.size.width / 2
-//                       return frame
-//                   }())
-
-/*let strength = Float(max(gameCanvas!.size.width, gameCanvas!.size.height))
- let radius = strength.squareRoot() * 100
- magneticField.region = SKRegion(radius: radius)
- magneticField.minimumRadius = radius
- magneticField.strength = 5000
- magneticField.position = CGPoint(x: (gameCanvas!.size.width/2)/gameCanvas!.xScale, y:0) //(gameCanvas!.size.height/2)/gameCanvas!.yScale)
- gameCanvas?.addChild(magneticField)*/

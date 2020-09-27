@@ -3,7 +3,7 @@
 //  OMG-WOW!+ Fun
 //
 //  Created by Ari Wasch on 7/10/20.
-//  Copyright © 2020 TrantorSoftware. All rights reserved.
+//  Copyright © 2020 Ari Wasch. All rights reserved.
 //
 
 import UIKit
@@ -124,7 +124,6 @@ class StartPageController: UIViewController, LoginButtonDelegate {
     var gameTextContainer4 : SKSpriteNode?
     var number : Int = 0
 
-//    var infoPopup : SKSpriteNode?
         
     var variableArray: [[SKSpriteNode?]] = [[]]
     var gameCongratulations : SKLabelNode?
@@ -137,9 +136,6 @@ class StartPageController: UIViewController, LoginButtonDelegate {
 
     var touchBeganNode : SKSpriteNode?
     var currentLevel : Int = 31
-//    var SKSpriteNodelol : SKSpriteNode?
-//    var infoTitle : SKSpriteNode?
-//    var infoBody : SKSpriteNode?
     
     var google: SKSpriteNode?
     var facebook: SKSpriteNode?
@@ -147,24 +143,16 @@ class StartPageController: UIViewController, LoginButtonDelegate {
 
     //MARK:- View LifeCycle
     override func viewDidLoad() {
-//        number = number + 1
-//        print("number \(number)")
+
         super.viewDidLoad()
+
         GIDSignIn.sharedInstance()?.presentingViewController = self
 //        GIDSignIn.sharedInstance().signIn()
         let loginButton = FBLoginButton()
         loginButton.delegate = self
-        
-//        defaults.set(true, forKey: "level1")
-//        defaults.set("")
-//        defaults.set(true, forKey: "startview")
-//        currentLevel = 31
-//        allStrings = block.allStrings2
         view.layoutIfNeeded()
         presentGameScene()
         initializationOfGameVariable()
-//        hideGameComponents()
-//        initializeGameSwipeAction()
     }
     
     override var prefersStatusBarHidden: Bool {
@@ -184,17 +172,9 @@ class StartPageController: UIViewController, LoginButtonDelegate {
                 
                 gameScene = scene
                 gameScene!.scaleMode = .aspectFit
-//                gameScene?.size = view.bounds.size
                 view.presentScene(gameScene!)
             }
             
-            //view.ignoresSiblingOrder = true
-            //            view.showsFPS = true
-            //            view.showsNodeCount = true
-            //            view.showsPhysics = true
-            //            view.showsFields = true
-            //            view.showsDrawCount = true
-            //            view.showsQuadCount = true
         }
     }
     
@@ -249,8 +229,6 @@ class StartPageController: UIViewController, LoginButtonDelegate {
         {
             label.isHidden = hide
         }
-//        Auth.auth().createUser(withEmail: email) { authResult, error in
-//        }
     }
     
     
@@ -287,6 +265,25 @@ class StartPageController: UIViewController, LoginButtonDelegate {
             {
                 touchedNode.run(SKAction.fadeAlpha(to: 1.0, duration: 0))
             }
+            
+            if touchBeganNode == homePlayButton {
+                self.defaults.set(false, forKey: "startview")
+                homeLogo?.run(SKAction.moveTo(y: self.view.frame.height, duration: 0.5), completion: {
+                    self.homeLogo?.removeFromParent()
+                })
+                homePlayContainer?.run((SKAction.moveTo(y: 0, duration: 0.5)), completion: {
+                    self.homePlayContainer?.removeFromParent()
+                })
+                gameBackground?.run(SKAction.fadeAlpha(to: 1.0, duration: 0.75), completion: {
+                    self.homeBackground?.removeFromParent()
+                })
+                homePlayButton?.run(SKAction.fadeAlpha(to: 1.0, duration: 0))
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.75) {
+                    self.performSegue(withIdentifier: "startSelect", sender: nil)
+                }
+                
+            }
+
 
         }
     }
@@ -308,45 +305,6 @@ class StartPageController: UIViewController, LoginButtonDelegate {
 
     }
 
-
-
-
-
-
-//    override var shouldAutorotate: Bool {
-//        return true
-//    }
-//
-//    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
-//        if UIDevice.current.userInterfaceIdiom == .phone {
-//            return .allButUpsideDown
-//        } else {
-//            return .all
-//        }
-//    }
-
-//let magneticField = SKFieldNode.radialGravityField()
-
-//magneticField.region = SKRegion.init(size: gameCanvas!.size)
-//magneticField.minimumRgameCanvassius = Float(gameCanvas!.size.width)
-// magneticField.strength = 10
-
-
-//                   physicsWorld.gravity = CGVector(dx: 0, dy: 0)
-//                   physicsBody = SKPhysicsBody(edgeLoopFrom: { () -> CGRect in
-//                       var frame = self.frame
-//                       frame.size.width = CGFloat(radius)
-//                       frame.origin.x -= frame.size.width / 2
-//                       return frame
-//                   }())
-
-/*let strength = Float(max(gameCanvas!.size.width, gameCanvas!.size.height))
- let radius = strength.squareRoot() * 100
- magneticField.region = SKRegion(radius: radius)
- magneticField.minimumRadius = radius
- magneticField.strength = 5000
- magneticField.position = CGPoint(x: (gameCanvas!.size.width/2)/gameCanvas!.xScale, y:0) //(gameCanvas!.size.height/2)/gameCanvas!.yScale)
- gameCanvas?.addChild(magneticField)*/
 
 
 }

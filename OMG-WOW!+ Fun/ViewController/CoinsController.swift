@@ -3,7 +3,7 @@
 //  OMG-WOW!+ Fun
 //
 //  Created by Ari Wasch on 7/9/20.
-//  Copyright © 2020 TrantorSoftware. All rights reserved.
+//  Copyright © 2020 Ari Wasch. All rights reserved.
 //
 
 import UIKit
@@ -12,6 +12,7 @@ import GameplayKit
 import StoreKit
 import GameplayKit
 import GoogleMobileAds
+import SwiftyStoreKit
 
 class CoinsController: UIViewController, SKProductsRequestDelegate, GADRewardedAdDelegate, SKPaymentTransactionObserver {
     
@@ -29,6 +30,7 @@ class CoinsController: UIViewController, SKProductsRequestDelegate, GADRewardedA
 
             if transaction.transactionState == .purchased && !completePurchase {
                 print("Transaction Successful")
+                verifyPurchase(with: defaults.string(forKey: "id") ?? "")
                 let id = defaults.string(forKey: "id")
                 let balance = defaults.integer(forKey: "balance")
                 print("balance \(balance)")
@@ -41,66 +43,31 @@ class CoinsController: UIViewController, SKProductsRequestDelegate, GADRewardedA
                     print("noADs")
                     defaults.set(true, forKey: "no-ads")
                     buy3?.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
-                }else if(id == "omg.moreLevels"){
-                    defaults.set(true, forKey: "moreLevels")
-                    buy6?.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
+//                }else if(id == "omg.moreLevels"){
+//                    defaults.set(true, forKey: "moreLevels")
+//                    buy6?.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
 
                 }
                 
                 reloadBalance()
                 completePurchase = true
-//                packsUnlocked = truez
+            } else if transaction.transactionState == .purchasing {
+                print("PURCHASING")
             } else if transaction.transactionState == .failed {
                 print("Transaction Failed with error: \(transaction.error)")
             } else if transaction.transactionState == .restored {
                 let id = defaults.string(forKey: "id")
                 if(id == "omg.no.ads"){
-                //                    defaults.set(balance+500, forKey: "balance")
                     defaults.set(true, forKey: "no-ads")
                     buy3?.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
 
                 }
-                if(id == "omg.moreLevels"){
-                //                    defaults.set(balance+500, forKey: "balance")
-                    defaults.set(true, forKey: "omg.moreLevels")
-                    buy3?.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
-
-                }
-
-                
             }
-
-
             //Transaction can now be safely finished
             queue.finishTransaction(transaction)
         }
     }
 
-//    func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
-//        print("TRANSACTION \(transactions.count)")
-//        for transaction in transactions{
-//            switch transaction.transactionState{
-//            case .purchasing:
-//                print("TRANSACTION purchasing")
-//                break
-//            case .purchased, .restored:
-//                SKPaymentQueue.default().finishTransaction(transaction)
-//                SKPaymentQueue.default().remove(self)
-//                print("TRANSACTION purchased")
-//                break
-//            case .failed, .deferred:
-//                SKPaymentQueue.default().finishTransaction(transaction)
-//                SKPaymentQueue.default().remove(self)
-//                print("TRANSACTION failed")
-//                break
-//            default:
-//                SKPaymentQueue.default().finishTransaction(transaction)
-//                SKPaymentQueue.default().remove(self)
-//                print("TRANSACTION default")
-//                break
-//            }
-//        }
-//    }
     
     
     func productsRequest(_ request: SKProductsRequest, didReceive response: SKProductsResponse) {
@@ -120,7 +87,7 @@ class CoinsController: UIViewController, SKProductsRequestDelegate, GADRewardedA
     
     var products: SKProduct?
 //    var rewardedAd: GADRewardedAd?
-
+    var transactionComplete : Bool = false
     var gameScene : Coins?
     var homeBackground : SKSpriteNode?
     var homeLogo : SKSpriteNode?
@@ -176,23 +143,14 @@ class CoinsController: UIViewController, SKProductsRequestDelegate, GADRewardedA
     var buy5: SKSpriteNode?
     var buy6: SKSpriteNode?
     var balance: SKLabelNode?
+    var restore: SKSpriteNode?
 
 
     //MARK:- View LifeCycle
     override func viewDidLoad() {
-//        number = number + 1
-//        print("number \(number)")
-//        productIDs.append("omg.coins.100")
-//        requestProductInfo()
-//        fetchProduct()
-        restorePurchases() //undo this
+        fetchProduct()
+//        restorePurchases()
         super.viewDidLoad()
-//        defaults.set(true, forKey: "level1")
-//        defaults.set("")
-//        defaults.set(true, forKey: "startview")
-//        currentLevel = 31
-//        allStrings = block.allStrings2
-//        SKPaymentQueue.default().add(self)
         loadAds()
         view.layoutIfNeeded()
         presentGameScene()
@@ -205,16 +163,39 @@ class CoinsController: UIViewController, SKProductsRequestDelegate, GADRewardedA
         }
 
         reloadBalance()
+        verifyPurchase(with: "omg.no.ads")
+        verifyPurchase(with: "omg.coins.100")
+        verifyPurchase(with: "omg.coins.250")
 
-//        hideGameComponents()
-//        initializeGameSwipeAction()
     }
     func fetchProduct(){
         let request = SKProductsRequest(productIdentifiers: ["omg.coins.100","omg.coins.250","omg.no.ads"])
         request.delegate = self
         request.start()
     }
-    
+    func verifyPurchase(with id: String){
+        let appleValidator = AppleReceiptValidator(service: .production, sharedSecret: "2ef6aeb74bc046a5b770fed6d282059d")
+        SwiftyStoreKit.verifyReceipt(using: appleValidator) { result in
+            switch result {
+            case .success(let receipt):
+                let productId = "com.musevisions.SwiftyStoreKit.Purchase1"
+                // Verify the purchase of Consumable or NonConsumable
+                let purchaseResult = SwiftyStoreKit.verifyPurchase(
+                    productId: id,
+                    inReceipt: receipt)
+                    
+                switch purchaseResult {
+                case .purchased(let receiptItem):
+                    print("\(id) is purchased: \(receiptItem)")
+                    print("LOLOTTOERASDASF")
+                case .notPurchased:
+                    print("The user has never purchased \(id)")
+                }
+            case .error(let error):
+                print("Receipt verification failed: \(error)")
+            }
+        }
+    }
     func requestProductInfo() {
         if SKPaymentQueue.canMakePayments() {
             let productIdentifiers = NSSet(array: productIDs)
@@ -244,17 +225,8 @@ class CoinsController: UIViewController, SKProductsRequestDelegate, GADRewardedA
                 
                 gameScene = scene
                 gameScene!.scaleMode = .aspectFit
-//                gameScene?.size = view.bounds.size
                 view.presentScene(gameScene!)
             }
-            
-            //view.ignoresSiblingOrder = true
-            //            view.showsFPS = true
-            //            view.showsNodeCount = true
-            //            view.showsPhysics = true
-            //            view.showsFields = true
-            //            view.showsDrawCount = true
-            //            view.showsQuadCount = true
         }
     }
     
@@ -290,7 +262,7 @@ class CoinsController: UIViewController, SKProductsRequestDelegate, GADRewardedA
         buy6 = fetchSpriteNode(withName: "buy6")
         infoPopup = fetchSpriteNode(withName: "infoPopup")
         donate = fetchSpriteNode(withName: "donate")
-
+        restore = fetchSpriteNode(withName: "restore")
         homePlayButton?.isUserInteractionEnabled = true
         gameBack?.isUserInteractionEnabled = true
     }
@@ -347,12 +319,12 @@ class CoinsController: UIViewController, SKProductsRequestDelegate, GADRewardedA
     }
     
     public func restorePurchases() {
-      SKPaymentQueue.default().restoreCompletedTransactions()
+        SKPaymentQueue.default().add(self)
+        SKPaymentQueue.default().restoreCompletedTransactions()
     }
 
     func inAppPurchase(forKey: String){
         //actual in app purchases
-        completePurchase = false
         let request = SKProductsRequest(productIdentifiers: [forKey])
         request.delegate = self
         request.start()
@@ -362,34 +334,11 @@ class CoinsController: UIViewController, SKProductsRequestDelegate, GADRewardedA
         print("(AD!")
 
         if(SKPaymentQueue.canMakePayments()){
+            completePurchase = false
             let payment = SKPayment(product: products)
             SKPaymentQueue.default().add(self)
             SKPaymentQueue.default().add(payment)
         }
-        
-        
-//        //test in app purchases buttons
-//        let id = forKey
-//        let balance = defaults.integer(forKey: "balance")
-//
-//                        if(id == "omg.coins.100"){
-//                            defaults.set(balance+100, forKey: "balance")
-//                        }else if(id == "omg.coins.250"){
-//                            defaults.set(balance+250, forKey: "balance")
-//                        }else if(id == "omg.no.ads"){
-//        //                    defaults.set(balance+500, forKey: "balance")
-//                            print("noADs")
-//                            defaults.set(true, forKey: "no-ads")
-//                            buy3?.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
-//                        }else if(id == "omg.moreLevels"){
-//                            defaults.set(true, forKey: "moreLevels")
-//                            buy6?.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
-//
-//                        }
-//                        
-//                        reloadBalance()
-
-        
 
     }
     //MARK:- Touch Actions
@@ -409,61 +358,45 @@ class CoinsController: UIViewController, SKProductsRequestDelegate, GADRewardedA
                 }
             }
 
-            if touchedNode == buy1
+            if touchedNode == buy1 || touchedNode.parent == buy1
             {
-                
                 touchedNode.run(SKAction.fadeAlpha(to: 1, duration: 0))
                 buy1?.run(SKAction.fadeAlpha(to: 1, duration: 0))
-                
                 inAppPurchase(forKey: "omg.coins.100")
-                
-//                if(SKPaymentQueue.canMakePayments()){
-//                    print("DOING IT")
-//                    SKPaymentQueue.default().add(self)
-//                    let paymentRequest = SKMutablePayment()
-//                    paymentRequest.productIdentifier = "omg.coins.100"
-//                    SKPaymentQueue.default().add(paymentRequest)
-//                }
-                
-                
-//                let balance = defaults.integer(forKey: "balance")
-//                defaults.set(balance+100, forKey: "balance")
-//                reloadBalance()
-//                buy1?.run(SKAction.fadeAlpha(to: 1, duration: 0))
-//                print("BUY1")
             }
-            if touchedNode == buy2
+            if touchedNode == buy2 || touchedNode.parent == buy2
             {
-//                let balance = defaults.integer(forKey: "balance")
-//                defaults.set(balance+250, forKey: "balance")
-//                reloadBalance()
                 inAppPurchase(forKey: "omg.coins.250")
                 buy2?.run(SKAction.fadeAlpha(to: 1.0, duration: 0))
             }
-            if touchedNode == buy3 && !defaults.bool(forKey: "no-ads")
+            if (touchedNode == buy3 || touchedNode.parent == buy1) && !defaults.bool(forKey: "no-ads")
             {
-//                let balance = defaults.integer(forKey: "balance")
-//                defaults.set(balance+500, forKey: "balance")
-//                defaults.set(true, forKey: "no-ads")
-//                reloadBalance()
                 inAppPurchase(forKey: "omg.no.ads")
                 buy3?.run(SKAction.fadeAlpha(to: 1.0, duration: 0))
-            }else if(touchedNode == buy3 && defaults.bool(forKey: "no-ads")){
+            }else if((touchedNode == buy3 || touchedNode.parent == buy1) && defaults.bool(forKey: "no-ads")){
                 buy3?.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
             }
 
-            if touchedNode == buy5
+            if touchedNode == buy5 || touchedNode.parent == buy5
             {
                 if rewardedAd?.isReady == true {
                    rewardedAd?.present(fromRootViewController: self, delegate:self)
                 }
                 buy5?.run(SKAction.fadeAlpha(to: 1.0, duration: 0))
             }
-            if touchedNode == buy6 && !defaults.bool(forKey: "moreLevels")
+            if (touchedNode == buy6 || touchedNode.parent == buy1) && !defaults.bool(forKey: "moreLevels")
             {
-                inAppPurchase(forKey: "omg.moreLevels")
-                buy6?.run(SKAction.fadeAlpha(to: 1.0, duration: 0))
-
+//                inAppPurchase(forKey: "omg.moreLevels")
+                let balance = defaults.integer(forKey: "balance")
+                if(balance > 400){
+                    defaults.set(true, forKey: "moreLevels")
+                    buy6?.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
+                    defaults.set(balance-400, forKey: "balance")
+                    reloadBalance()
+                }else{
+                    buy6?.run(SKAction.fadeAlpha(to: 1, duration: 0))
+                }
+                    
 //                buy6?.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
 //                if let url = URL(string: "https://forms.gle/92RmX2RTRhG76mLA6") {
 //                    UIApplication.shared.open(url)
@@ -475,8 +408,8 @@ class CoinsController: UIViewController, SKProductsRequestDelegate, GADRewardedA
 //                }
 
 
-            }else if(touchedNode == buy6 && defaults.bool(forKey: "moreLevels")){
-                buy6?.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
+//            }else if(touchedNode == buy6 && defaults.bool(forKey: "moreLevels")){
+//                buy6?.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
 
             }
             if touchedNode == donate
@@ -512,8 +445,12 @@ class CoinsController: UIViewController, SKProductsRequestDelegate, GADRewardedA
                     UIApplication.shared.open(url)
                 }
             }
-//        }
-//            end = false
+            
+            if touchedNode == restore
+            {
+                restorePurchases()
+                restore?.run(SKAction.fadeAlpha(to: 1, duration: 0))
+            }
         }
     }
     
@@ -526,6 +463,7 @@ class CoinsController: UIViewController, SKProductsRequestDelegate, GADRewardedA
         gameBack?.run(SKAction.fadeAlpha(to: 1, duration: 0))
         buy1?.run(SKAction.fadeAlpha(to: 1, duration: 0))
         buy2?.run(SKAction.fadeAlpha(to: 1, duration: 0))
+        restore?.run(SKAction.fadeAlpha(to: 1, duration: 0))
         if(!defaults.bool(forKey: "no-ads")){
             buy3?.run(SKAction.fadeAlpha(to: 1, duration: 0))
         }
@@ -549,23 +487,23 @@ class CoinsController: UIViewController, SKProductsRequestDelegate, GADRewardedA
             let positionInScene = touch.location(in: gameScene!)
             let touchedNode = gameScene!.atPoint(positionInScene)
             touchBeganNode = touchedNode as? SKSpriteNode
-
+            print(touchedNode.parent?.name)
             if touchBeganNode == gameBack {
                 end = true
                 gameBack?.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
             }
 
-            if touchBeganNode == buy1
+            if touchBeganNode == buy1 || touchedNode.parent == buy1
             {
                 end = true
                 buy1?.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
             }
-            if touchBeganNode == buy2
+            if touchBeganNode == buy2 || touchedNode.parent == buy2
             {
                 end = true
                 buy2?.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
             }
-            if touchBeganNode == buy3
+            if touchBeganNode == buy3 || touchedNode.parent == buy3
             {
                 end = true
                 buy3?.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
@@ -574,12 +512,12 @@ class CoinsController: UIViewController, SKProductsRequestDelegate, GADRewardedA
 //            {
 //                buy4?.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
 //            }
-            if touchBeganNode == buy5
+            if touchBeganNode == buy5 || touchedNode.parent == buy5
             {
                 end = true
                 buy5?.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
             }
-            if touchBeganNode == buy6
+            if touchBeganNode == buy6 || touchedNode.parent == buy6
             {
                 end = true
                 buy6?.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
@@ -600,14 +538,16 @@ class CoinsController: UIViewController, SKProductsRequestDelegate, GADRewardedA
                 touchedNode.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
 
             }
-
-
-
+            if touchBeganNode == restore {
+                end = true
+                restore?.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
+            }
     }
 
     }
     func loadAds(){
-        rewardedAd = GADRewardedAd(adUnitID: "ca-app-pub-3940256099942544/1712485313")
+//        rewardedAd = GADRewardedAd(adUnitID: "ca-app-pub-3940256099942544/1712485313")
+        rewardedAd = GADRewardedAd(adUnitID: rewardedAdID)
         rewardedAd?.load(GADRequest()) { error in
           if let error = error {
             // Handle ad failed to load case.
@@ -622,7 +562,7 @@ class CoinsController: UIViewController, SKProductsRequestDelegate, GADRewardedA
         reloadBalance()
     }
     func createAndLoadRewardedAd() -> GADRewardedAd{
-      rewardedAd = GADRewardedAd(adUnitID: "ca-app-pub-3940256099942544/1712485313")
+      rewardedAd = GADRewardedAd(adUnitID: rewardedAdID)
       rewardedAd?.load(GADRequest()) { error in
         if let error = error {
           print("Loading failed: \(error)")
@@ -643,32 +583,20 @@ class CoinsController: UIViewController, SKProductsRequestDelegate, GADRewardedA
         }
 
     }
+    
+    func paymentQueueRestoreCompletedTransactionsFinished(_ queue: SKPaymentQueue) {
+        for transaction in queue.transactions {
+            let t: SKPaymentTransaction = transaction
+            let prodID = t.payment.productIdentifier as String
+
+            switch prodID {
+            case "omg.no.ads":
+                inAppPurchase(forKey: "omg.no.ads")
+                // implement the given in-app purchase as if it were bought
+            default:
+                print("iap not found")
+            }
+        }
+    }
 
 }
-// MARK: - SKProductsRequestDelegate
-
-//extension CoinsController: SKProductsRequestDelegate {
-//
-//  public func productsRequest(_ request: SKProductsRequest, didReceive response: SKProductsResponse) {
-//    print("Loaded list of products...")
-//    let products = response.products
-//    productsRequestCompletionHandler?(true, products)
-//    clearRequestAndHandler()
-//
-//    for p in products {
-//      print("Found product: \(p.productIdentifier) \(p.localizedTitle) \(p.price.floatValue)")
-//    }
-//  }
-//
-//  public func request(_ request: SKRequest, didFailWithError error: Error) {
-//    print("Failed to load list of products.")
-//    print("Error: \(error.localizedDescription)")
-//    productsRequestCompletionHandler?(false, nil)
-//    clearRequestAndHandler()
-//  }
-//
-//  private func clearRequestAndHandler() {
-//    productsRequest = nil
-//    productsRequestCompletionHandler = nil
-//  }
-//}

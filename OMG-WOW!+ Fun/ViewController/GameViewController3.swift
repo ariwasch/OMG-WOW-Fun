@@ -405,13 +405,8 @@ class GameViewController3: UIViewController, GADInterstitialDelegate, GADRewarde
     
     func hideHomeComponentsAndLoadGame()
     {
-//        homeLogo?.run(SKAction.moveTo(y: self.view.frame.height, duration: 0.5), completion: {
             self.homeLogo?.removeFromParent()
-//        })
-//        homePlayContainer?.run((SKAction.moveTo(y: 0, duration: 0.5)), completion: {
             self.homePlayContainer?.removeFromParent()
-//        })
-//        gameBackground?.run(SKAction.fadeAlpha(to: 1.0, duration: 0.75), completion: {
         gameBackground?.run(SKAction.fadeAlpha(to: 1.0, duration: 0))
 
             self.gameBlockContainer?.children.forEach({ (node) in
@@ -516,42 +511,6 @@ class GameViewController3: UIViewController, GADInterstitialDelegate, GADRewarde
         }else{
             self.enableEndPop = false
         }
-//            self.initializeNextLevel(level: 69, title: "21ST CENTURY", popTitle: "‭‭Salma Hayek", popBody: "Salma Hayek Pinault is a Mexican and American film actress and producer.")
-//
-//        }else if(word == "UNDESERVED" || num == 46){
-//            self.initializeNextLevel(level: 46, title: "21ST CENTURY", popTitle: "‭‭Ephesians‬ ‭5:25‬ ‭CEV‬‬", popBody: "A major theme in Ephesians is the keeping of Christ's body (that is, the Church) pure and holy. Therefore be imitators of God, as beloved children. And walk in love, as Christ loved us and gave himself up for us, a fragrant offering and sacrifice to God.")
-//
-//
-//        }else if(word == "MUCH" || num == 47){
-//            self.initializeNextLevel(level: 47, title: "21ST CENTURY", popTitle: "‭‭‭‭‭‭Hebrews‬ ‭13:4‬ ‭CEV‬‬", popBody: "The Epistle to the Hebrews, or Letter to the Hebrews, or in the Greek manuscripts, simply To the Hebrews is one of the books of the New Testament.")
-//        }else if(word == "IMMORAL" || num == 48){
-//            self.initializeNextLevel(level: 48, title: "21ST CENTURY", popTitle: "‭‭‭‭James‬ ‭2:11‬ ‭CEV‬‬", popBody: "The Letter of James, the Epistle of James, or simply James, is one of the 21 epistles in the New Testament.")
-//        }else if((word == "MURDER" && currentLevel == 48) || num == 49){
-//            self.initializeNextLevel(level: 49, title: "21ST CENTURY", popTitle: "‭‭‭‭Mark‬ ‭10:19‬ ‭CEV‬‬", popBody: "Mark the Evangelist (Acts 12:12; 15:37), an associate of St. Paul and a disciple of St. Peter, whose teachings the Gospel may reflect. It is the shortest and the earliest of the four Gospels.")
-//        }else if((word == "RESPECT" && currentLevel == 49) || num == 50){
-//            self.initializeNextLevel(level: 50, title: "21ST CENTURY", popTitle: "‭‭Isaiah‬ ‭40:31‬ ‭CEV‬‬", popBody: "Isaiah was the 8th-century BC Israelite prophet after whom the Book of Isaiah is named. Within the text of the Book of Isaiah, Isaiah himself is referred to as \"the prophet\"")
-//        }else if(word == "TRUST" || num == 51){
-//            self.initializeNextLevel(level: 51, title: "21ST CENTURY", popTitle: "‭‭Isaiah‬ ‭40:31‬ ‭CEV‬‬", popBody: "Isaiah was the 8th-century BC Israelite prophet after whom the Book of Isaiah is named. Within the text of the Book of Isaiah, Isaiah himself is referred to as \"the prophet\"")
-//        }else if(word == "TREMBLE" || num == 52){
-//            self.initializeNextLevel(level: 52, title: "21ST CENTURY", popTitle: "‭‭Job‬ ‭24:22‬ ‭CEV‬‬", popBody: "Rabbinic tradition ascribes it to Moses, but scholars generally agree that it was written between the 7th and 4th centuries BCE.")
-//        }else if(word == "DOOMED" || num == 53){
-//            self.initializeNextLevel(level: 53, title: "21ST CENTURY", popTitle: "‭‭‭‭2 John‬ ‭1:6‬ ‭NLT‬‬", popBody: "The Second Epistle of John, often referred to as Second John and often written 2 John or II John, is a book of the New Testament attributed to John the Evangelist.")
-//        }else if((word == "DOING"  && currentLevel == 53) || num == 54){
-//            self.initializeNextLevel(level: 54, title: "21ST CENTURY", popTitle: "‭‭‭‭1 Peter‬ ‭3:7‬ ‭NLT‬‬", popBody: "The First Epistle of Peter, usually referred to simply as First Peter and often written 1 Peter, is a book of the New Testament.")
-//        }else if(word == "HONOR" || num == 55){
-////            defaults.set(true, forKey: "level3")
-//            defaults.set(31, forKey: "game2level")
-//            defaults.set(false, forKey: "startview")
-//            performSegue(withIdentifier: "levelselect3", sender: nil)
-//
-        
-
-
-
-
-
-        
-
     }
     func correctWordSwipe(forSwippedWord strWord:String, selectedNodes arrNodes:[SKSpriteNode])
     {
@@ -710,7 +669,7 @@ class GameViewController3: UIViewController, GADInterstitialDelegate, GADRewarde
                 gameOptionHint?.run(SKAction.fadeAlpha(to: 1, duration: 0))
                 hint()
             }
-            if touchedNode == gameCoin || touchedNode == coin
+            if touchedNode == gameCoin || touchedNode == coin || touchedNode.parent == gameCoin
             {
                 gameCoin?.run(SKAction.fadeAlpha(to: 1, duration: 0))
                 performSegue(withIdentifier: "tocoins3", sender: nil)
@@ -849,7 +808,7 @@ class GameViewController3: UIViewController, GADInterstitialDelegate, GADRewarde
                 end = true
                 gameOptionHint?.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
             }
-            if touchedNode == gameCoin || touchedNode == coin
+            if touchedNode == gameCoin || touchedNode == coin || touchedNode.parent == gameCoin
             {
                 end = true
                 gameCoin?.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
@@ -872,7 +831,9 @@ class GameViewController3: UIViewController, GADInterstitialDelegate, GADRewarde
     
     
     func createAndLoadInterstitial() -> GADInterstitial {
-          var interstitial = GADInterstitial(adUnitID: "ca-app-pub-3940256099942544/4411468910")
+//          var interstitial = GADInterstitial(adUnitID: "ca-app-pub-3940256099942544/4411468910")
+        var interstitial = GADInterstitial(adUnitID: interstatialAdID)
+
           interstitial.delegate = self
           interstitial.load(GADRequest())
           return interstitial
@@ -906,7 +867,9 @@ class GameViewController3: UIViewController, GADInterstitialDelegate, GADRewarde
        ])
     }
     func loadAds(){
-        rewardedAd = GADRewardedAd(adUnitID: "ca-app-pub-3940256099942544/1712485313")
+//        rewardedAd = GADRewardedAd(adUnitID: "ca-app-pub-3940256099942544/1712485313")
+        rewardedAd = GADRewardedAd(adUnitID: rewardedAdID)
+
         rewardedAd?.load(GADRequest()) { error in
           if let error = error {
             // Handle ad failed to load case.
@@ -916,11 +879,15 @@ class GameViewController3: UIViewController, GADInterstitialDelegate, GADRewarde
         }
         if(!(defaults.bool(forKey: "no-ads"))){
             bannerView = GADBannerView(adSize: kGADAdSizeBanner)
-            bannerView.adUnitID = "ca-app-pub-3940256099942544/2934735716"
+//            bannerView.adUnitID = "ca-app-pub-3940256099942544/2934735716"
+            bannerView.adUnitID = bannerAdID
+
             bannerView.center = CGPoint(x: view.frame.midX, y: view.bounds.height - bannerView.bounds.height / 2)
             bannerView.rootViewController = self
             bannerView.load(GADRequest())
-            interstitial = GADInterstitial(adUnitID: "ca-app-pub-3940256099942544/4411468910")
+//            interstitial = GADInterstitial(adUnitID: "ca-app-pub-3940256099942544/4411468910")
+            interstitial = GADInterstitial(adUnitID: interstatialAdID)
+
             let request = GADRequest()
             interstitial.delegate = self
             interstitial.load(request)
@@ -935,7 +902,7 @@ class GameViewController3: UIViewController, GADInterstitialDelegate, GADRewarde
         reloadBalance()
     }
     func createAndLoadRewardedAd() -> GADRewardedAd{
-      rewardedAd = GADRewardedAd(adUnitID: "ca-app-pub-3940256099942544/1712485313")
+      rewardedAd = GADRewardedAd(adUnitID: rewardedAdID)
       rewardedAd?.load(GADRequest()) { error in
         if let error = error {
           print("Loading failed: \(error)")
@@ -949,47 +916,4 @@ class GameViewController3: UIViewController, GADInterstitialDelegate, GADRewarde
       let rewardedAd = createAndLoadRewardedAd()
     }
 
-
-
-
 }
-
-
-
-
-
-
-//    override var shouldAutorotate: Bool {
-//        return true
-//    }
-//
-//    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
-//        if UIDevice.current.userInterfaceIdiom == .phone {
-//            return .allButUpsideDown
-//        } else {
-//            return .all
-//        }
-//    }
-
-//let magneticField = SKFieldNode.radialGravityField()
-
-//magneticField.region = SKRegion.init(size: gameCanvas!.size)
-//magneticField.minimumRgameCanvassius = Float(gameCanvas!.size.width)
-// magneticField.strength = 10
-
-
-//                   physicsWorld.gravity = CGVector(dx: 0, dy: 0)
-//                   physicsBody = SKPhysicsBody(edgeLoopFrom: { () -> CGRect in
-//                       var frame = self.frame
-//                       frame.size.width = CGFloat(radius)
-//                       frame.origin.x -= frame.size.width / 2
-//                       return frame
-//                   }())
-
-/*let strength = Float(max(gameCanvas!.size.width, gameCanvas!.size.height))
- let radius = strength.squareRoot() * 100
- magneticField.region = SKRegion(radius: radius)
- magneticField.minimumRadius = radius
- magneticField.strength = 5000
- magneticField.position = CGPoint(x: (gameCanvas!.size.width/2)/gameCanvas!.xScale, y:0) //(gameCanvas!.size.height/2)/gameCanvas!.yScale)
- gameCanvas?.addChild(magneticField)*/

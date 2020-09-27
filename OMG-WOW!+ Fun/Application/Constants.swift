@@ -18,6 +18,15 @@ let colorTextHighlighted = UIColor.white
 
 var blockSwippedWord : (String,[SKSpriteNode])->() = {_,_ in}
 
+let rewardedAdID : String = "ca-app-pub-7981805967745898/8079960600"
+//let rewardedAdID : String = "ca-app-pub-3940256099942544/1712485313" //test ad
+
+let bannerAdID : String = "ca-app-pub-7981805967745898/9084594126"
+//let bannerAdID : String = "ca-app-pub-3940256099942544/2934735716" //test ad
+
+let interstatialAdID : String = "ca-app-pub-7981805967745898/5325312511"
+//let interstatialAdID : String = "ca-app-pub-3940256099942544/4411468910" //test ad
+
 
 enum SwipeDirection
 {

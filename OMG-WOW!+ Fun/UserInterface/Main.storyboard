@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="JoS-0L-cQo">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="JoS-0L-cQo">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -40,7 +42,7 @@
                     <view key="view" contentMode="scaleToFill" id="l0n-zj-UeZ" customClass="SKView">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
                     <connections>
                         <segue destination="bSW-Va-hoe" kind="presentation" identifier="levelselect3" modalPresentationStyle="fullScreen" modalTransitionStyle="crossDissolve" id="edE-GM-cVe"/>
@@ -72,7 +74,7 @@
                                 </wkWebViewConfiguration>
                             </wkWebView>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="Mi7-uq-Iqs" firstAttribute="top" secondItem="AKn-8F-hiK" secondAttribute="bottom" id="1QR-kb-XXs"/>
                             <constraint firstItem="Mi7-uq-Iqs" firstAttribute="leading" secondItem="gO9-Pl-a43" secondAttribute="leading" id="OpH-yi-PGV"/>
@@ -108,7 +110,7 @@
                     <view key="view" contentMode="scaleToFill" id="iBq-eq-eKh" customClass="SKView">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
                     <connections>
                         <segue destination="bSW-Va-hoe" kind="presentation" identifier="coinToLevels" modalPresentationStyle="fullScreen" modalTransitionStyle="crossDissolve" id="jAz-OQ-inE"/>
@@ -129,11 +131,11 @@
                     <view key="view" contentMode="scaleToFill" id="iNl-PC-tJV" customClass="SKView">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
                     <navigationItem key="navigationItem" id="raw-Zj-fdT"/>
                     <connections>
-                        <segue destination="bSW-Va-hoe" kind="presentation" identifier="startSelect" modalPresentationStyle="fullScreen" modalTransitionStyle="crossDissolve" id="9cw-I8-4i2"/>
+                        <segue destination="bSW-Va-hoe" kind="presentation" identifier="startSelect" animates="NO" modalPresentationStyle="fullScreen" modalTransitionStyle="crossDissolve" id="9cw-I8-4i2"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="58N-Ov-JlQ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -174,7 +176,7 @@
                     <view key="view" contentMode="scaleToFill" id="Hjn-wE-iaU">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
                     <connections>
                         <segue destination="bSW-Va-hoe" kind="presentation" identifier="tutorialToLevelSelect" modalPresentationStyle="fullScreen" id="BTj-DR-xBU"/>
@@ -195,7 +197,7 @@
                     <view key="view" contentMode="scaleToFill" id="nFA-qw-rjD" customClass="SKView">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
                     <connections>
                         <segue destination="bSW-Va-hoe" kind="presentation" identifier="levelselect6" modalPresentationStyle="fullScreen" modalTransitionStyle="crossDissolve" id="wTc-b5-EO1"/>
@@ -217,7 +219,7 @@
                     <view key="view" contentMode="scaleToFill" id="MHF-tx-qDz" customClass="SKView">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
                     <connections>
                         <segue destination="bSW-Va-hoe" kind="presentation" identifier="levelselect4" modalPresentationStyle="fullScreen" modalTransitionStyle="crossDissolve" id="HSs-jJ-BU3"/>
@@ -239,7 +241,7 @@
                     <view key="view" contentMode="scaleToFill" id="fjF-Rr-TyD" customClass="SKView">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
                     <connections>
                         <segue destination="bSW-Va-hoe" kind="presentation" identifier="levelselect5" modalPresentationStyle="fullScreen" modalTransitionStyle="crossDissolve" id="b4r-h8-P6g"/>
@@ -252,7 +254,12 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="v5B-CD-6mv"/>
+        <segue reference="zQN-CF-oel"/>
         <segue reference="9cw-I8-4i2"/>
     </inferredMetricsTieBreakers>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
 </document>

@@ -77,25 +77,58 @@ class LevelSelectController: UIViewController, WKUIDelegate, WKNavigationDelegat
 //    var infoBody : SKSpriteNode?
 
     //MARK:- View LifeCycle
+    override func viewDidAppear(_ animated: Bool) {
+        if(!defaults.bool(forKey: "initial")){
+            self.webView.isHidden = true
+        let alertController = UIAlertController(title: "Optional Survey", message:
+            "Complete the optional user survey to get 10 credits. We will use your email to provide additional information regarding Alpha Earl Apps.", preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "Complete survey", style: .destructive){_ in
+            self.webView.isHidden = false
+        })
+//        alertController.addAction(UIAlertAction(title: "Skip survey", style: .default){_ in
+//            self.webView.isHidden = true
+////            self.webView.removeFromSuperview()
+//        })
+        alertController.addAction(UIAlertAction(title: "Skip", style: .cancel){_ in
+            self.defaults.set(true, forKey: "initial")
+            self.webView.isHidden = true
+        })
+        self.present(alertController, animated: true, completion: nil)
+        }
+    }
     override func viewDidLoad() {
         number = number + 1
         print("number \(number)")
+
+        let url = "https://docs.google.com/forms/u/1/d/e/1FAIpQLSfUe7pVS2JJ7HqL2fsLgQa1X4Q-qgwhnn56rvOwJLoYNnr2hg/viewform"
+        
+        let request = URLRequest(url: URL(string: url)!)
         super.viewDidLoad()
-//        view.addSubview(webView)
-        if(!self.defaults.bool(forKey: "initial")){
-            let url = "https://docs.google.com/forms/u/1/d/e/1FAIpQLSfUe7pVS2JJ7HqL2fsLgQa1X4Q-qgwhnn56rvOwJLoYNnr2hg/viewform"
-            
-            let request = URLRequest(url: URL(string: url)!)
-            
+
+        if(webView != nil){
             webView.load(request)
             webView.navigationDelegate = self
             webView.uiDelegate = self
+            webView.isHidden = true
+        
+//        view.addSubview(webView)
+        if(!self.defaults.bool(forKey: "initial")){
+            webView.isHidden = false
+            print("can", self.webView.isLoading )
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                print("can", self.webView.isLoading )
+                if(self.webView.isLoading){
+                    self.webView.isHidden = true
+                }
+            }
+
         }else{
             if(webView != nil){
+                webView.isHidden = true
                 webView.removeFromSuperview()
             }
         }
-    
+        }
         defaults.set(true, forKey: "level1")
 //        defaults.set("")
 //        defaults.set(true, forKey: "startview")
@@ -331,20 +364,20 @@ class LevelSelectController: UIViewController, WKUIDelegate, WKNavigationDelegat
 //            homePlayButton?.run(SKAction.fadeAlpha(to: 1.0, duration: 0))
 //            gameBack?.run(SKAction.fadeAlpha(to: 1.0, duration: 0))
             if(game1Enabled){
-                if touchedNode == game1{
+                if touchedNode == game1 || touchedNode.parent == game1{
                     performSegue(withIdentifier: "togame1", sender: nil)
                     touchedNode.run(SKAction.fadeAlpha(to: 1.0, duration: 0))
                 }
             }
             if(game2Enabled){
-                if touchedNode == game2{
+                if touchedNode == game2 || touchedNode.parent == game2{
                     performSegue(withIdentifier: "togame2", sender: nil)
                     touchedNode.run(SKAction.fadeAlpha(to: 1.0, duration: 0))
                 }
             }
 
             if(game3Enabled){
-                if touchedNode == game3{
+                if touchedNode == game3 || touchedNode.parent == game3{
                     if(defaults.bool(forKey: "moreLevels")){
                         performSegue(withIdentifier: "togame3", sender: nil)
                         touchedNode.run(SKAction.fadeAlpha(to: 1.0, duration: 0))
@@ -354,28 +387,28 @@ class LevelSelectController: UIViewController, WKUIDelegate, WKNavigationDelegat
                 }
             }
             if(game4Enabled){
-                if touchedNode == game4{
+                if touchedNode == game4 || touchedNode.parent == game4{
                     performSegue(withIdentifier: "togame4", sender: nil)
                     touchedNode.run(SKAction.fadeAlpha(to: 1.0, duration: 0))
                 }
             }
             if(game5Enabled){
-                if touchedNode == game5{
+                if touchedNode == game5 || touchedNode.parent == game5{
                     performSegue(withIdentifier: "togame5", sender: nil)
                     touchedNode.run(SKAction.fadeAlpha(to: 1.0, duration: 0))
                 }
             }
             if(game6Enabled){
-                if touchedNode == game6{
+                if touchedNode == game6 || touchedNode.parent == game6{
                     performSegue(withIdentifier: "togame6", sender: nil)
                     touchedNode.run(SKAction.fadeAlpha(to: 1.0, duration: 0))
                 }
             }
-            if touchedNode == tutorial{
+            if touchedNode == tutorial || touchedNode.parent == tutorial{
 //                performSegue(withIdentifier: "tutorial", sender: nil)
                 tutorial?.run(SKAction.fadeAlpha(to: 1, duration: 0))
             }
-            if touchedNode == tips{
+            if touchedNode == tips || touchedNode.parent == tips{
                 infoPopup?.isHidden = false
                 tips?.run(SKAction.fadeAlpha(to: 1, duration: 0))
                 tutorial?.run(SKAction.fadeAlpha(to: 1, duration: 0))
@@ -445,48 +478,48 @@ class LevelSelectController: UIViewController, WKUIDelegate, WKNavigationDelegat
             trueFalse()
             print(game1Enabled)
             if(game1Enabled){
-                if touchedNode == game1{
+                if touchedNode == game1 || touchedNode.parent == game1{
                     end = true
                     game1?.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
                 }
             }
             if(game2Enabled){
-                if touchedNode == game2{
+                if touchedNode == game2 || touchedNode.parent == game2{
                     end = true
                     game2?.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
                 }
             }
             if(game3Enabled){
-                if touchedNode == game3{
+                if touchedNode == game3 || touchedNode.parent == game3{
                     end = true
                     game3?.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
                 }
             }
             if(game4Enabled){
-                if touchedNode == game4{
+                if touchedNode == game4 || touchedNode.parent == game4{
                     end = true
                     game4?.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
                 }
             }
             if(game5Enabled){
-                if touchedNode == game5{
+                if touchedNode == game5 || touchedNode.parent == game5{
                     end = true
                     game5?.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
                 }
             }
             if(game6Enabled){
-                if touchedNode == game6{
+                if touchedNode == game6 || touchedNode.parent == game6{
                     end = true
                     game6?.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
                 }
             }
-            if touchedNode == tutorial{
+            if touchedNode == tutorial || touchedNode.parent == tutorial{
                 end = true
 //                performSegue(withIdentifier: "tutorial", sender: nil)
                 tutorial?.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
                 playVideo()
             }
-            if touchedNode == tips{
+            if touchedNode == tips || touchedNode.parent == tips{
                 end = true
                 print("TIPS")
                 tips?.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
@@ -517,6 +550,25 @@ class LevelSelectController: UIViewController, WKUIDelegate, WKNavigationDelegat
 //    func webView(_ webView: WKWebView, contextMenuForElement elementInfo: WKContextMenuElementInfo, willCommitWithAnimator animator: UIContextMenuInteractionCommitAnimating){
 //        print("request:  \(elementInfo.description)")
 //    }
+    func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
+//        if(webView != nil){
+////            webView.removeFromSuperview()
+//            webView.isHidden = true
+//        }
+    }
+    func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
+        let alertController = UIAlertController(title: "Weak internet connectivity", message:
+            "You might have weak internet connectivity. Please make sure you are connected to the internet for the best game experience.", preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "Dismiss", style: .default))
+
+        self.present(alertController, animated: true, completion: nil)
+        if(webView != nil){
+            webView.isHidden = true
+        }
+    }
+//    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+//        print(Error.self)
+//    }
      func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping ((WKNavigationActionPolicy) -> Void)) {
 
         if let url = navigationAction.request.url {
@@ -524,6 +576,7 @@ class LevelSelectController: UIViewController, WKUIDelegate, WKNavigationDelegat
                 if url.absoluteString.hasPrefix("https://docs.google.com/forms/u/1/d/e/1FAIpQLSfUe7pVS2JJ7HqL2fsLgQa1X4Q-qgwhnn56rvOwJLoYNnr2hg/formResponse"){
                     print("SUCCESS")
                     defaults.set(true, forKey: "initial")
+                    defaults.set(defaults.integer(forKey: "balance") + 10, forKey: "balance")
                     DispatchQueue.main.asyncAfter(deadline: .now()+0.1) {
                         webView.removeFromSuperview()
                     }

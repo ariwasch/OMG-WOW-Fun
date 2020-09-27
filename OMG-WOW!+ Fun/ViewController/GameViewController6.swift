@@ -3,7 +3,7 @@
 //  OMG-WOW!+ Fun
 //
 //  Created by Ari Wasch on 7/19/20.
-//  Copyright © 2020 TrantorSoftware. All rights reserved.
+//  Copyright © 2020 Ari Wasch. All rights reserved.
 //
 
 import Foundation
@@ -107,17 +107,8 @@ class GameViewController6: UIViewController, GADInterstitialDelegate, GADRewarde
                 
                 gameScene = scene
                 gameScene!.scaleMode = .aspectFit
-//                gameScene?.size = view.bounds.size
                 view.presentScene(gameScene!)
             }
-            
-            //view.ignoresSiblingOrder = true
-            //            view.showsFPS = true
-            //            view.showsNodeCount = true
-            //            view.showsPhysics = true
-            //            view.showsFields = true
-            //            view.showsDrawCount = true
-            //            view.showsQuadCount = true
         }
     }
     
@@ -158,11 +149,6 @@ class GameViewController6: UIViewController, GADInterstitialDelegate, GADRewarde
                     
                     var tempVar = fetchSpriteNode(withName: "\(allStrings[i][j].lowercased())\(char+1)",inNode: gameScene?.textCanvases[i])
                     tempArray.append(tempVar)
-
-//                    if(exception(string: allStrings[i][j]) > 1){
-//                        var tempVar = fetchSpriteNode(withName: "\(allStrings[i][j].lowercased())\(exception(string: allStrings[i][j]))\(char+1)",inNode: gameScene?.textCanvases[i])
-//                        tempArray.append(tempVar)
-//                    }
                     
                     print("\(allStrings[i][j])\(char)")
                 }
@@ -377,13 +363,8 @@ class GameViewController6: UIViewController, GADInterstitialDelegate, GADRewarde
     
     func hideHomeComponentsAndLoadGame()
     {
-//        homeLogo?.run(SKAction.moveTo(y: self.view.frame.height, duration: 0.5), completion: {
             self.homeLogo?.removeFromParent()
-//        })
-//        homePlayContainer?.run((SKAction.moveTo(y: 0, duration: 0.5)), completion: {
             self.homePlayContainer?.removeFromParent()
-//        })
-//        gameBackground?.run(SKAction.fadeAlpha(to: 1.0, duration: 0.75), completion: {
         gameBackground?.run(SKAction.fadeAlpha(to: 1.0, duration: 0))
 
             self.gameBlockContainer?.children.forEach({ (node) in
@@ -416,7 +397,6 @@ class GameViewController6: UIViewController, GADInterstitialDelegate, GADRewarde
                     delay = delay + 0.1
                 }
             }
-//        })
     }
     
     //MARK: Child Node
@@ -437,35 +417,36 @@ class GameViewController6: UIViewController, GADInterstitialDelegate, GADRewarde
         if(word != "" && num == 0){
             self.enableEndPop = true
         }
+        
         if(word == "MATTER" || num == 91){
             print("DASDSA  \(num)")
-            self.initializeNextLevel(level: 91, title: "GENEROUS", popTitle: "Harold H Cornett Jr.", popBody: "Read more: https://www.wiseoldsayings.com/generosity-quotes/#ixzz6QbKdwfZU")
+            self.initializeNextLevel(level: 91, title: "GENEROUS", popTitle: "Kaufma/Hart", popBody: "This phrase is the title of a famous comedic play in three acts that was released in 1936 by George S. Kaufman and Moss Hart.")
         }else if((word == "OTHERS" && currentLevel ==  91) || num == 92){
-            self.initializeNextLevel(level: 92, title: "‭‭GENEROUS", popTitle: "Suze Orman", popBody: "Read more: https://www.wiseoldsayings.com/generosity-quotes/#ixzz6QbL5himg")
+            self.initializeNextLevel(level: 92, title: "‭‭GENEROUS", popTitle: "Suze Orman", popBody: "Susan Lynn \"Suze\" Orman is an American financial advisor, author, and podcast host. In 1987, she founded the Suze Orman Financial Group.")
         }else if(word == "OFFERING" || num == 93){
-            self.initializeNextLevel(level: 93, title: "GENEROUS", popTitle: "‭‭Simone De Beauvoir", popBody: "Read more: Read more: https://www.wiseoldsayings.com/generosity-quotes/#ixzz6QbLQYoL4")
+            self.initializeNextLevel(level: 93, title: "GENEROUS", popTitle: "‭‭Simone De Beauvoir", popBody: "Simone Lucie Ernestine Marie Bertrand Beauvoir was a French writer, intellectual, existentialist philosopher, political activist, feminist and social theorist.")
         }else if(word == "CONSIDER" || num == 94){
-            self.initializeNextLevel(level: 94, title: "GENEROUS", popTitle: "‭‭Jonathan Maberry", popBody: "Read more: https://www.wiseoldsayings.com/generosity-quotes/#ixzz6QbLamHXg")
+            self.initializeNextLevel(level: 94, title: "GENEROUS", popTitle: "‭‭Jonathan Maberry", popBody: "Jonathan Maberry is an American suspense author, anthology editor, comic book writer, magazine feature writer, playwright, content creator and writing teacher/lecturer.")
         }else if(word == "ZOMBIE" || num == 95){
-            self.initializeNextLevel(level: 95, title: "GENEROUS", popTitle: "‭‭Patti Digh", popBody: "Read more: https://www.wiseoldsayings.com/generosity-quotes/#ixzz6QbLvdHH4")
+            self.initializeNextLevel(level: 95, title: "GENEROUS", popTitle: "‭‭Patti Digh", popBody: "Patti Digh is the author of 8 books on living mindfully, global diversity, community, and healthy leadership.")
         }else if((word == "GENEROUS" &&  currentLevel == 95) || num == 96){
-            self.initializeNextLevel(level: 96, title: "GENEROUS", popTitle: "‭‭Albert Pike", popBody: "Read more: https://www.wiseoldsayings.com/generosity-quotes/#ixzz6QbMBsk88")
+            self.initializeNextLevel(level: 96, title: "GENEROUS", popTitle: "‭‭Albert Pike", popBody: "Albert Pike was an American author, poet, orator, jurist and prominent member of the Freemasons.")
         }else if(word == "IMMORTAL" || num == 97){
-            self.initializeNextLevel(level: 97, title: "GENEROUS", popTitle: "‭‭Martin Luther King, Jr.", popBody: "Read more: https://www.wiseoldsayings.com/generosity-quotes/#ixzz6QbMLhqF1")
+            self.initializeNextLevel(level: 97, title: "GENEROUS", popTitle: "‭‭Martin Luther King, Jr.", popBody: "Martin Luther King Jr. was an American Christian minister and activist who became the most visible spokesperson and leader in the civil rights movement from 1955 until his assassination in 1968.")
         }else if(word == "EVERY" || num == 98){
-            self.initializeNextLevel(level: 98, title: "GENEROUS", popTitle: "‭‭Mark Hansen & Robert Allen", popBody: "Read more: https://www.wiseoldsayings.com/generosity-quotes/#ixzz6QbOthucb")
+            self.initializeNextLevel(level: 98, title: "GENEROUS", popTitle: "‭‭Hansen & Allen", popBody: "Mark Victor Hansen is an American inspirational and motivational speaker, trainer and author. Robert G. Allen is a popular speaker.")
         }else if(word == "GIVING" || num == 99){
-            self.initializeNextLevel(level: 99, title: "GENEROUS", popTitle: "‭‭Allan Lokos", popBody: "Read more: https://www.wiseoldsayings.com/generosity-quotes/#ixzz6QbQ4OKmi")
+            self.initializeNextLevel(level: 99, title: "GENEROUS", popTitle: "‭‭Allan Lokos", popBody: "Allan Lokos is the founder and guiding teacher of the Community Meditation Center located on New York City's upper west side.")
         }else if((word == "GENEROUS" &&  currentLevel == 99) || num == 100){
-            self.initializeNextLevel(level: 100, title: "GENEROUS", popTitle: "‭‭Jack Kornfield", popBody: "Read more: https://www.wiseoldsayings.com/generosity-quotes/#ixzz6QbQCVqe3")
+            self.initializeNextLevel(level: 100, title: "GENEROUS", popTitle: "‭‭Jack Kornfield", popBody: "Best selling American author.")
         }else if((word == "GIVE" &&  currentLevel == 100) || num == 101){
-            self.initializeNextLevel(level: 101, title: "GENEROUS", popTitle: "‭‭Dalai Lama", popBody: "Read more: https://www.wiseoldsayings.com/compassion-quotes/#ixzz6QbR1vCCZ")
+            self.initializeNextLevel(level: 101, title: "GENEROUS", popTitle: "‭‭Dalai Lama", popBody: "Between the 17th century and 1959, the Dalai Lama was the head of the Tibetan government.")
         }else if(word == "COMPASSION" || num == 102){
-            self.initializeNextLevel(level: 102, title: "GENEROUS", popTitle: "‭‭Maya Angelou", popBody: "Read more: https://www.wiseoldsayings.com/compassion-quotes/#ixzz6QbRHMLpJ")
+            self.initializeNextLevel(level: 102, title: "GENEROUS", popTitle: "‭‭Maya Angelou", popBody: "Marguerite Annie Johnson was an American poet, memoirist, and civil rights activist.")
         }else if((word == "FEEL" && currentLevel == 102) || num == 103){
-            self.initializeNextLevel(level: 103, title: "GENEROUS", popTitle: "‭‭Helen Keller", popBody: "Read more: https://www.wiseoldsayings.com/compassion-quotes/#ixzz6QbRNPiJl")
+            self.initializeNextLevel(level: 103, title: "GENEROUS", popTitle: "‭‭Helen Keller", popBody: "Helen Adams Keller (June 27, 1880 – June 1, 1968) was an American author, political activist, and lecturer.")
         }else if((word == "OTHERS" && currentLevel ==  103) || num == 104){
-            self.initializeNextLevel(level: 104, title: "GENEROUS", popTitle: "‭‭Helen Keller", popBody: "Read more: https://www.wiseoldsayings.com/compassion-quotes/#ixzz6QbRNPiJl")
+            self.initializeNextLevel(level: 104, title: "", popTitle: "‭‭", popBody: "")
         }else{
             self.enableEndPop = false
         }
@@ -588,9 +569,6 @@ class GameViewController6: UIViewController, GADInterstitialDelegate, GADRewarde
                         if(enableEndPop){
                             enableEndPop = false
                             nextLevelButton?.isHidden = false
-                //                    levelDelay = 1
-                //                    initializeNextLevel(level: pLevel, title: pLTitle, popTitle: pTitle, popBody: pBody)
-                //                    levelDelay = 0
                         }
                 
             }
@@ -599,12 +577,9 @@ class GameViewController6: UIViewController, GADInterstitialDelegate, GADRewarde
                 touchedNode.run(SKAction.fadeAlpha(to: 1.0, duration: 0))
                 nextLevelButton?.isHidden = true
                 infoPopup?.isHidden = true
-            //                if(enableEndPop){
-            //                    enableEndPop = false
                 levelDelay = 1
                 initializeNextLevel(level: pLevel, title: pLTitle, popTitle: pTitle, popBody: pBody)
                 levelDelay = 0
-            //                }
             }
             if touchedNode.name == "Author"
             {
@@ -627,7 +602,7 @@ class GameViewController6: UIViewController, GADInterstitialDelegate, GADRewarde
                 gameOptionHint?.run(SKAction.fadeAlpha(to: 1, duration: 0))
                 hint()
             }
-            if touchedNode == gameCoin || touchedNode == coin
+            if touchedNode == gameCoin || touchedNode == coin || touchedNode.parent == gameCoin
             {
                 gameCoin?.run(SKAction.fadeAlpha(to: 1, duration: 0))
                 performSegue(withIdentifier: "tocoins6", sender: nil)
@@ -712,7 +687,6 @@ class GameViewController6: UIViewController, GADInterstitialDelegate, GADRewarde
             }
         }
         actionOnWord(word: "",num: to)
-    //        initializeNextLevel(level: currentLevel+1, title: "String", popTitle: "String", popBody: "String")
     }
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         gameBack?.run(SKAction.fadeAlpha(to: 1, duration: 0))
@@ -765,7 +739,7 @@ class GameViewController6: UIViewController, GADInterstitialDelegate, GADRewarde
                 end = true
                 gameOptionHint?.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
             }
-            if touchedNode == gameCoin || touchedNode == coin
+            if touchedNode == gameCoin || touchedNode == coin || touchedNode.parent == gameCoin 
             {
                 end = true
                 gameCoin?.run(SKAction.fadeAlpha(to: 0.5, duration: 0))
@@ -787,7 +761,9 @@ class GameViewController6: UIViewController, GADInterstitialDelegate, GADRewarde
     }
     
     func createAndLoadInterstitial() -> GADInterstitial {
-          var interstitial = GADInterstitial(adUnitID: "ca-app-pub-3940256099942544/4411468910")
+//          var interstitial = GADInterstitial(adUnitID: "ca-app-pub-3940256099942544/4411468910")
+        var interstitial = GADInterstitial(adUnitID: interstatialAdID)
+
           interstitial.delegate = self
           interstitial.load(GADRequest())
           return interstitial
@@ -821,7 +797,9 @@ class GameViewController6: UIViewController, GADInterstitialDelegate, GADRewarde
        ])
     }
     func loadAds(){
-        rewardedAd = GADRewardedAd(adUnitID: "ca-app-pub-3940256099942544/1712485313")
+//        rewardedAd = GADRewardedAd(adUnitID: "ca-app-pub-3940256099942544/1712485313")
+        rewardedAd = GADRewardedAd(adUnitID: rewardedAdID)
+
         rewardedAd?.load(GADRequest()) { error in
           if let error = error {
             // Handle ad failed to load case.
@@ -831,11 +809,15 @@ class GameViewController6: UIViewController, GADInterstitialDelegate, GADRewarde
         }
         if(!(defaults.bool(forKey: "no-ads"))){
             bannerView = GADBannerView(adSize: kGADAdSizeBanner)
-            bannerView.adUnitID = "ca-app-pub-3940256099942544/2934735716"
+//            bannerView.adUnitID = "ca-app-pub-3940256099942544/2934735716"
+            bannerView.adUnitID = bannerAdID
+
             bannerView.center = CGPoint(x: view.frame.midX, y: view.bounds.height - bannerView.bounds.height / 2)
             bannerView.rootViewController = self
             bannerView.load(GADRequest())
-            interstitial = GADInterstitial(adUnitID: "ca-app-pub-3940256099942544/4411468910")
+//            interstitial = GADInterstitial(adUnitID: "ca-app-pub-3940256099942544/4411468910")
+            interstitial = GADInterstitial(adUnitID: interstatialAdID)
+
             let request = GADRequest()
             interstitial.delegate = self
             interstitial.load(request)
@@ -850,7 +832,7 @@ class GameViewController6: UIViewController, GADInterstitialDelegate, GADRewarde
         reloadBalance()
     }
     func createAndLoadRewardedAd() -> GADRewardedAd{
-      rewardedAd = GADRewardedAd(adUnitID: "ca-app-pub-3940256099942544/1712485313")
+      rewardedAd = GADRewardedAd(adUnitID: rewardedAdID)
       rewardedAd?.load(GADRequest()) { error in
         if let error = error {
           print("Loading failed: \(error)")
@@ -867,44 +849,4 @@ class GameViewController6: UIViewController, GADInterstitialDelegate, GADRewarde
 
 
 }
-
-
-
-
-
-
-//    override var shouldAutorotate: Bool {
-//        return true
-//    }
-//
-//    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
-//        if UIDevice.current.userInterfaceIdiom == .phone {
-//            return .allButUpsideDown
-//        } else {
-//            return .all
-//        }
-//    }
-
-//let magneticField = SKFieldNode.radialGravityField()
-
-//magneticField.region = SKRegion.init(size: gameCanvas!.size)
-//magneticField.minimumRgameCanvassius = Float(gameCanvas!.size.width)
-// magneticField.strength = 10
-
-
-//                   physicsWorld.gravity = CGVector(dx: 0, dy: 0)
-//                   physicsBody = SKPhysicsBody(edgeLoopFrom: { () -> CGRect in
-//                       var frame = self.frame
-//                       frame.size.width = CGFloat(radius)
-//                       frame.origin.x -= frame.size.width / 2
-//                       return frame
-//                   }())
-
-/*let strength = Float(max(gameCanvas!.size.width, gameCanvas!.size.height))
- let radius = strength.squareRoot() * 100
- magneticField.region = SKRegion(radius: radius)
- magneticField.minimumRadius = radius
- magneticField.strength = 5000
- magneticField.position = CGPoint(x: (gameCanvas!.size.width/2)/gameCanvas!.xScale, y:0) //(gameCanvas!.size.height/2)/gameCanvas!.yScale)
- gameCanvas?.addChild(magneticField)*/
 
